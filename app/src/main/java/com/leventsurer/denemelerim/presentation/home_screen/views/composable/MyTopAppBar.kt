@@ -15,11 +15,11 @@ import com.leventsurer.denemelerim.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTopAppBar() {
+fun MyTopAppBar(appBarTitle:String) {
     TopAppBar(
         title =
         {
-            Text("Denemelerim", textAlign = TextAlign.Center)
+            Text(appBarTitle, textAlign = TextAlign.Center)
         },
         actions = {
 

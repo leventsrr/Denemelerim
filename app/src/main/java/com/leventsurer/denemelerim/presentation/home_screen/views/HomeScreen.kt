@@ -43,6 +43,7 @@ import androidx.navigation.NavController
 import com.leventsurer.denemelerim.R
 import com.leventsurer.denemelerim.presentation.home_screen.views.composable.ExamCard
 import com.leventsurer.denemelerim.presentation.home_screen.views.composable.MyTopAppBar
+import com.leventsurer.denemelerim.presentation.ui.Screen
 import com.leventsurer.denemelerim.presentation.ui.theme.BackgroundBlue
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -52,10 +53,12 @@ fun HomeScreen(navController: NavController) {
     Scaffold(
         bottomBar = {},
         topBar = {
-            MyTopAppBar()
+            MyTopAppBar("Denemelerim")
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { /*TODO*/ }) {
+            FloatingActionButton(
+                onClick = { navController.navigate(Screen.AddExamScreen.route)}
+            ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add New Exam")
             }
         },

@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.leventsurer.denemelerim.presentation.add_exam_screen.views.AddExamScreen
 import com.leventsurer.denemelerim.presentation.home_screen.views.HomeScreen
 import com.leventsurer.denemelerim.presentation.login_screen.views.LoginScreen
 import com.leventsurer.denemelerim.presentation.register_screen.views.RegisterScreen
@@ -28,7 +29,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = Screen.HomeScreen.route ){
+                    NavHost(navController = navController, startDestination = Screen.LoginScreen.route ){
                         composable(route = Screen.LoginScreen.route){
                             LoginScreen(navController = navController)
                         }
@@ -39,6 +40,10 @@ class MainActivity : ComponentActivity() {
 
                         composable(route = Screen.HomeScreen.route){
                             HomeScreen(navController = navController)
+                        }
+
+                        composable(route = Screen.AddExamScreen.route){
+                            AddExamScreen(navController = navController)
                         }
                     }
                 }
