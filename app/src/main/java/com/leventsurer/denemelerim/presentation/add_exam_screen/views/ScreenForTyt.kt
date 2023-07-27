@@ -3,6 +3,7 @@ package com.leventsurer.denemelerim.presentation.add_exam_screen.views
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,10 +14,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.leventsurer.denemelerim.presentation.add_exam_screen.views.composable.LessonCorrectAndFalseInputs
+import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
 
 
 @Composable
-fun ScreenForTyt() {
+fun ScreenForTyt(examName:String,aboutExam:String) {
     var turkishCorrect by rememberSaveable {
         mutableStateOf("")
     }
@@ -50,9 +52,10 @@ fun ScreenForTyt() {
 
         LessonCorrectAndFalseInputs("Fen", onCorrectValueChange = {scienceCorrect = it}, onFalseValueChange = {scienceFalse = it}, scienceCorrect , scienceFalse )
         ElevatedButton(
+            colors = ButtonDefaults.buttonColors(PrimaryColor),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 5.dp, vertical = 5.dp),
+                .padding(horizontal = 20.dp, vertical = 5.dp),
                 onClick = { /*TODO*/ }
             ) {
                 Text(text = "Kaydet")

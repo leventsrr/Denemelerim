@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.presentation.add_exam_screen.views.composable
+package com.leventsurer.denemelerim.presentation.common
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,12 +20,13 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun CustomSpinner(
+    spinnerTitle:String,
+    listOfOptions:ArrayList<String>,
     onClick: (String) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
-    val suggestions = listOf("TYT", "AYT")
     var chosenExamType by remember {
-        mutableStateOf("Sınav Tipi")
+        mutableStateOf(spinnerTitle)
     }
     Box {
         Button(
@@ -42,7 +43,7 @@ fun CustomSpinner(
             expanded = expanded,
             onDismissRequest = { expanded = false },
         ) {
-            suggestions.forEach { label ->
+            listOfOptions.forEach { label ->
                 DropdownMenuItem(
                     onClick = {
                         expanded = false

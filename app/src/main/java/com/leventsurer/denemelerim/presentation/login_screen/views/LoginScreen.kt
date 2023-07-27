@@ -1,32 +1,31 @@
 package com.leventsurer.denemelerim.presentation.login_screen.views
 
-import android.content.res.Resources.Theme
-import android.widget.Space
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,40 +33,60 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.colorspace.WhitePoint
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.leventsurer.denemelerim.R
+import com.leventsurer.denemelerim.presentation.login_screen.LoginEvent
+import com.leventsurer.denemelerim.presentation.login_screen.LoginViewModel
+import com.leventsurer.denemelerim.presentation.register_screen.RegisterEvent
+import com.leventsurer.denemelerim.presentation.register_screen.RegisterViewModel
 import com.leventsurer.denemelerim.presentation.ui.Screen
-import com.leventsurer.denemelerim.presentation.ui.theme.BackgroundBlue
+import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    navController:NavController
+     navigateToHomeScreen:()->Unit ,
+     navigateToSignUp:()->Unit,
+     loginViewModel: LoginViewModel = hiltViewModel()
 ) {
     var email by remember{ mutableStateOf("") }
     var password by remember{ mutableStateOf("") }
+    val state = loginViewModel.state.value
+
+
+    if (state.user != null) {
+        LaunchedEffect(Unit) {
+            navigateToHomeScreen()
+        }
+    }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
 
             .fillMaxSize()
-            .background(BackgroundBlue)
+            .background(PrimaryColor)
     ) {
         Image(
+
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "App Logo",
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(3f)
         )
         
         Card(
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White,
+            ),
             shape = RoundedCornerShape(15.dp),
-            modifier = Modifier
+
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -79,7 +98,6 @@ fun LoginScreen(
                 Text(text = "Giriş Yap", style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colorScheme.secondary)
                 Spacer(modifier = Modifier.height(5.dp))
                 OutlinedTextField(
-
                     value = email,
                     onValueChange = {
                                     email = it
@@ -108,17 +126,30 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.height(5.dp))
                 Button(
                     onClick = {
-                    navController.navigate(Screen.HomeScreen.route)
+                        loginViewModel.onEvent(
+                            LoginEvent.SignIn(
+                                email,
+                                password
+                            )
+                        )
                 }) {
-                    Text(text = "Giriş Yap")
+                    if(state.isLoading){
+                        CircularProgressIndicator(color = Color.White)
+                    }else if(state.error != ""){
+                        Toast.makeText(LocalContext.current,state.error,Toast.LENGTH_LONG).show()
+                    }
+                    else{
+                        Text(text = "Giriş Yap")
+                    }
+
                 }
             }
         }
         
         Text(text = "Kayıt Ol", modifier = Modifier
             .clickable {
-                navController.navigate(Screen.RegisterScreen.route)
+                navigateToSignUp()
             }
-            .padding(vertical = 15.dp), color = Color.White, fontWeight = FontWeight.Bold)
+            .padding(vertical = 10.dp), color = Color.White, fontWeight = FontWeight.Bold)
     }
 }

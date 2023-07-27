@@ -1,5 +1,6 @@
 package com.leventsurer.denemelerim.presentation.home_screen.views.composable
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,20 +19,32 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonColors
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.leventsurer.denemelerim.presentation.ui.Screen
+import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
+import com.leventsurer.denemelerim.presentation.ui.theme.fourthColor
+import com.leventsurer.denemelerim.presentation.ui.theme.secondaryColor
+import com.leventsurer.denemelerim.presentation.ui.theme.thirdColor
 
 @Composable
-fun ExamCard() {
+fun ExamCard(navController: NavController) {
     Card(
+        colors = CardDefaults.cardColors(thirdColor),
+        //border = BorderStroke(2.dp, PrimaryColor),
         shape = RoundedCornerShape(20.dp),
         elevation = CardDefaults.cardElevation(
+
             defaultElevation = 10.dp
         ),
         modifier = Modifier
@@ -41,36 +54,44 @@ fun ExamCard() {
     ){
         Row(modifier = Modifier
             .fillMaxSize()
-            .padding(10.dp),
+            .padding(5.dp),
         verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "TYT", textAlign = TextAlign.Center,modifier=Modifier.rotate(-90f).fillMaxHeight().weight(1f))
+            Text(text = "TYT", textAlign = TextAlign.Center, fontWeight = FontWeight.ExtraBold,modifier= Modifier
+                .rotate(-90f)
+                .fillMaxHeight()
+                .weight(1f),
+                color = secondaryColor
+            )
             Column(modifier = Modifier
                 .fillMaxHeight()
                 .weight(5f),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center) {
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                    Text(text = "345 Orta Denemesi")
-                    Text(text = "415.531")
+                    Text(text = "345 Orta Denemesi", fontWeight = FontWeight.ExtraBold )
+                    Text(text = "415.531", fontWeight = FontWeight.ExtraBold, )
                 }
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                    Text(text = "Türkçe 36-2-2")
-                    Text(text = "Sosyal 15-5-0")
+                    Text(text = "Türkçe 36", )
+                    Text(text = "Sosyal 15", )
                 }
                 Row(modifier = Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.SpaceEvenly) {
-                    Text(text = "Matemik 32-3-5")
-                    Text(text = "Fen 17-2-1")
+                    Text(text = "Matemik 32",  )
+                    Text(text = "Fen 17", )
                 }
-                Text(text = "Toplam: 11-9")
+                Text(text = "Toplam: 111", fontWeight = FontWeight.ExtraBold)
 
 
             }
             IconButton(
+
                 modifier = Modifier
                     .weight(1f),
-                onClick = { /*TODO*/ }
+                onClick = {
+                    navController.navigate(Screen.ExamDetailScreen.route)
+                }
             ) {
-                Icon(imageVector = Icons.Default.Search, contentDescription = "", modifier = Modifier.fillMaxHeight())
+                Icon(imageVector = Icons.Default.Search, contentDescription = "", modifier = Modifier.fillMaxHeight(), tint = PrimaryColor)
             }
         }
     }
