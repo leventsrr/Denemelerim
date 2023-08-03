@@ -14,17 +14,22 @@ class AddAytExamUseCase @Inject constructor(private val addExamRepository: AddEx
 
     fun executeAddAytExam(newAytExamModel: NewAytExamModel): Flow<Resource<String>> = flow {
 
-
+        val errorMessage = controlInputValues(newAytExamModel = newAytExamModel)
+        if(errorMessage== null){
+            try {
+                emit(Resource.Loading())
+                val result = addExamRepository.addAytExam(newAytExamModel)
+                //emit(Resource.Success(result))
+            } catch (e: Exception) {
+                emit(Resource.Error(e.message.toString()))
+            }
+        }else{
+            emit(Resource.Error(errorMessage))
+        }
 
         //val aytExam = calculateExamPoint(newAytExamModel)
 
-        try {
-            emit(Resource.Loading())
-            //val result = addExamRepository.addAytExam(newAytExamModel)
-            //emit(Resource.Success(result))
-        } catch (e: Exception) {
-            emit(Resource.Error(e.message.toString()))
-        }
+
     }
     //calculation source: https://egitimevde.com/tyt-ayt-puanlari-nasil-hesaplanir/
     private fun calculateExamPoint(newAytExamModel: NewAytExamModel): NewAytExamModel {
@@ -47,7 +52,40 @@ class AddAytExamUseCase @Inject constructor(private val addExamRepository: AddEx
         return newAytExamModel
     }
 
+    fun controlInputValues(newAytExamModel: NewAytExamModel):String?{
+        if(newAytExamModel.mathCorrect + newAytExamModel.mathFalse > 40){
+            return "Matematik değerleri toplamı 40'ı geçemez."
+        }
+        if(newAytExamModel.physicsCorrect + newAytExamModel.physicsFalse > 14){
+            return "Fizik değerleri toplamı 14'ü geçemez."
+        }
+        if(newAytExamModel.chemistryCorrect + newAytExamModel.chemistryFalse > 13){
+            return "Kimya değerleri toplamı 13'ü geçemez."
+        }
+        if(newAytExamModel.literatureCorrect + newAytExamModel.literatureFalse > 24){
+            return "Edebiyat değerleri toplamı 24'ü geçemez."
+        }
+        if(newAytExamModel.historyCorrect + newAytExamModel.historyFalse > 10){
+            return "Tarih-1 değerleri toplamı 10'u geçemez."
+        }
+        if(newAytExamModel.geographyCorrect + newAytExamModel.geographyFalse > 6){
+            return "Coğrafya-1 değerleri toplamı 6'yı geçemez."
+        }
+        if(newAytExamModel.historyForSocialCorrect + newAytExamModel.historyForSocialFalse > 11){
+            return "Tarih-2 değerleri toplamı 11'i geçemez."
+        }
+        if(newAytExamModel.geographyForSocialCorrect + newAytExamModel.geographyForSocialFalse > 11){
+            return "Coğrafya-2 değerleri toplamı 11'i geçemez."
+        }
+        if(newAytExamModel.philosophyCorrect + newAytExamModel.philosophyFalse > 12){
+            return "Felsege değerleri toplamı 12'yi geçemez."
+        }
+        if(newAytExamModel.religionCorrect + newAytExamModel.religionFalse > 12){
+            return "D.K.V.A.B değerleri toplamı 12'yi geçemez."
+        }
 
+        return  null
+    }
     fun controlMathInputValue(mathCorrect:Int,mathFalse:Int):String?{
         if(mathCorrect + mathFalse > 40){
             return "Matematik değerleri toplamı 40'ı geçemez."

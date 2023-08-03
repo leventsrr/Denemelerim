@@ -47,15 +47,15 @@ import com.leventsurer.denemelerim.presentation.register_screen.RegisterViewMode
 import com.leventsurer.denemelerim.presentation.ui.Screen
 import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun LoginScreen(
-     navigateToHomeScreen:()->Unit ,
-     navigateToSignUp:()->Unit,
-     loginViewModel: LoginViewModel = hiltViewModel()
+    navigateToHomeScreen: () -> Unit,
+    navigateToSignUp: () -> Unit,
+    loginViewModel: LoginViewModel = hiltViewModel()
 ) {
-    var email by remember{ mutableStateOf("") }
-    var password by remember{ mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     val state = loginViewModel.state.value
 
 
@@ -80,28 +80,34 @@ fun LoginScreen(
                 .fillMaxWidth()
                 .weight(3f)
         )
-        
+
         Card(
             colors = CardDefaults.cardColors(
                 containerColor = Color.White,
             ),
             shape = RoundedCornerShape(15.dp),
 
-        ) {
+            ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier
                     .padding(horizontal = 10.dp, vertical = 20.dp)
-                    ) {
-                
-                Text(text = "Giriş Yap", style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colorScheme.secondary)
+            ) {
+
+                Text(
+                    text = "Giriş Yap",
+                    style = MaterialTheme.typography.headlineLarge,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = MaterialTheme.colorScheme.secondary
+                )
                 Spacer(modifier = Modifier.height(5.dp))
                 OutlinedTextField(
                     value = email,
                     onValueChange = {
-                                    email = it
+                        email = it
                     },
+                    label = { Text("Email") },
                     trailingIcon = {
                         Icon(
                             imageVector = Icons.Default.Email,
@@ -113,8 +119,9 @@ fun LoginScreen(
                 OutlinedTextField(
                     value = password,
                     onValueChange = {
-                                    password = it
+                        password = it
                     },
+                    label = { Text("Şifre") },
                     trailingIcon = {
                         Icon(
                             imageVector = Icons.Default.Lock,
@@ -132,20 +139,21 @@ fun LoginScreen(
                                 password
                             )
                         )
-                }) {
-                    if(state.isLoading){
+
+
+                    }) {
+                    if (state.isLoading) {
                         CircularProgressIndicator(color = Color.White)
-                    }else if(state.error != ""){
-                        Toast.makeText(LocalContext.current,state.error,Toast.LENGTH_LONG).show()
-                    }
-                    else{
+                    } else if (state.error != "") {
+                        Toast.makeText(LocalContext.current, state.error, Toast.LENGTH_LONG).show()
+                    } else {
                         Text(text = "Giriş Yap")
                     }
 
                 }
             }
         }
-        
+
         Text(text = "Kayıt Ol", modifier = Modifier
             .clickable {
                 navigateToSignUp()

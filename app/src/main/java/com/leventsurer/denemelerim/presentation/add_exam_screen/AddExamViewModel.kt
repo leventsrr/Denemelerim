@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.leventsurer.denemelerim.domain.model.NewAytExamModel
 import com.leventsurer.denemelerim.domain.model.NewTytExamModel
 import com.leventsurer.denemelerim.domain.use_case.add_ayt_exam.AddAytExamUseCase
 import com.leventsurer.denemelerim.domain.use_case.add_tyt_exam.AddTytExamUseCase
@@ -26,13 +27,14 @@ class AddExamViewModel @Inject constructor(
 
     private var job: Job? = null
 
-    private fun addTytExam(newTytExam:NewTytExamModel) {
+    private fun addTytExam(newTytExam: NewTytExamModel) {
         job?.cancel()
         job = addTytExamUseCase.executeAddTytExam(newTytExam).onEach {
             when (it) {
                 is Resource.Success -> {
                     _state.value = AddExamState()
                 }
+
                 is Resource.Error -> {
                     AddExamState(error = it.message ?: "Error")
                 }
@@ -44,13 +46,14 @@ class AddExamViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    /*private fun addAytExam() {
+    private fun addAytExam(newAytExamModel: NewAytExamModel) {
         job?.cancel()
-        job = addAytExamUseCase.executeAddAytExam(newTytExam).onEach {
+        job = addAytExamUseCase.executeAddAytExam(newAytExamModel).onEach {
             when (it) {
                 is Resource.Success -> {
                     _state.value = AddExamState()
                 }
+
                 is Resource.Error -> {
                     AddExamState(error = it.message ?: "Error")
                 }
@@ -60,17 +63,17 @@ class AddExamViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
-    }*/
+    }
 
 
-    fun onEvent(event:AddExamEvent){
-        when(event){
-            is AddExamEvent.addTytExam->{
-                //addTytExam()
+    fun onEvent(event: AddExamEvent) {
+        when (event) {
+            is AddExamEvent.AddTytExam -> {
+                addTytExam(event.newTytExamModel)
             }
 
-            is AddExamEvent.addAytExam->{
-                //addAytExam()
+            is AddExamEvent.AddAytExam -> {
+                addAytExam(event.newAytExamModel)
             }
         }
     }

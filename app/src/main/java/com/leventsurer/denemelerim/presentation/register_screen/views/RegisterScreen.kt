@@ -48,25 +48,24 @@ import com.leventsurer.denemelerim.presentation.register_screen.RegisterState
 import com.leventsurer.denemelerim.presentation.register_screen.RegisterViewModel
 import com.leventsurer.denemelerim.presentation.ui.Screen
 import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
+import com.leventsurer.denemelerim.util.enums.RegisterErrors
 
 
 @Composable
 fun RegisterScreen(
+    navigateToSetTargetScreen: () -> Unit,
     navController: NavController,
     registerViewModel: RegisterViewModel = hiltViewModel()
 ) {
+    var userName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordAgain by remember { mutableStateOf("") }
-    var isPasswordsDifferent by remember { mutableStateOf(false) }
-    var userName by remember { mutableStateOf("") }
+
 
     val state = registerViewModel.state.value
-    if (state.user != null) {
-        LaunchedEffect(Unit) {
-            navController.navigate(Screen.HomeScreen.route)
-        }
-    }
+
+
 
 
     Column(
@@ -96,8 +95,7 @@ fun RegisterScreen(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier
-                    .padding(horizontal = 10.dp, vertical = 20.dp)
+                modifier = Modifier.padding(horizontal = 10.dp, vertical = 20.dp)
             ) {
 
                 Text(
@@ -107,8 +105,7 @@ fun RegisterScreen(
                     color = MaterialTheme.colorScheme.secondary
                 )
 
-                OutlinedTextField(
-                    modifier = Modifier.weight(1f),
+                OutlinedTextField(modifier = Modifier.weight(1f),
                     label = { Text(text = "Email") },
                     value = email,
                     onValueChange = {
@@ -116,14 +113,11 @@ fun RegisterScreen(
                     },
                     trailingIcon = {
                         Icon(
-                            imageVector = Icons.Default.Email,
-                            contentDescription = "Email"
+                            imageVector = Icons.Default.Email, contentDescription = "Email"
                         )
-                    }
-                )
+                    })
                 Spacer(modifier = Modifier.height(5.dp))
-                OutlinedTextField(
-                    modifier = Modifier.weight(1f),
+                OutlinedTextField(modifier = Modifier.weight(1f),
                     label = { Text(text = "Kullanıcı Adı") },
                     value = userName,
                     onValueChange = {
@@ -134,63 +128,56 @@ fun RegisterScreen(
                             imageVector = Icons.Default.AccountCircle,
                             contentDescription = "Password"
                         )
-                    }
-                )
+                    })
                 Spacer(modifier = Modifier.height(5.dp))
-                OutlinedTextField(
-                    modifier = Modifier.weight(1f),
+                OutlinedTextField(modifier = Modifier.weight(1f),
                     label = { Text(text = "Şifre") },
-                    isError = isPasswordsDifferent,
                     value = password,
                     onValueChange = {
                         password = it
                     },
                     trailingIcon = {
                         Icon(
-                            imageVector = Icons.Default.Lock,
-                            contentDescription = "Password"
+                            imageVector = Icons.Default.Lock, contentDescription = "Password"
                         )
-                    }
-                )
+                    })
                 Spacer(modifier = Modifier.height(5.dp))
                 OutlinedTextField(
                     modifier = Modifier.weight(1f),
                     label = { Text(text = "Şfre Tekrar") },
-                    isError = isPasswordsDifferent,
                     value = passwordAgain,
                     onValueChange = {
                         passwordAgain = it
                     },
                     trailingIcon = {
                         Icon(
-                            imageVector = Icons.Default.Lock,
-                            contentDescription = "Password"
+                            imageVector = Icons.Default.Lock, contentDescription = "Password"
                         )
                     },
 
                     )
-                if (isPasswordsDifferent) {
-                    Text(text = "Şifreler uyumlu değil.", color = MaterialTheme.colorScheme.error)
+
+                if (state.error != null) {
+                    Text(text = state.error, color = MaterialTheme.colorScheme.error)
                 }
+
+                if (state.user != null) {
+                    LaunchedEffect(Unit) {
+                        navigateToSetTargetScreen()
+                    }
+                }
+
                 Spacer(modifier = Modifier.height(5.dp))
-                Button(
-                    onClick = {
-                        if (password == passwordAgain) {
+                Button(onClick = {
+
+                    registerViewModel.onEvent(
+                        RegisterEvent.SignUp(
+                            userName, email, password, passwordAgain
+                        )
+                    )
 
 
-                            registerViewModel.onEvent(
-                                RegisterEvent.SignUp(
-                                    userName,
-                                    email,
-                                    password
-                                )
-                            )
-
-                        } else {
-                            isPasswordsDifferent = true
-                        }
-                    })
-                {
+                }) {
                     if (state.isLoading) {
                         CircularProgressIndicator(color = Color.White)
                     } else {
@@ -201,13 +188,13 @@ fun RegisterScreen(
             }
         }
 
-        Text(text = "Giriş Yap",
-            modifier = Modifier
-                .clickable {
-                    navController.popBackStack()
-                }
-                .padding(vertical = 10.dp),
-            color = Color.White,
-            fontWeight = FontWeight.Bold)
+        Text(text = "Giriş Yap", modifier = Modifier
+            .clickable {
+                navController.popBackStack()
+            }
+            .padding(vertical = 10.dp), color = Color.White, fontWeight = FontWeight.Bold)
     }
+
+
+
 }

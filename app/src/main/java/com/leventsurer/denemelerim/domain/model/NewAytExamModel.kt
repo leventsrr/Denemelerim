@@ -1,5 +1,7 @@
 package com.leventsurer.denemelerim.domain.model
 
+import com.google.firebase.firestore.FieldValue
+
 data class NewAytExamModel(
     val examName :String,
     val aboutExam:String,
@@ -28,6 +30,7 @@ data class NewAytExamModel(
     var numericalPoint:Double = 0.0,
     var equalWeightPoint:Double = 0.0,
     var verbalPoint:Double = 0.0,
+    var examDate:FieldValue
 )
 
 

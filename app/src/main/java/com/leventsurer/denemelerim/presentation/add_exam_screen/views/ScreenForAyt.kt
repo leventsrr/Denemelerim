@@ -13,14 +13,21 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.firebase.firestore.FieldValue
+import com.leventsurer.denemelerim.domain.model.NewAytExamModel
+import com.leventsurer.denemelerim.presentation.add_exam_screen.AddExamEvent
+import com.leventsurer.denemelerim.presentation.add_exam_screen.AddExamViewModel
 import com.leventsurer.denemelerim.presentation.add_exam_screen.views.composable.LessonCorrectAndFalseInputs
 import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
 
 
-
-
 @Composable
-fun ScreenForAyt(examName:String,aboutExam:String) {
+fun ScreenForAyt(
+    examName: String,
+    aboutExam: String,
+    addExamViewModel: AddExamViewModel = hiltViewModel()
+) {
     var mathCorrect by rememberSaveable {
         mutableStateOf("")
     }
@@ -95,92 +102,128 @@ fun ScreenForAyt(examName:String,aboutExam:String) {
     Column() {
         LessonCorrectAndFalseInputs(
             lessonTitle = "Matematik",
-            onCorrectValueChange = {mathCorrect = it},
-            onFalseValueChange = {mathFalse = it},
+            onCorrectValueChange = { mathCorrect = it },
+            onFalseValueChange = { mathFalse = it },
             correctValue = mathCorrect,
             falseValue = mathFalse
         )
         LessonCorrectAndFalseInputs(
             lessonTitle = "Fizik",
-            onCorrectValueChange = {physicsCorrect = it},
-            onFalseValueChange = {physicsFalse = it},
+            onCorrectValueChange = { physicsCorrect = it },
+            onFalseValueChange = { physicsFalse = it },
             correctValue = physicsCorrect,
             falseValue = physicsFalse
         )
         LessonCorrectAndFalseInputs(
             lessonTitle = "Kimya",
-            onCorrectValueChange = {chemistryCorrect = it},
-            onFalseValueChange = {chemistryFalse = it},
+            onCorrectValueChange = { chemistryCorrect = it },
+            onFalseValueChange = { chemistryFalse = it },
             correctValue = chemistryCorrect,
             falseValue = chemistryFalse
         )
         LessonCorrectAndFalseInputs(
             lessonTitle = "Biyoloji",
-            onCorrectValueChange = {biologyCorrect = it},
-            onFalseValueChange = {biologyFalse = it},
+            onCorrectValueChange = { biologyCorrect = it },
+            onFalseValueChange = { biologyFalse = it },
             correctValue = biologyCorrect,
             falseValue = biologyFalse
         )
         //--------------------------------
         LessonCorrectAndFalseInputs(
             lessonTitle = "Edebiyat",
-            onCorrectValueChange = {literatureCorrect = it},
-            onFalseValueChange = {literatureFalse = it},
+            onCorrectValueChange = { literatureCorrect = it },
+            onFalseValueChange = { literatureFalse = it },
             correctValue = literatureCorrect,
             falseValue = literatureFalse
         )
         LessonCorrectAndFalseInputs(
             lessonTitle = "Tarih-1",
-            onCorrectValueChange = {historyCorrect = it},
-            onFalseValueChange = {historyFalse = it},
+            onCorrectValueChange = { historyCorrect = it },
+            onFalseValueChange = { historyFalse = it },
             correctValue = historyCorrect,
             falseValue = historyFalse
         )
         LessonCorrectAndFalseInputs(
             lessonTitle = "Coğrafya-1",
-            onCorrectValueChange = {geographyCorrect = it},
-            onFalseValueChange = {geographyFalse = it},
+            onCorrectValueChange = { geographyCorrect = it },
+            onFalseValueChange = { geographyFalse = it },
             correctValue = geographyCorrect,
             falseValue = geographyFalse
         )
         LessonCorrectAndFalseInputs(
             lessonTitle = "Tarih-2",
-            onCorrectValueChange = {historyCorrectForSocial = it},
-            onFalseValueChange = {historyFalseForSocial = it},
+            onCorrectValueChange = { historyCorrectForSocial = it },
+            onFalseValueChange = { historyFalseForSocial = it },
             correctValue = historyCorrectForSocial,
             falseValue = historyFalseForSocial
         )
         LessonCorrectAndFalseInputs(
             lessonTitle = "Coğrafya-2",
-            onCorrectValueChange = {geographyCorrectForSocial = it},
-            onFalseValueChange = {geographyFalseForSocial = it},
+            onCorrectValueChange = { geographyCorrectForSocial = it },
+            onFalseValueChange = { geographyFalseForSocial = it },
             correctValue = geographyCorrectForSocial,
             falseValue = geographyFalseForSocial
         )
         LessonCorrectAndFalseInputs(
             lessonTitle = "Felsefe",
-            onCorrectValueChange = {philosophyCorrect = it},
-            onFalseValueChange = {philosophyFalse = it},
+            onCorrectValueChange = { philosophyCorrect = it },
+            onFalseValueChange = { philosophyFalse = it },
             correctValue = philosophyCorrect,
             falseValue = philosophyFalse
         )
 
         LessonCorrectAndFalseInputs(
             lessonTitle = "Din Kültürü",
-            onCorrectValueChange = {religionCorrect = it},
-            onFalseValueChange = {religionFalse = it},
+            onCorrectValueChange = { religionCorrect = it },
+            onFalseValueChange = { religionFalse = it },
             correctValue = religionCorrect,
             falseValue = religionFalse
         )
-        
+
         ElevatedButton(
             colors = ButtonDefaults.buttonColors(PrimaryColor),
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 5.dp),
-            onClick = { /*TODO*/ }) {
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 5.dp),
+            onClick = {
+                val newAytExamModel = NewAytExamModel(
+                    examName = examName,
+                    aboutExam = aboutExam,
+                    mathCorrect = mathCorrect.toIntOrNull() ?: 0,
+                    mathFalse = mathFalse.toIntOrNull() ?: 0,
+                    physicsCorrect = physicsCorrect.toIntOrNull() ?: 0,
+                    physicsFalse = physicsFalse.toIntOrNull() ?: 0,
+                    chemistryCorrect = chemistryCorrect.toIntOrNull() ?: 0,
+                    chemistryFalse = chemistryFalse.toIntOrNull() ?: 0,
+                    biologyCorrect = biologyCorrect.toIntOrNull() ?: 0,
+                    biologyFalse = biologyFalse.toIntOrNull() ?: 0,
+                    literatureCorrect = literatureCorrect.toIntOrNull() ?: 0,
+                    literatureFalse = literatureFalse.toIntOrNull() ?: 0,
+                    historyCorrect = historyCorrect.toIntOrNull() ?: 0,
+                    historyFalse = historyFalse.toIntOrNull() ?: 0,
+                    geographyCorrect = geographyCorrect.toIntOrNull() ?: 0,
+                    geographyFalse = geographyFalse.toIntOrNull() ?: 0,
+                    historyForSocialCorrect = historyCorrectForSocial.toIntOrNull() ?: 0,
+                    historyForSocialFalse = historyFalseForSocial.toIntOrNull() ?: 0,
+                    geographyForSocialCorrect = geographyCorrectForSocial.toIntOrNull() ?: 0,
+                    geographyForSocialFalse = geographyFalseForSocial.toIntOrNull() ?: 0,
+                    philosophyCorrect = philosophyCorrect.toIntOrNull() ?: 0,
+                    philosophyFalse = philosophyFalse.toIntOrNull() ?: 0,
+                    religionCorrect = religionCorrect.toIntOrNull() ?: 0,
+                    religionFalse = religionFalse.toIntOrNull() ?: 0,
+                    examDate = FieldValue.serverTimestamp()
+                )
+
+                addExamViewModel.onEvent(
+                    AddExamEvent.AddAytExam(
+                        newAytExamModel = newAytExamModel
+                    )
+                )
+
+            }) {
             Text(text = "Kaydet")
         }
     }
-
 
 
 }
