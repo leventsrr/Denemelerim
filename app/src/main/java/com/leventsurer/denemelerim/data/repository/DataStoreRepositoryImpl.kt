@@ -52,4 +52,22 @@ class DataStoreRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun putIsFirstLoginInfo(key: String, value: Boolean) {
+        val preferenceKey = booleanPreferencesKey(key)
+        context.dataStore.edit {
+            it[preferenceKey] = value
+        }
+    }
+    override suspend fun getIsFirstLoginInfo(key: String): Boolean? {
+        return try {
+            val preferenceKey = booleanPreferencesKey(key)
+            val preference = context.dataStore.data.first()
+            preference[preferenceKey]
+        }catch (e:Exception){
+            e.printStackTrace()
+            null
+        }
+    }
+
 }

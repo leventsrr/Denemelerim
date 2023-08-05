@@ -11,4 +11,8 @@ interface DataStoreRepository {
     suspend fun getUserUid(key: String):String?
     suspend fun clearUserUid(key: String)
 
+    suspend fun putIsFirstLoginInfo(key: String,value:Boolean)
+
+    suspend fun getIsFirstLoginInfo(key: String):Boolean?
+
 }

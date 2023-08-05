@@ -166,7 +166,7 @@ fun RegisterScreen(
                             state.user.uid
                         )
                     )
-                    dataStoreViewModel.putUserUidToDataStore(USER_UID, state.user.uid)
+                    dataStoreViewModel.putUserUidToDataStore(state.user.uid)
                     LaunchedEffect(Unit) {
                         navigateToSetTargetScreen()
                     }

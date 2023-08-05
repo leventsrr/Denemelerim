@@ -1,5 +1,6 @@
 package com.leventsurer.denemelerim.presentation.add_exam_screen
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,7 @@ import com.leventsurer.denemelerim.domain.use_case.add_tyt_exam.AddTytExamUseCas
 import com.leventsurer.denemelerim.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -27,16 +29,19 @@ class AddExamViewModel @Inject constructor(
 
     private var job: Job? = null
 
-    private fun addTytExam(newTytExam: NewTytExamModel) {
+
+    private fun addTytExam(newTytExam: NewTytExamModel,userUid:String) {
         job?.cancel()
-        job = addTytExamUseCase.executeAddTytExam(newTytExam).onEach {
+        job = addTytExamUseCase.executeAddTytExam(newTytExam,userUid).onEach {
             when (it) {
                 is Resource.Success -> {
-                    _state.value = AddExamState()
+                    Log.e("kontrol","viewmmodel success")
+                    _state.value = AddExamState(result = true)
                 }
 
                 is Resource.Error -> {
-                    AddExamState(error = it.message ?: "Error")
+
+                    _state.value= AddExamState(error = it.message)
                 }
 
                 is Resource.Loading -> {
@@ -44,18 +49,20 @@ class AddExamViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+
     }
 
-    private fun addAytExam(newAytExamModel: NewAytExamModel) {
+
+    private fun addAytExam(newAytExamModel: NewAytExamModel,userUid: String) {
         job?.cancel()
-        job = addAytExamUseCase.executeAddAytExam(newAytExamModel).onEach {
+        job = addAytExamUseCase.executeAddAytExam(newAytExamModel,userUid).onEach {
             when (it) {
                 is Resource.Success -> {
-                    _state.value = AddExamState()
+                    _state.value = AddExamState(result = true)
                 }
 
                 is Resource.Error -> {
-                    AddExamState(error = it.message ?: "Error")
+                    _state.value = AddExamState(error = it.message )
                 }
 
                 is Resource.Loading -> {
@@ -69,11 +76,11 @@ class AddExamViewModel @Inject constructor(
     fun onEvent(event: AddExamEvent) {
         when (event) {
             is AddExamEvent.AddTytExam -> {
-                addTytExam(event.newTytExamModel)
+                addTytExam(event.newTytExamModel,event.userUid)
             }
 
             is AddExamEvent.AddAytExam -> {
-                addAytExam(event.newAytExamModel)
+                addAytExam(event.newAytExamModel,event.userUid)
             }
         }
     }

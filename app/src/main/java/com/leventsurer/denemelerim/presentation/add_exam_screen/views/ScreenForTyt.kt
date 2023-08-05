@@ -1,9 +1,13 @@
 package com.leventsurer.denemelerim.presentation.add_exam_screen.views
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,6 +16,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.firebase.firestore.FieldValue
@@ -19,15 +25,18 @@ import com.leventsurer.denemelerim.domain.model.NewTytExamModel
 import com.leventsurer.denemelerim.presentation.add_exam_screen.AddExamEvent
 import com.leventsurer.denemelerim.presentation.add_exam_screen.AddExamViewModel
 import com.leventsurer.denemelerim.presentation.add_exam_screen.views.composable.LessonCorrectAndFalseInputs
+import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
 import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
 import java.sql.Timestamp
+import java.time.LocalDate
 
 
 @Composable
 fun ScreenForTyt(
     examName: String,
     aboutExam: String,
-    addExamViewModel: AddExamViewModel = hiltViewModel()
+    addExamViewModel: AddExamViewModel = hiltViewModel(),
+    dataStoreViewModel: DataStoreViewModel = hiltViewModel()
 ) {
     var turkishCorrect by rememberSaveable {
         mutableStateOf("")
@@ -53,6 +62,21 @@ fun ScreenForTyt(
     var scienceFalse by rememberSaveable {
         mutableStateOf("")
     }
+
+    val state = addExamViewModel.state.value
+
+    if(state.result == true){
+        turkishCorrect = ""
+        turkishFalse = ""
+        mathCorrect = ""
+        mathFalse = ""
+        socialCorrect  = ""
+        socialFalse = ""
+        scienceCorrect = ""
+        scienceFalse = ""
+    }
+
+
     Column() {
         LessonCorrectAndFalseInputs(
             "Türkçe",
@@ -85,6 +109,10 @@ fun ScreenForTyt(
             scienceCorrect,
             scienceFalse
         )
+
+
+
+
         ElevatedButton(
             colors = ButtonDefaults.buttonColors(PrimaryColor),
             modifier = Modifier
@@ -99,21 +127,37 @@ fun ScreenForTyt(
                     socialCorrect = socialCorrect.toInt(),
                     socialFalse = socialFalse.toInt(),
                     mathCorrect = mathCorrect.toInt(),
-                    mathFalse = mathCorrect.toInt(),
+                    mathFalse = mathFalse.toInt(),
                     scienceCorrect = scienceCorrect.toInt(),
                     scienceFalse = scienceFalse.toInt(),
-                    examDate =  FieldValue.serverTimestamp()
+                    examDate =  com.google.firebase.Timestamp.now()
                 )
 
                 addExamViewModel.onEvent(
                     AddExamEvent.AddTytExam(
-                        newTytExamModel= newTytExamModel
+                        newTytExamModel= newTytExamModel,
+                        dataStoreViewModel.getUserUidFromDataStore()
                     ),
+
                 )
+
+
+
             }
         ) {
-            Text(text = "Kaydet")
+            if(state.isLoading){
+                Log.e("kontrol","else if içinde")
+                CircularProgressIndicator(modifier = Modifier.height(5.dp))
+            }else if (state.error !=null){
+                Text(text = "!! ${state.error} !!")
+            }
+            else {
+                Text(text = "Kaydet")
+            }
+
         }
+
+
     }
 }
 

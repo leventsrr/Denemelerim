@@ -3,14 +3,11 @@ package com.leventsurer.denemelerim.data.di
 import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.leventsurer.denemelerim.data.remote.AddNewExamApi
 import com.leventsurer.denemelerim.data.remote.AuthenticationApi
 import com.leventsurer.denemelerim.data.remote.DatabaseApi
-import com.leventsurer.denemelerim.data.repository.AddExamRepositoryImpl
 import com.leventsurer.denemelerim.data.repository.AuthenticationRepositoryImpl
 import com.leventsurer.denemelerim.data.repository.DataStoreRepositoryImpl
 import com.leventsurer.denemelerim.data.repository.DatabaseRepositoryImpl
-import com.leventsurer.denemelerim.domain.repository.AddExamRepository
 import com.leventsurer.denemelerim.domain.repository.AuthenticationRepository
 import com.leventsurer.denemelerim.domain.repository.DataStoreRepository
 import com.leventsurer.denemelerim.domain.repository.DatabaseRepository
@@ -45,17 +42,17 @@ object AppModule {
         return AuthenticationRepositoryImpl(api = api)
     }
 
-    @Singleton
+    /*@Singleton
     @Provides
     fun provideAddNewExamApi(): AddNewExamApi {
         return AddNewExamApi()
-    }
+    }*/
 
-    @Provides
+    /*@Provides
     @Singleton
     fun provideAddNewExamRepository(api:AddNewExamApi): AddExamRepository {
         return AddExamRepositoryImpl(addNewExamApi = api )
-    }
+    }*/
 
     @Provides
     @Singleton

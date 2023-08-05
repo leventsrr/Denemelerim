@@ -1,5 +1,6 @@
 package com.leventsurer.denemelerim.presentation.login_screen.views
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -40,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.leventsurer.denemelerim.R
+import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
 import com.leventsurer.denemelerim.presentation.login_screen.LoginEvent
 import com.leventsurer.denemelerim.presentation.login_screen.LoginViewModel
 import com.leventsurer.denemelerim.presentation.register_screen.RegisterEvent
@@ -52,18 +54,28 @@ import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
 fun LoginScreen(
     navigateToHomeScreen: () -> Unit,
     navigateToSignUp: () -> Unit,
-    loginViewModel: LoginViewModel = hiltViewModel()
+    loginViewModel: LoginViewModel = hiltViewModel(),
+    dataStoreViewModel: DataStoreViewModel = hiltViewModel(),
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val state = loginViewModel.state.value
 
-
-    if (state.user != null) {
+    if(dataStoreViewModel.getIsFirstLoginInfo() == true){
+        Log.e("kontrol","isFirstLogin true")
         LaunchedEffect(Unit) {
             navigateToHomeScreen()
         }
     }
+
+    if (state.user != null) {
+        dataStoreViewModel.putUserUidToDataStore(state.user.uid)
+        dataStoreViewModel.putIsFirstLoginInfo()
+        LaunchedEffect(Unit) {
+            navigateToHomeScreen()
+        }
+    }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween,
@@ -147,7 +159,7 @@ fun LoginScreen(
                     } else if (state.error != "") {
                         Toast.makeText(LocalContext.current, state.error, Toast.LENGTH_LONG).show()
                     } else {
-                        Text(text = "Giriş Yap")
+                        Text(text = dataStoreViewModel.getIsFirstLoginInfo().toString())
                     }
 
                 }

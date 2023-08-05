@@ -2,6 +2,8 @@ package com.leventsurer.denemelerim.data.repository
 
 import android.util.Log
 import com.leventsurer.denemelerim.data.remote.DatabaseApi
+import com.leventsurer.denemelerim.domain.model.NewAytExamModel
+import com.leventsurer.denemelerim.domain.model.NewTytExamModel
 import com.leventsurer.denemelerim.domain.model.UserModel
 import com.leventsurer.denemelerim.domain.repository.DataStoreRepository
 import com.leventsurer.denemelerim.domain.repository.DatabaseRepository
@@ -29,6 +31,19 @@ class DatabaseRepositoryImpl @Inject constructor(
 
     }
 
+    override suspend fun getUserTytExam(userUid: String): ArrayList<NewTytExamModel>? {
+            return databaseApi.getUserTytExams(userUid)
+    }
 
+    override suspend fun getUserAytExam(userUid: String): ArrayList<NewAytExamModel>? {
+        return databaseApi.getUserAytExams(userUid)
+    }
+    override suspend fun addTytExam(newTytExamModel: NewTytExamModel,userUid: String) {
+        databaseApi.addNewTytExam(newTytExamModel,userUid)
+    }
+
+    override suspend fun addAytExam(newAytExamModel: NewAytExamModel,userUid: String) {
+        databaseApi.addNewAytExam(newAytExamModel,userUid)
+    }
 
 }

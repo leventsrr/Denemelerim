@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leventsurer.denemelerim.domain.repository.DataStoreRepository
 import com.leventsurer.denemelerim.presentation.register_screen.RegisterState
+import com.leventsurer.denemelerim.util.Constants.IS_FIRST_LOGIN
 import com.leventsurer.denemelerim.util.Constants.USER_UID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -24,16 +25,21 @@ class DataStoreViewModel @Inject constructor(
     private val _state = mutableStateOf(RegisterState())
     val state : State<RegisterState> = _state
 
-     fun putUserUidToDataStore(key:String,userUid:String) = runBlocking {
-         dataStoreRepository.putUserUid(key,userUid)
+     fun putUserUidToDataStore(userUid:String) = runBlocking {
+         dataStoreRepository.putUserUid(USER_UID,userUid)
     }
-
-
-
 
      fun getUserUidFromDataStore():String= runBlocking{
          dataStoreRepository.getUserUid(USER_UID)!!
     }
+
+     fun putIsFirstLoginInfo()= runBlocking{
+        dataStoreRepository.putIsFirstLoginInfo(IS_FIRST_LOGIN,true)
+     }
+
+     fun getIsFirstLoginInfo():Boolean?= runBlocking{
+        dataStoreRepository.getIsFirstLoginInfo(IS_FIRST_LOGIN)
+     }
 
 
 

@@ -1,9 +1,12 @@
 package com.leventsurer.denemelerim.presentation.add_exam_screen.views
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +22,7 @@ import com.leventsurer.denemelerim.domain.model.NewAytExamModel
 import com.leventsurer.denemelerim.presentation.add_exam_screen.AddExamEvent
 import com.leventsurer.denemelerim.presentation.add_exam_screen.AddExamViewModel
 import com.leventsurer.denemelerim.presentation.add_exam_screen.views.composable.LessonCorrectAndFalseInputs
+import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
 import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
 
 
@@ -26,7 +30,8 @@ import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
 fun ScreenForAyt(
     examName: String,
     aboutExam: String,
-    addExamViewModel: AddExamViewModel = hiltViewModel()
+    addExamViewModel: AddExamViewModel = hiltViewModel(),
+    dataStoreViewModel: DataStoreViewModel = hiltViewModel()
 ) {
     var mathCorrect by rememberSaveable {
         mutableStateOf("")
@@ -98,7 +103,32 @@ fun ScreenForAyt(
         mutableStateOf("")
     }
 
+    val state = addExamViewModel.state.value
 
+    if(state.result == true){
+        mathCorrect = ""
+        mathFalse = ""
+        physicsCorrect = ""
+        physicsFalse = ""
+        chemistryCorrect = ""
+        chemistryFalse = ""
+        biologyCorrect = ""
+        biologyFalse = ""
+        literatureCorrect  = ""
+        literatureFalse = ""
+        historyCorrect = ""
+        historyFalse = ""
+        geographyCorrect = ""
+        geographyFalse = ""
+        historyCorrectForSocial = ""
+        historyFalseForSocial = ""
+        geographyCorrectForSocial = ""
+        geographyFalseForSocial = ""
+        philosophyCorrect = ""
+        philosophyFalse = ""
+        religionCorrect = ""
+        religionFalse = ""
+    }
     Column() {
         LessonCorrectAndFalseInputs(
             lessonTitle = "Matematik",
@@ -211,17 +241,26 @@ fun ScreenForAyt(
                     philosophyFalse = philosophyFalse.toIntOrNull() ?: 0,
                     religionCorrect = religionCorrect.toIntOrNull() ?: 0,
                     religionFalse = religionFalse.toIntOrNull() ?: 0,
-                    examDate = FieldValue.serverTimestamp()
+                    examDate = com.google.firebase.Timestamp.now()
                 )
 
                 addExamViewModel.onEvent(
                     AddExamEvent.AddAytExam(
-                        newAytExamModel = newAytExamModel
+                        newAytExamModel = newAytExamModel,
+                        dataStoreViewModel.getUserUidFromDataStore()
                     )
                 )
 
             }) {
-            Text(text = "Kaydet")
+            if(state.isLoading){
+                Log.e("kontrol","else if içinde")
+                CircularProgressIndicator(modifier = Modifier.height(5.dp))
+            }else if (state.error !=null){
+                Text(text = "!! ${state.error} !!")
+            }
+            else {
+                Text(text = "Kaydet")
+            }
         }
     }
 

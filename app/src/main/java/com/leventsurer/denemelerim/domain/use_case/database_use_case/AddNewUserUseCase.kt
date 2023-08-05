@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.domain.use_case.add_new_user
+package com.leventsurer.denemelerim.domain.use_case.database_use_case
 
 import android.util.Log
 import com.leventsurer.denemelerim.domain.model.NewAytExamModel
@@ -16,7 +16,7 @@ class AddNewUserUseCase @Inject constructor(private val databaseRepository: Data
 
     val user = UserModel(
         arrayListOf<NewAytExamModel>(), "", 0, 0, "", "",
-        0, 0, arrayListOf<NewTytExamModel>(), "", 0,
+        0.0, 0.0, arrayListOf<NewTytExamModel>(), "", 0.0,
     )
 
     fun executeAddNewUser(userUid: String): Flow<Resource<Boolean>> = flow {
