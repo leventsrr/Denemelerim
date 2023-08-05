@@ -15,14 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.leventsurer.denemelerim.presentation.home_screen.views.composable.ExamCard
-import com.leventsurer.denemelerim.presentation.common.MyTopAppBar
+import com.leventsurer.denemelerim.presentation.common.composable.MyTopAppBar
 import com.leventsurer.denemelerim.presentation.ui.Screen
 import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
-import com.leventsurer.denemelerim.presentation.ui.theme.Secondary
-import com.leventsurer.denemelerim.presentation.ui.theme.Third
-import com.leventsurer.denemelerim.presentation.ui.theme.fourthColor
-import com.leventsurer.denemelerim.presentation.ui.theme.secondaryColor
-import com.leventsurer.denemelerim.presentation.ui.theme.thirdColor
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable

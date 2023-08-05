@@ -27,9 +27,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
-import com.leventsurer.denemelerim.presentation.common.CustomSpinner
-import com.leventsurer.denemelerim.presentation.common.MyTopAppBar
-import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
+import com.leventsurer.denemelerim.presentation.common.composable.CustomSpinner
+import com.leventsurer.denemelerim.presentation.common.composable.MyTopAppBar
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable

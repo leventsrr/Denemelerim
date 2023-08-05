@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.presentation.common
+package com.leventsurer.denemelerim.presentation.common.composable
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle

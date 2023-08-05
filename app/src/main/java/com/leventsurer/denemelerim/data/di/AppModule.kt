@@ -2,24 +2,23 @@ package com.leventsurer.denemelerim.data.di
 
 import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.leventsurer.denemelerim.data.remote.AddNewExamApi
 import com.leventsurer.denemelerim.data.remote.AuthenticationApi
-import com.leventsurer.denemelerim.data.remote.SetTargetApi
+import com.leventsurer.denemelerim.data.remote.DatabaseApi
 import com.leventsurer.denemelerim.data.repository.AddExamRepositoryImpl
 import com.leventsurer.denemelerim.data.repository.AuthenticationRepositoryImpl
 import com.leventsurer.denemelerim.data.repository.DataStoreRepositoryImpl
-import com.leventsurer.denemelerim.data.repository.SetTargetRepositoryImpl
+import com.leventsurer.denemelerim.data.repository.DatabaseRepositoryImpl
 import com.leventsurer.denemelerim.domain.repository.AddExamRepository
 import com.leventsurer.denemelerim.domain.repository.AuthenticationRepository
 import com.leventsurer.denemelerim.domain.repository.DataStoreRepository
-import com.leventsurer.denemelerim.domain.repository.SetTargetRepository
+import com.leventsurer.denemelerim.domain.repository.DatabaseRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -58,18 +57,22 @@ object AppModule {
         return AddExamRepositoryImpl(addNewExamApi = api )
     }
 
+    @Provides
+    @Singleton
+    fun provideDatabaseRepository(api:DatabaseApi):DatabaseRepository{
+        return DatabaseRepositoryImpl(databaseApi = api)
+    }
 
     @Singleton
     @Provides
-    fun provideSetTargetApi(): SetTargetApi {
-        return SetTargetApi()
+    fun provideFirebaseFireStore():FirebaseFirestore = FirebaseFirestore.getInstance()
+
+    @Singleton
+    @Provides
+    fun provideSetTargetApi(firebaseFirestore: FirebaseFirestore): DatabaseApi {
+        return DatabaseApi(firebaseFirestore)
     }
 
-    @Provides
-    @Singleton
-    fun provideSetTargetRepository(api:SetTargetApi): SetTargetRepository {
-        return SetTargetRepositoryImpl(setTargetApi = api )
-    }
 
 
     @Provides

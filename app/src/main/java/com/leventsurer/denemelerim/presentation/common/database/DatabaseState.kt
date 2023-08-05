@@ -1,6 +1,8 @@
-package com.leventsurer.denemelerim.presentation.set_target_screen
+package com.leventsurer.denemelerim.presentation.common.database
 
-data class SetTargetState(
+
+
+data class DatabaseState(
     val isLoading:Boolean = false,
     val error : String? = null ,
     val result:Boolean? = null ,

@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leventsurer.denemelerim.domain.repository.DataStoreRepository
 import com.leventsurer.denemelerim.domain.use_case.signUp.SignUpUseCase
-import com.leventsurer.denemelerim.util.Constants.IS_FIRST_LOGIN
 import com.leventsurer.denemelerim.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -19,7 +19,6 @@ import javax.inject.Inject
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
     private val signUpUseCase: SignUpUseCase,
-    private val dataStoreRepository: DataStoreRepository
 ): ViewModel() {
 
     private val _state = mutableStateOf(RegisterState())
@@ -53,13 +52,7 @@ class RegisterViewModel @Inject constructor(
         }
     }
 
-    private fun putIsFirstLoginInfo() = viewModelScope.launch{
-        dataStoreRepository.putIsFirstLogin(IS_FIRST_LOGIN,true)
-    }
 
-    private fun getIsFirstLoginInfo() :Boolean {
-        val result = dataStoreRepository.getIsFirstLogin(IS_FIRST_LOGIN)
-    }
 
 
 }

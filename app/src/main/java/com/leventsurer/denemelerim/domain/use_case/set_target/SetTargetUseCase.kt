@@ -1,26 +1,36 @@
 package com.leventsurer.denemelerim.domain.use_case.set_target
 
-import com.google.firebase.auth.FirebaseUser
-import com.leventsurer.denemelerim.domain.repository.AuthenticationRepository
-import com.leventsurer.denemelerim.domain.repository.SetTargetRepository
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.viewModelScope
+import com.leventsurer.denemelerim.domain.repository.DatabaseRepository
+import com.leventsurer.denemelerim.presentation.register_screen.RegisterState
+import com.leventsurer.denemelerim.presentation.set_target_screen.SetTargetEvent
 import com.leventsurer.denemelerim.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.lang.Exception
 import javax.inject.Inject
 
 
 
-class SetTargetUseCase @Inject constructor(private val setTargetRepository: SetTargetRepository) {
+class SetTargetUseCase @Inject constructor(
+    private val databaseRepository: DatabaseRepository
+    ) {
 
-    fun executeSetTarget(university:String,department:String): Flow<Resource<Boolean>> = flow{
+
+    suspend fun executeSetTarget(university:String,department:String, userUid:String):Flow<Resource<Boolean>> = flow{
+
         try {
             emit(Resource.Loading())
-            val result = setTargetRepository.setTarget(university, department)
-            emit(Resource.Success(result))
-        }catch (e: Exception){
+            databaseRepository.setTarget(university, department, userUid)
+            emit(Resource.Success(true))
+        }catch (e:Exception){
             emit(Resource.Error(e.message.toString()))
         }
+
     }
 
 }

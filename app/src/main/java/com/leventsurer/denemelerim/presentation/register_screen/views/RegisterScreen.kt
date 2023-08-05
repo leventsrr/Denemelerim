@@ -1,7 +1,5 @@
 package com.leventsurer.denemelerim.presentation.register_screen.views
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -35,27 +33,28 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.leventsurer.denemelerim.R
-import com.leventsurer.denemelerim.presentation.MainActivity
+import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
+import com.leventsurer.denemelerim.presentation.common.database.DatabaseEvent
+import com.leventsurer.denemelerim.presentation.common.database.DatabaseViewModel
 import com.leventsurer.denemelerim.presentation.register_screen.RegisterEvent
-import com.leventsurer.denemelerim.presentation.register_screen.RegisterState
 import com.leventsurer.denemelerim.presentation.register_screen.RegisterViewModel
-import com.leventsurer.denemelerim.presentation.ui.Screen
 import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
-import com.leventsurer.denemelerim.util.enums.RegisterErrors
+import com.leventsurer.denemelerim.util.Constants.USER_UID
 
 
 @Composable
 fun RegisterScreen(
     navigateToSetTargetScreen: () -> Unit,
     navController: NavController,
-    registerViewModel: RegisterViewModel = hiltViewModel()
+    registerViewModel: RegisterViewModel = hiltViewModel(),
+    dataStoreViewModel: DataStoreViewModel = hiltViewModel(),
+    databaseViewModel: DatabaseViewModel = hiltViewModel(),
 ) {
     var userName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -162,23 +161,28 @@ fun RegisterScreen(
                 }
 
                 if (state.user != null) {
+                    databaseViewModel.onEvent(
+                        DatabaseEvent.AddNewUser(
+                            state.user.uid
+                        )
+                    )
+                    dataStoreViewModel.putUserUidToDataStore(USER_UID, state.user.uid)
                     LaunchedEffect(Unit) {
                         navigateToSetTargetScreen()
                     }
+
+
                 }
 
                 Spacer(modifier = Modifier.height(5.dp))
                 Button(onClick = {
-
                     registerViewModel.onEvent(
                         RegisterEvent.SignUp(
                             userName, email, password, passwordAgain
                         )
                     )
-
-
                 }) {
-                    if (state.isLoading) {
+                    if (state.isLoading || databaseViewModel.addNewUserState.value.isLoading) {
                         CircularProgressIndicator(color = Color.White)
                     } else {
                         Text(text = "Kayıt Ol")
@@ -194,7 +198,6 @@ fun RegisterScreen(
             }
             .padding(vertical = 10.dp), color = Color.White, fontWeight = FontWeight.Bold)
     }
-
 
 
 }

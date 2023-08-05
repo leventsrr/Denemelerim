@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.presentation.common
+package com.leventsurer.denemelerim.presentation.common.composable
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth

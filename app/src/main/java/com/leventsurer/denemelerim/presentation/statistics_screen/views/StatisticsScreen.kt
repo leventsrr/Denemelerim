@@ -12,8 +12,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import com.leventsurer.denemelerim.presentation.common.CustomSpinner
-import com.leventsurer.denemelerim.presentation.common.MyTopAppBar
+import com.leventsurer.denemelerim.presentation.common.composable.CustomSpinner
+import com.leventsurer.denemelerim.presentation.common.composable.MyTopAppBar
 import com.leventsurer.denemelerim.presentation.statistics_screen.composable.LineChart
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
