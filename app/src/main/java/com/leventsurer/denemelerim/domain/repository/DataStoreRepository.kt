@@ -15,4 +15,7 @@ interface DataStoreRepository {
 
     suspend fun getIsFirstLoginInfo(key: String):Boolean?
 
+
+    suspend fun clearAllDataStore()
+
 }

@@ -5,14 +5,13 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.leventsurer.denemelerim.domain.model.NewAytExamModel
-import com.leventsurer.denemelerim.domain.model.NewTytExamModel
+import com.leventsurer.denemelerim.data.remote.dto.NewAytExamModel
+import com.leventsurer.denemelerim.data.remote.dto.NewTytExamModel
 import com.leventsurer.denemelerim.domain.use_case.add_ayt_exam.AddAytExamUseCase
 import com.leventsurer.denemelerim.domain.use_case.add_tyt_exam.AddTytExamUseCase
 import com.leventsurer.denemelerim.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -30,7 +29,7 @@ class AddExamViewModel @Inject constructor(
     private var job: Job? = null
 
 
-    private fun addTytExam(newTytExam: NewTytExamModel,userUid:String) {
+    private fun addTytExam(newTytExam: NewTytExamModel, userUid:String) {
         job?.cancel()
         job = addTytExamUseCase.executeAddTytExam(newTytExam,userUid).onEach {
             when (it) {
@@ -53,7 +52,7 @@ class AddExamViewModel @Inject constructor(
     }
 
 
-    private fun addAytExam(newAytExamModel: NewAytExamModel,userUid: String) {
+    private fun addAytExam(newAytExamModel: NewAytExamModel, userUid: String) {
         job?.cancel()
         job = addAytExamUseCase.executeAddAytExam(newAytExamModel,userUid).onEach {
             when (it) {

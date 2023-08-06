@@ -1,8 +1,8 @@
 package com.leventsurer.denemelerim.domain.repository
 
-import com.leventsurer.denemelerim.domain.model.NewAytExamModel
-import com.leventsurer.denemelerim.domain.model.NewTytExamModel
-import com.leventsurer.denemelerim.domain.model.UserModel
+import com.leventsurer.denemelerim.data.remote.dto.NewAytExamModel
+import com.leventsurer.denemelerim.data.remote.dto.NewTytExamModel
+import com.leventsurer.denemelerim.data.remote.dto.UserModel
 
 
 interface DatabaseRepository {
@@ -12,7 +12,9 @@ interface DatabaseRepository {
 
     suspend fun getUserTytExam(userUid: String):ArrayList<NewTytExamModel>?
     suspend fun getUserAytExam(userUid: String):ArrayList<NewAytExamModel>?
-    suspend fun addTytExam(newTytExamModel: NewTytExamModel,userUid: String)
-    suspend fun addAytExam(newAytExamModel: NewAytExamModel,userUid: String)
+    suspend fun addTytExam(newTytExamModel: NewTytExamModel, userUid: String)
+    suspend fun addAytExam(newAytExamModel: NewAytExamModel, userUid: String)
+
+    suspend fun getUserProfileInfo(userUid: String):UserModel?
 
 }

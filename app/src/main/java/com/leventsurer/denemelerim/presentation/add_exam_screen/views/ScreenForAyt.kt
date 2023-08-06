@@ -17,8 +17,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.firebase.firestore.FieldValue
-import com.leventsurer.denemelerim.domain.model.NewAytExamModel
+import com.google.firebase.Timestamp
+import com.leventsurer.denemelerim.data.remote.dto.NewAytExamModel
 import com.leventsurer.denemelerim.presentation.add_exam_screen.AddExamEvent
 import com.leventsurer.denemelerim.presentation.add_exam_screen.AddExamViewModel
 import com.leventsurer.denemelerim.presentation.add_exam_screen.views.composable.LessonCorrectAndFalseInputs
@@ -241,7 +241,7 @@ fun ScreenForAyt(
                     philosophyFalse = philosophyFalse.toIntOrNull() ?: 0,
                     religionCorrect = religionCorrect.toIntOrNull() ?: 0,
                     religionFalse = religionFalse.toIntOrNull() ?: 0,
-                    examDate = com.google.firebase.Timestamp.now()
+                    examDate = Timestamp.now()
                 )
 
                 addExamViewModel.onEvent(

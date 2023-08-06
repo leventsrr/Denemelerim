@@ -70,4 +70,10 @@ class DataStoreRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun clearAllDataStore() {
+        context.dataStore.edit {
+            it.clear()
+        }
+    }
+
 }

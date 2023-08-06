@@ -1,7 +1,6 @@
-package com.leventsurer.denemelerim.domain.model
+package com.leventsurer.denemelerim.data.remote.dto
 
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FieldValue
+import com.leventsurer.denemelerim.domain.model.UserProfileInfoModel
 
 data class UserModel(
     val aytExams:ArrayList<NewAytExamModel> = arrayListOf(),
@@ -17,4 +16,13 @@ data class UserModel(
     val yksExamPoint:Double= 0.0
 
 )
+
+
+
+fun UserModel.toUserProfileInfoModel() : UserProfileInfoModel{
+    return UserProfileInfoModel(userName,numberOfTytExam,numberOfAytExam,totalTytPoints/numberOfTytExam,totalAytPoints/numberOfAytExam,yksExamPoint,targetUniversity,targetDepartment)
+}
+
+
+
 

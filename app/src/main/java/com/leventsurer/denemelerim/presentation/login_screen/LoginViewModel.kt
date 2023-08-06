@@ -5,8 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leventsurer.denemelerim.domain.use_case.login.SignInUseCase
-import com.leventsurer.denemelerim.presentation.register_screen.RegisterEvent
-import com.leventsurer.denemelerim.presentation.register_screen.RegisterState
 import com.leventsurer.denemelerim.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job

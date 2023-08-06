@@ -1,8 +1,6 @@
 package com.leventsurer.denemelerim.domain.use_case.add_tyt_exam
 
-import android.util.Log
-import com.leventsurer.denemelerim.domain.model.NewTytExamModel
-import com.leventsurer.denemelerim.domain.repository.AddExamRepository
+import com.leventsurer.denemelerim.data.remote.dto.NewTytExamModel
 import com.leventsurer.denemelerim.domain.repository.DatabaseRepository
 import com.leventsurer.denemelerim.util.Resource
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +10,7 @@ import javax.inject.Inject
 
 class AddTytExamUseCase @Inject constructor(private val databaseRepository: DatabaseRepository) {
 
-    fun executeAddTytExam(newTytExamModel: NewTytExamModel,userUid:String): Flow<Resource<String>> = flow {
+    fun executeAddTytExam(newTytExamModel: NewTytExamModel, userUid:String): Flow<Resource<String>> = flow {
 
         val errorMessage = controlInputValues(newTytExamModel)
         if(errorMessage == null){

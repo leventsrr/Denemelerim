@@ -23,7 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.leventsurer.denemelerim.domain.model.NewTytExamModel
+import com.leventsurer.denemelerim.data.remote.dto.NewTytExamModel
 import com.leventsurer.denemelerim.presentation.ui.Screen
 import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
 import com.leventsurer.denemelerim.presentation.ui.theme.secondaryColor
@@ -31,7 +31,7 @@ import com.leventsurer.denemelerim.presentation.ui.theme.thirdColor
 
 @Composable
 fun TytExamCard(
-    tytExam:NewTytExamModel,
+    tytExam: NewTytExamModel,
     navController: NavController) {
     Card(
         colors = CardDefaults.cardColors(thirdColor),

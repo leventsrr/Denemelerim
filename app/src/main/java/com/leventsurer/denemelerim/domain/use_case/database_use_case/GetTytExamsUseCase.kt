@@ -1,14 +1,11 @@
 package com.leventsurer.denemelerim.domain.use_case.database_use_case
 
 import android.util.Log
-import com.leventsurer.denemelerim.domain.model.NewAytExamModel
-import com.leventsurer.denemelerim.domain.model.NewTytExamModel
-import com.leventsurer.denemelerim.domain.model.UserModel
+import com.leventsurer.denemelerim.data.remote.dto.NewTytExamModel
 import com.leventsurer.denemelerim.domain.repository.DatabaseRepository
 import com.leventsurer.denemelerim.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import java.lang.Exception
 import javax.inject.Inject
 
 

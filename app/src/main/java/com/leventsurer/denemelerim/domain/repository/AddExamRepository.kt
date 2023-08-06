@@ -1,7 +1,7 @@
 package com.leventsurer.denemelerim.domain.repository
 
-import com.leventsurer.denemelerim.domain.model.NewAytExamModel
-import com.leventsurer.denemelerim.domain.model.NewTytExamModel
+import com.leventsurer.denemelerim.data.remote.dto.NewAytExamModel
+import com.leventsurer.denemelerim.data.remote.dto.NewTytExamModel
 
 interface AddExamRepository {
 

@@ -3,9 +3,9 @@ package com.leventsurer.denemelerim.data.remote
 import android.util.Log
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.leventsurer.denemelerim.domain.model.NewAytExamModel
-import com.leventsurer.denemelerim.domain.model.NewTytExamModel
-import com.leventsurer.denemelerim.domain.model.UserModel
+import com.leventsurer.denemelerim.data.remote.dto.NewAytExamModel
+import com.leventsurer.denemelerim.data.remote.dto.NewTytExamModel
+import com.leventsurer.denemelerim.data.remote.dto.UserModel
 import com.leventsurer.denemelerim.util.Constants.TARGET_DEPARTMENT
 import com.leventsurer.denemelerim.util.Constants.TARGET_UNIVERSITY
 import com.leventsurer.denemelerim.util.Constants.USER_COLLECTION
@@ -23,7 +23,7 @@ class DatabaseApi(private val database: FirebaseFirestore) {
     }
 
 
-    suspend fun addNewAytExam(newAytExamModel: NewAytExamModel,userUid: String) {
+    suspend fun addNewAytExam(newAytExamModel: NewAytExamModel, userUid: String) {
         try {
             database.collection(USER_COLLECTION).document(userUid)
                 .update("aytExams", FieldValue.arrayUnion(newAytExamModel)).await()
@@ -62,6 +62,12 @@ class DatabaseApi(private val database: FirebaseFirestore) {
         val userDocument = database.collection(USER_COLLECTION).document(userUid).get().await()
         return userDocument.toObject(UserModel::class.java)?.aytExams
 
+    }
+
+    suspend fun getUserProfileInfo(userUid: String): UserModel? {
+        val userDocumentSnapshot =
+            database.collection(USER_COLLECTION).document(userUid).get().await()
+        return userDocumentSnapshot.toObject(UserModel::class.java)
     }
 
 

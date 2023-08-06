@@ -17,13 +17,13 @@ class DataStoreViewModel @Inject constructor(
     private val dataStoreRepository: DataStoreRepository
 ) :ViewModel(){
 
-    private val _userUid = mutableStateOf("")
+    /*private val _userUid = mutableStateOf("")
     val userUid = _userUid
 
 
 
     private val _state = mutableStateOf(RegisterState())
-    val state : State<RegisterState> = _state
+    val state : State<RegisterState> = _state*/
 
      fun putUserUidToDataStore(userUid:String) = runBlocking {
          dataStoreRepository.putUserUid(USER_UID,userUid)
@@ -40,6 +40,10 @@ class DataStoreViewModel @Inject constructor(
      fun getIsFirstLoginInfo():Boolean?= runBlocking{
         dataStoreRepository.getIsFirstLoginInfo(IS_FIRST_LOGIN)
      }
+
+    fun clearAllDataStore()= runBlocking{
+        dataStoreRepository.clearAllDataStore()
+    }
 
 
 

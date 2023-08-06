@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.domain.model
+package com.leventsurer.denemelerim.data.remote.dto
 
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue

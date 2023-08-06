@@ -1,7 +1,6 @@
 package com.leventsurer.denemelerim.presentation.add_exam_screen.views
 
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,19 +15,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.firebase.firestore.FieldValue
-import com.leventsurer.denemelerim.domain.model.NewTytExamModel
+import com.leventsurer.denemelerim.data.remote.dto.NewTytExamModel
 import com.leventsurer.denemelerim.presentation.add_exam_screen.AddExamEvent
 import com.leventsurer.denemelerim.presentation.add_exam_screen.AddExamViewModel
 import com.leventsurer.denemelerim.presentation.add_exam_screen.views.composable.LessonCorrectAndFalseInputs
 import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
 import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
-import java.sql.Timestamp
-import java.time.LocalDate
 
 
 @Composable

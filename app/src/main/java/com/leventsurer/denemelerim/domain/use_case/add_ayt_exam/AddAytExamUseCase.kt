@@ -1,8 +1,6 @@
 package com.leventsurer.denemelerim.domain.use_case.add_ayt_exam
 
-import com.leventsurer.denemelerim.domain.model.NewAytExamModel
-import com.leventsurer.denemelerim.domain.model.NewTytExamModel
-import com.leventsurer.denemelerim.domain.repository.AddExamRepository
+import com.leventsurer.denemelerim.data.remote.dto.NewAytExamModel
 import com.leventsurer.denemelerim.domain.repository.DatabaseRepository
 import com.leventsurer.denemelerim.util.Resource
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +11,7 @@ import javax.inject.Inject
 class AddAytExamUseCase @Inject constructor(private val databaseRepository: DatabaseRepository) {
 
 
-    fun executeAddAytExam(newAytExamModel: NewAytExamModel,userUid:String): Flow<Resource<String>> = flow {
+    fun executeAddAytExam(newAytExamModel: NewAytExamModel, userUid:String): Flow<Resource<String>> = flow {
 
         val errorMessage = controlInputValues(newAytExamModel = newAytExamModel)
         if (errorMessage == null) {

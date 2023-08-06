@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.leventsurer.denemelerim.domain.use_case.database_use_case.AddNewUserUseCase
 import com.leventsurer.denemelerim.domain.use_case.database_use_case.GetAytExamsUseCase
 import com.leventsurer.denemelerim.domain.use_case.database_use_case.GetTytExamsUseCase
+import com.leventsurer.denemelerim.domain.use_case.database_use_case.GetUserProfileInfoUseCase
 import com.leventsurer.denemelerim.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -23,6 +24,7 @@ class DatabaseViewModel @Inject constructor(
     private val addNewUserUseCase: AddNewUserUseCase,
     private val getTytExamsUseCase: GetTytExamsUseCase,
     private val getAytExamsUseCase: GetAytExamsUseCase,
+    private val getUserProfileInfoUseCase: GetUserProfileInfoUseCase,
 ) : ViewModel(){
 
     private val _addNewUserState = mutableStateOf(DatabaseState())
@@ -33,6 +35,8 @@ class DatabaseViewModel @Inject constructor(
 
     private val _getAytExamsState = mutableStateOf(DatabaseState())
     val getAytExamsState: State<DatabaseState> = _getAytExamsState
+
+
 
     private var job: Job? = null
 
@@ -93,6 +97,8 @@ class DatabaseViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+
+
     fun onEvent(event: DatabaseEvent) {
         when (event) {
             is DatabaseEvent.AddNewUser -> {
@@ -106,6 +112,7 @@ class DatabaseViewModel @Inject constructor(
             is DatabaseEvent.GetAytExams->{
                 getAytExams(event.userUid)
             }
+
         }
     }
 
