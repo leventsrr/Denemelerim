@@ -17,6 +17,8 @@ interface DatabaseRepository {
 
     suspend fun getUserProfileInfo(userUid: String):UserModel?
 
+    suspend fun getUsersToLeaderboard(universityName: String,departmentName:String):List<UserModel>
+
 
 
 }

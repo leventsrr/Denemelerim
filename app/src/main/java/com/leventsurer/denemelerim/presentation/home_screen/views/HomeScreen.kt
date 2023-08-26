@@ -19,6 +19,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,12 +30,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieClipSpec
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
+import com.leventsurer.denemelerim.R
 import com.leventsurer.denemelerim.presentation.home_screen.views.composable.TytExamCard
 import com.leventsurer.denemelerim.presentation.common.composable.MyTopAppBar
 import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
 import com.leventsurer.denemelerim.presentation.common.database.DatabaseEvent
 import com.leventsurer.denemelerim.presentation.common.database.DatabaseViewModel
 import com.leventsurer.denemelerim.presentation.home_screen.views.composable.AytExamCard
+import com.leventsurer.denemelerim.presentation.profile_screen.ProfileEvent
 import com.leventsurer.denemelerim.presentation.ui.Screen
 import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
 
@@ -51,6 +59,10 @@ fun HomeScreen(
     var chosenExamType by remember {
         mutableStateOf("")
     }
+
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.data))
+
+
 
 
 
@@ -77,7 +89,10 @@ fun HomeScreen(
                     .fillMaxSize()
                     .padding(padding)
             ) {
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
                     ElevatedButton(onClick = {
                         databaseViewModel.onEvent(
                             DatabaseEvent.GetTytExams(
@@ -100,15 +115,22 @@ fun HomeScreen(
                     }
                 }
 
-                if (chosenExamType == "TYT"){
-                    if (databaseTytState.isLoading ) {
-                        CircularProgressIndicator(modifier = Modifier.align(CenterHorizontally))
+
+                if (chosenExamType == "TYT") {
+                    if (databaseTytState.isLoading) {
+                        LottieAnimation(
+                            modifier = Modifier.fillMaxWidth(),
+                            composition = composition,
+                            iterations = LottieConstants.IterateForever,
+                        )
 
                     } else if (databaseTytState.tytExams?.size == 0) {
-                        Text(text = "Henüz Eklenmiş bir sınavın bulunmuyor.",textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+                        Text(
+                            text = "Henüz Eklenmiş bir sınavın bulunmuyor.",
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        )
                     } else {
-
-
                         LazyColumn(
 
                         ) {
@@ -117,12 +139,20 @@ fun HomeScreen(
                             }
                         }
                     }
-                }else if(chosenExamType == "AYT"){
-                    if (databaseAytState.isLoading ) {
-                        CircularProgressIndicator(modifier = Modifier.align(CenterHorizontally))
+                } else if (chosenExamType == "AYT") {
+                    if (databaseAytState.isLoading) {
+                        LottieAnimation(
+                            modifier = Modifier.fillMaxWidth(),
+                            composition = composition,
+                            iterations = LottieConstants.IterateForever,
+                        )
 
                     } else if (databaseAytState.aytExams?.size == 0) {
-                        Text(text = "Henüz Eklenmiş bir sınavın bulunmuyor.", textAlign = TextAlign.Center,modifier = Modifier.fillMaxWidth())
+                        Text(
+                            text = "Henüz Eklenmiş bir sınavın bulunmuyor.",
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        )
                     } else {
 
 

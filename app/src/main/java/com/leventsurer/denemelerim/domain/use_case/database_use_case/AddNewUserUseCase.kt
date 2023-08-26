@@ -16,13 +16,13 @@ class AddNewUserUseCase @Inject constructor(private val databaseRepository: Data
 
     val user = UserModel(
         arrayListOf<NewAytExamModel>(), "", 0, 0, "", "",
-        0.0, 0.0, arrayListOf<NewTytExamModel>(), "", 0.0,
+        0.0, 0.0, totalNumericalPoints = 0.0, totalVerbalPoints = 0.0, arrayListOf<NewTytExamModel>(), "", 0.0,
     )
 
-    fun executeAddNewUser(userUid: String,userName:String): Flow<Resource<Boolean>> = flow {
+    fun executeAddNewUser(userUid: String, userName: String): Flow<Resource<Boolean>> = flow {
         try {
             emit(Resource.Loading())
-            databaseRepository.addNewUser(userUid, user,userName)
+            databaseRepository.addNewUser(userUid, user, userName)
             emit(Resource.Success(true))
         } catch (e: Exception) {
             emit(Resource.Error(e.message.toString()))

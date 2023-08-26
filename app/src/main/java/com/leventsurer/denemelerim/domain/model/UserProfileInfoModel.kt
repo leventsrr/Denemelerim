@@ -5,7 +5,9 @@ data class UserProfileInfoModel(
     val numberOfTytExam:Int,
     val numberOfAytExam:Int,
     val averageTytPoint:Double,
-    val averageAytPoint:Double,
+    val averageVerbalPoint:Double,
+    val averageEqualWeightPoint:Double,
+    val averageNumericalPoint:Double,
     val averageYksPoint:Double,
     val targetUniversity:String,
     val targetDepartment:String

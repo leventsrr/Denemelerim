@@ -1,6 +1,7 @@
 package com.leventsurer.denemelerim.presentation.profile_screen.views
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -10,8 +11,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
@@ -40,6 +43,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
+import com.leventsurer.denemelerim.R
 import com.leventsurer.denemelerim.presentation.common.authentication.AuthenticationViewModel
 import com.leventsurer.denemelerim.presentation.common.composable.CustomSpinner
 import com.leventsurer.denemelerim.presentation.common.composable.MyTopAppBar
@@ -50,7 +58,9 @@ import com.leventsurer.denemelerim.presentation.profile_screen.ProfileViewModel
 import com.leventsurer.denemelerim.presentation.set_target_screen.SetTargetEvent
 import com.leventsurer.denemelerim.presentation.set_target_screen.SetTargetState
 import com.leventsurer.denemelerim.presentation.set_target_screen.SetTargetViewModel
+import com.leventsurer.denemelerim.presentation.set_target_screen.views.composable.CustomSpinnerDialog
 import com.leventsurer.denemelerim.presentation.ui.Screen
+import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -64,8 +74,20 @@ fun ProfileScreen(
 ) {
     val state = profileViewModel.getUserProfileInfoState.value
     val changeTargetState = setTargetViewModel.setTargetState.value
-    var newTargetUniversity by remember{ mutableStateOf("") }
-    var newTargetDepartment by remember{ mutableStateOf("") }
+    val universitiesAndDepartmentsState = setTargetViewModel.universitiesAndDepartmentsState.value
+    var newTargetUniversity by remember{ mutableStateOf("Hedef Üniversite") }
+    var newTargetDepartment by remember{ mutableStateOf("Hedef Bölüm") }
+    var isRequestNeccessary by remember {
+        mutableStateOf(true)
+    }
+    var isChoosingUniversity by remember {
+        mutableStateOf(true)
+    }
+    val universitiesOrDepartmentArrayList = arrayListOf<String>()
+    val showDialog = remember {
+        mutableStateOf(false)
+    }
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.data))
 
 
 
@@ -116,13 +138,21 @@ fun ProfileScreen(
                             )
                             Divider()
                             if (state.result == null) {
-                                CircularProgressIndicator()
+                               Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
+                                   LottieAnimation(
+                                       modifier = Modifier.width(100.dp).height(100.dp),
+                                       composition = composition,
+                                       iterations = LottieConstants.IterateForever,
+                                   )
+                               }
                             } else {
                                 Text(text = "Kullanıcı Adı:${state.result.userName}")
                                 Text(text = "Çözülen TYT Deneme Sayısı: ${state.result.numberOfTytExam}")
                                 Text(text = "Çözülen AYT Deneme Sayısı: ${state.result.numberOfAytExam}")
                                 Text(text = "Ortalama TYT Puanı: ${state.result.averageTytPoint}")
-                                Text(text = "Ortalama AYT Puanı: ${state.result.averageAytPoint}")
+                                Text(text = "Ortalama Sayısal AYT Puanı: ${state.result.averageNumericalPoint}")
+                                Text(text = "Ortalama E.A AYT Puanı: ${state.result.averageEqualWeightPoint}")
+                                Text(text = "Ortalama Sözel AYT Puanı: ${state.result.averageVerbalPoint}")
                                 Text(text = "Ortalama YKS Puanı: ${state.result.averageYksPoint}")
                                 Text(text = "Hedef Üniversite: ${state.result.targetUniversity}")
                                 Text(text = "Hedef Bölüm: ${state.result.targetDepartment}")
@@ -158,21 +188,96 @@ fun ProfileScreen(
                             textAlign = TextAlign.Center
                         )
                         Divider()
-                        CustomSpinner(
-                            spinnerTitle = "Hedef Üniversite",
-                            listOfOptions = arrayListOf("Gazi", "ODTU", "itü"),
+                        ElevatedButton(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 10.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
                             onClick = {
-                                newTargetUniversity = it
-                            })
-                        CustomSpinner(
-                            spinnerTitle = "Hedef Bölüm",
-                            listOfOptions = arrayListOf("Gazi", "ODTU", "itü"),
+                                isChoosingUniversity = true
+                                setTargetViewModel.onEvent(
+                                    SetTargetEvent.GetUniversitiesAndDepartment
+                                )
+                                isRequestNeccessary = true
+
+
+                            }) {
+                                if(state.result !=null){
+                                    Text(text = newTargetUniversity?:"")
+                                }
+
+
+                        }
+
+                        ElevatedButton(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 10.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
                             onClick = {
-                                newTargetDepartment = it
-                            })
+                                isChoosingUniversity = false
+                                setTargetViewModel.onEvent(
+                                    SetTargetEvent.GetUniversitiesAndDepartment
+                                )
+                                isRequestNeccessary = true
+                            }) {
+                            if(state.result !=null){
+                                Text(text = newTargetDepartment?:"")
+
+                            }
+
+                        }
+
+
+
+
+                        if (universitiesAndDepartmentsState.result == true && isRequestNeccessary) {
+                            if (!universitiesAndDepartmentsState.universitiesAndDepartments.isNullOrEmpty()) {
+                                if (isChoosingUniversity) {
+                                    for (universities in universitiesAndDepartmentsState.universitiesAndDepartments) {
+                                        if (universities.universityName !in universitiesOrDepartmentArrayList) {
+                                            universitiesOrDepartmentArrayList.add(universities.universityName)
+                                        }
+                                    }
+                                } else {
+                                    for (departments in universitiesAndDepartmentsState.universitiesAndDepartments) {
+                                        if (departments.universityName == newTargetUniversity) {
+                                            universitiesOrDepartmentArrayList.add(departments.departmentName)
+                                        }
+                                    }
+                                }
+
+                                showDialog.value = true
+
+
+                            }
+                        }
                     }
                 }
 
+                if (showDialog.value) {
+                    CustomSpinnerDialog(
+                        showDialog = showDialog.value,
+                        options = universitiesOrDepartmentArrayList,
+                        onDismiss = {
+                            Log.e("kontrol", "onDismiss")
+                            showDialog.value = false
+                            isRequestNeccessary = false
+
+                        },
+                        onItemClick = { selectedItem ->
+                            if(isChoosingUniversity){
+                                newTargetUniversity = selectedItem
+                            }else{
+                                newTargetDepartment = selectedItem
+                            }
+                            showDialog.value = false
+                        }
+                    )
+                }
+                if(universitiesAndDepartmentsState.isLoading){
+                    CircularProgressIndicator()
+                }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     ElevatedButton(
                         modifier = Modifier

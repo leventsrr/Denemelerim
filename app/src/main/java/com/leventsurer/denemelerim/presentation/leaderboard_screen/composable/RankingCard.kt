@@ -15,13 +15,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.leventsurer.denemelerim.data.remote.dto.UserModel
 import com.leventsurer.denemelerim.presentation.ui.theme.goldColor
 import com.leventsurer.denemelerim.presentation.ui.theme.platinumColor
 import com.leventsurer.denemelerim.presentation.ui.theme.silverColor
 import com.leventsurer.denemelerim.presentation.ui.theme.thirdColor
 
 @Composable
-fun RankingCard(rank:Int) {
+fun RankingCard(rank:Int,userModel: UserModel) {
     val backgroundColor = when (rank) {
         1 -> {
             goldColor
@@ -54,12 +55,11 @@ fun RankingCard(rank:Int) {
 
             Column(modifier = Modifier.weight(6f)) {
 
-                Text(text = "Levent Sürer", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center,fontSize = 20.sp, fontWeight = FontWeight.ExtraBold)
+                Text(text = userModel.userName, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center,fontSize = 20.sp, fontWeight = FontWeight.ExtraBold)
 
 
-                Text(text = "Deneme Sayısı: 26")
-                Text(text = "Ortalama Sınav Puanı: 416.235")
-                Text(text = "Ortalama Net Sayısı: 112.5")
+                Text(text = "Deneme Sayısı: ${userModel.numberOfAytExam}")
+                Text(text = "Ortalama Sınav Puanı: ${userModel.yksExamPoint}")
 
             }
         }
