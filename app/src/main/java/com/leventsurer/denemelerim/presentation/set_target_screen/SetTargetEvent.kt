@@ -6,4 +6,6 @@ sealed class SetTargetEvent{
 
     data class SetTarget(val university:String,val department:String,val userUid:String):SetTargetEvent()
 
+    object GetUniversitiesAndDepartment : SetTargetEvent()
+
 }

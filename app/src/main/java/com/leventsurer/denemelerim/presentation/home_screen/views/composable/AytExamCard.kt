@@ -236,7 +236,7 @@ fun AytExamCard(
 
 
 
-            IconButton(
+            /*IconButton(
 
                 modifier = Modifier
                     .weight(1f),
@@ -250,7 +250,7 @@ fun AytExamCard(
                     modifier = Modifier.fillMaxHeight(),
                     tint = PrimaryColor
                 )
-            }
+            }*/
         }
     }
 }

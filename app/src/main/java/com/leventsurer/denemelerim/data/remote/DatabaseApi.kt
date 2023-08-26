@@ -1,5 +1,6 @@
 package com.leventsurer.denemelerim.data.remote
 
+import android.content.Context
 import android.util.Log
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -10,6 +11,7 @@ import com.leventsurer.denemelerim.util.Constants.TARGET_DEPARTMENT
 import com.leventsurer.denemelerim.util.Constants.TARGET_UNIVERSITY
 import com.leventsurer.denemelerim.util.Constants.USER_COLLECTION
 import kotlinx.coroutines.tasks.await
+import java.io.IOException
 
 class DatabaseApi(private val database: FirebaseFirestore) {
 

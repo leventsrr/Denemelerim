@@ -1,6 +1,7 @@
 package com.leventsurer.denemelerim.presentation.profile_screen.views
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -23,11 +24,17 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -40,6 +47,9 @@ import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewM
 import com.leventsurer.denemelerim.presentation.login_screen.LoginViewModel
 import com.leventsurer.denemelerim.presentation.profile_screen.ProfileEvent
 import com.leventsurer.denemelerim.presentation.profile_screen.ProfileViewModel
+import com.leventsurer.denemelerim.presentation.set_target_screen.SetTargetEvent
+import com.leventsurer.denemelerim.presentation.set_target_screen.SetTargetState
+import com.leventsurer.denemelerim.presentation.set_target_screen.SetTargetViewModel
 import com.leventsurer.denemelerim.presentation.ui.Screen
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -49,12 +59,18 @@ fun ProfileScreen(
     dataStoreViewModel: DataStoreViewModel = hiltViewModel(),
     profileViewModel: ProfileViewModel = hiltViewModel(),
     authenticationViewModel: AuthenticationViewModel = hiltViewModel(),
+    setTargetViewModel: SetTargetViewModel = hiltViewModel(),
     navController: NavController
 ) {
     val state = profileViewModel.getUserProfileInfoState.value
-    profileViewModel.onEvent(
-        ProfileEvent.GetUserProfileInfo(dataStoreViewModel.getUserUidFromDataStore())
-    )
+    val changeTargetState = setTargetViewModel.setTargetState.value
+    var newTargetUniversity by remember{ mutableStateOf("") }
+    var newTargetDepartment by remember{ mutableStateOf("") }
+    LaunchedEffect(Unit) {
+        profileViewModel.onEvent(
+            ProfileEvent.GetUserProfileInfo(dataStoreViewModel.getUserUidFromDataStore())
+        )
+    }
 
     Scaffold(
         topBar = { MyTopAppBar("Profilim", navController = navController) },
@@ -112,11 +128,7 @@ fun ProfileScreen(
                     }
                 }
 
-                ElevatedButton(onClick = {
 
-                }) {
-                    Text(text = "aaa")
-                }
                 Card(
                     shape = RoundedCornerShape(20.dp),
                     colors = CardDefaults.cardColors(
@@ -145,11 +157,15 @@ fun ProfileScreen(
                         CustomSpinner(
                             spinnerTitle = "Hedef Üniversite",
                             listOfOptions = arrayListOf("Gazi", "ODTU", "itü"),
-                            onClick = {})
+                            onClick = {
+                                newTargetUniversity = it
+                            })
                         CustomSpinner(
                             spinnerTitle = "Hedef Bölüm",
                             listOfOptions = arrayListOf("Gazi", "ODTU", "itü"),
-                            onClick = {})
+                            onClick = {
+                                newTargetDepartment = it
+                            })
                     }
                 }
 
@@ -159,8 +175,25 @@ fun ProfileScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 10.dp),
-                        onClick = { /*TODO*/ }) {
-                        Text(text = "Değişiklikleri Kaydet")
+                        onClick = {
+                            setTargetViewModel.onEvent(
+                                SetTargetEvent.SetTarget(
+                                    newTargetUniversity,
+                                    newTargetDepartment,
+                                    dataStoreViewModel.getUserUidFromDataStore()
+                                )
+                            )
+                        }) {
+                        if(changeTargetState.isLoading){
+                            CircularProgressIndicator()
+                        }else if (changeTargetState.result == true){
+                            Toast.makeText(LocalContext.current,"Hedefiniz Güncellendi.Sonraki gelişinizde veriler güncellenecek.",Toast.LENGTH_LONG).show()
+                            Text(text = "Değişiklikleri Kaydet")
+                        }
+                        else{
+                            Text(text = "Değişiklikleri Kaydet")
+                        }
+
                     }
                     ElevatedButton(
                         modifier = Modifier

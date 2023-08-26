@@ -77,7 +77,7 @@ fun TytExamCard(
 
 
             }
-            IconButton(
+            /*IconButton(
 
                 modifier = Modifier
                     .weight(1f),
@@ -86,7 +86,7 @@ fun TytExamCard(
                 }
             ) {
                 Icon(imageVector = Icons.Default.Search, contentDescription = "", modifier = Modifier.fillMaxHeight(), tint = PrimaryColor)
-            }
+            }*/
         }
     }
 }

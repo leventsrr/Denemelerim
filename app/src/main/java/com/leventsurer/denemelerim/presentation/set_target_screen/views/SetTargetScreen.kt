@@ -1,5 +1,6 @@
 package com.leventsurer.denemelerim.presentation.set_target_screen.views
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -22,6 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.leventsurer.denemelerim.presentation.common.composable.CustomSpinner
 import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
+import com.leventsurer.denemelerim.presentation.common.database.DatabaseEvent
+import com.leventsurer.denemelerim.presentation.profile_screen.ProfileEvent
 import com.leventsurer.denemelerim.presentation.set_target_screen.SetTargetEvent
 import com.leventsurer.denemelerim.presentation.set_target_screen.SetTargetViewModel
 
@@ -38,7 +42,31 @@ fun SetTargetScreen(
         mutableStateOf(false)
     }
 
+    val universities = remember {
+        mutableStateListOf<String>()
+    }
+    val departments = remember {
+        mutableStateListOf<String>()
+    }
+    var universitiesArrayList= arrayListOf<String>()
+    var departmentsArrayList = arrayListOf<String>()
 
+
+
+    setTargetViewModel.onEvent(SetTargetEvent.GetUniversitiesAndDepartment)
+
+
+
+    val setTargetViewModelState = setTargetViewModel.universitiesAndDepartmentsState.value
+    if(setTargetViewModelState.universitiesAndDepartments!=null){
+        for (universitiesAndDepartments in setTargetViewModelState.universitiesAndDepartments){
+            universities.add(universitiesAndDepartments.universityName)
+            departments.add(universitiesAndDepartments.departmentName)
+        }
+        universitiesArrayList = ArrayList(universities)
+        departmentsArrayList = ArrayList(departments)
+
+    }
 
 
 
@@ -55,15 +83,23 @@ fun SetTargetScreen(
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(5.dp))
-        CustomSpinner(
-            spinnerTitle = "Hedef Üniversite",
-            listOfOptions = arrayListOf("Gazi", "İTÜ"),
-            onClick = { targetUniversity = it })
-        Spacer(modifier = Modifier.height(5.dp))
-        CustomSpinner(
-            spinnerTitle = "Hedef Bölüm",
-            listOfOptions = arrayListOf("Bilgisayar", "Makine", "Elektirik"),
-            onClick = { targetFaculty = it })
+        if(setTargetViewModelState.isLoading){
+            CircularProgressIndicator()
+        }else {
+            CustomSpinner(
+                spinnerTitle = "Hedef Üniversite",
+                listOfOptions = universitiesArrayList,
+                onClick = {
+                    targetUniversity = it
+                }
+            )
+            Spacer(modifier = Modifier.height(5.dp))
+            CustomSpinner(
+                spinnerTitle = "Hedef Bölüm",
+                listOfOptions = departmentsArrayList,
+                onClick = { targetFaculty = it })
+        }
+
         Spacer(modifier = Modifier.height(5.dp))
 
 

@@ -21,10 +21,7 @@ class DatabaseRepositoryImpl @Inject constructor(
     }
 
     override suspend fun addNewUser(userUid: String, user: UserModel){
-
-        Log.e("kontrol", "repoImpl")
         databaseApi.addNewUser(userUid, user)
-
     }
 
     override suspend fun getUserTytExam(userUid: String): ArrayList<NewTytExamModel>? {
