@@ -163,7 +163,8 @@ fun RegisterScreen(
                 if (state.user != null) {
                     databaseViewModel.onEvent(
                         DatabaseEvent.AddNewUser(
-                            state.user.uid
+                            state.user.uid,
+                            userName
                         )
                     )
                     dataStoreViewModel.putUserUidToDataStore(state.user.uid)

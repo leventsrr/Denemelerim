@@ -8,7 +8,7 @@ import com.leventsurer.denemelerim.data.remote.dto.UserModel
 interface DatabaseRepository {
 
     suspend fun setTarget(university:String,department:String,userUid:String)
-    suspend fun addNewUser(userUid:String,user: UserModel)
+    suspend fun addNewUser(userUid:String,user: UserModel,userName: String)
 
     suspend fun getUserTytExam(userUid: String):ArrayList<NewTytExamModel>?
     suspend fun getUserAytExam(userUid: String):ArrayList<NewAytExamModel>?
@@ -16,5 +16,7 @@ interface DatabaseRepository {
     suspend fun addAytExam(newAytExamModel: NewAytExamModel, userUid: String)
 
     suspend fun getUserProfileInfo(userUid: String):UserModel?
+
+
 
 }

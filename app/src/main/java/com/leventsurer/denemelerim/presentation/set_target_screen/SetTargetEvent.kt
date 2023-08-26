@@ -8,4 +8,5 @@ sealed class SetTargetEvent{
 
     object GetUniversitiesAndDepartment : SetTargetEvent()
 
+
 }

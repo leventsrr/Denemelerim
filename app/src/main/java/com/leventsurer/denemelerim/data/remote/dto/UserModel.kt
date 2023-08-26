@@ -10,6 +10,7 @@ data class UserModel(
     val targetDepartment:String= "",
     val targetUniversity:String= "",
     val totalAytPoints:Double= 0.0,
+
     val totalTytPoints:Double= 0.0,
     val tytExams:ArrayList<NewTytExamModel> = arrayListOf(),
     val userName:String= "",

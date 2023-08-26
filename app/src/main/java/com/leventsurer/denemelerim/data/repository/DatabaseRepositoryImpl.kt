@@ -20,8 +20,8 @@ class DatabaseRepositoryImpl @Inject constructor(
         databaseApi.setTarget(university, department, userUid)
     }
 
-    override suspend fun addNewUser(userUid: String, user: UserModel){
-        databaseApi.addNewUser(userUid, user)
+    override suspend fun addNewUser(userUid: String, user: UserModel,userName: String){
+        databaseApi.addNewUser(userUid, user,userName)
     }
 
     override suspend fun getUserTytExam(userUid: String): ArrayList<NewTytExamModel>? {
@@ -42,5 +42,8 @@ class DatabaseRepositoryImpl @Inject constructor(
     override suspend fun getUserProfileInfo(userUid: String): UserModel? {
         return databaseApi.getUserProfileInfo(userUid)
     }
+
+
+
 
 }

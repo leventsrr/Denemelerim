@@ -12,16 +12,6 @@ class AuthenticationApi(private val firebaseAuth: FirebaseAuth) {
 
     suspend fun signUp(userName:String,email:String,password:String):FirebaseUser{
         val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-        val profileUpdates = userProfileChangeRequest {
-            displayName = "Jane Q. User"
-
-        }
-        result.user.let {
-            result?.user?.updateProfile(
-                profileUpdates
-            )?.await()
-        }
-
         return result.user!!
     }
 
@@ -29,7 +19,7 @@ class AuthenticationApi(private val firebaseAuth: FirebaseAuth) {
         val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
         return result.user!!
     }
-
+    
     suspend fun logOut(){
         firebaseAuth.signOut()
     }

@@ -14,11 +14,16 @@ import kotlinx.coroutines.tasks.await
 import java.io.IOException
 
 class DatabaseApi(private val database: FirebaseFirestore) {
-
+    //Add new tyt exam and update user's totalTytQuantity and total Tyt point
     suspend fun addNewTytExam(newTytExamModel: NewTytExamModel, userUid: String) {
         try {
             database.collection(USER_COLLECTION).document(userUid)
                 .update("tytExams", FieldValue.arrayUnion(newTytExamModel)).await()
+            val user = database.collection(USER_COLLECTION).document(userUid).get().await()
+            val tytQuantity = user.toObject(UserModel::class.java)?.numberOfTytExam
+            val totalTytPoints = user.toObject(UserModel::class.java)?.totalTytPoints
+            database.collection(USER_COLLECTION).document(userUid).update("numberOfTytExam",tytQuantity!!.toInt()+1).await()
+            database.collection(USER_COLLECTION).document(userUid).update("totalTytPoints",totalTytPoints!!.toDouble()+newTytExamModel.totalPoint).await()
         } catch (e: java.lang.Exception) {
             Log.e("kontrol", e.message.toString())
         }
@@ -29,14 +34,20 @@ class DatabaseApi(private val database: FirebaseFirestore) {
         try {
             database.collection(USER_COLLECTION).document(userUid)
                 .update("aytExams", FieldValue.arrayUnion(newAytExamModel)).await()
+            val user = database.collection(USER_COLLECTION).document(userUid).get().await()
+            val aytQuantity = user.toObject(UserModel::class.java)?.numberOfTytExam
+            val totalAytPoints = user.toObject(UserModel::class.java)?.totalTytPoints
+            database.collection(USER_COLLECTION).document(userUid).update("numberOfTytExam",aytQuantity!!.toInt()+1).await()
+            //database.collection(USER_COLLECTION).document(userUid).update("totalTytPoints",totalAytPoints!!.toDouble()+newAytExamModel).await()
         } catch (e: java.lang.Exception) {
             Log.e("kontrol", e.message.toString())
         }
     }
 
-    suspend fun addNewUser(userUid: String, user: UserModel) {
+    suspend fun addNewUser(userUid: String, user: UserModel,userName: String) {
         try {
             database.collection(USER_COLLECTION).document(userUid).set(user).await()
+            database.collection(USER_COLLECTION).document(userUid).update("userName",userName).await()
         } catch (e: Exception) {
             Log.e("kontrol", e.message.toString())
         }
@@ -71,6 +82,10 @@ class DatabaseApi(private val database: FirebaseFirestore) {
             database.collection(USER_COLLECTION).document(userUid).get().await()
         return userDocumentSnapshot.toObject(UserModel::class.java)
     }
+
+
+
+
 
 
 }

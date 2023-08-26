@@ -6,6 +6,8 @@ import retrofit2.http.Query
 
 interface UniversitiesAndDepartmentsApi {
 
-    @GET("universitiesAnddepartments/main/universityAndDepartments.json")
+    @GET("universitiesAnddepartments/main/departments.txt")
     suspend fun getUniversitiesAndDepartments() : List<UniversitiesAndDepartmentsDto>
+
+
 }

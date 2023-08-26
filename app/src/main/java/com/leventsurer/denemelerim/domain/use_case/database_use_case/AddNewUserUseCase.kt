@@ -19,14 +19,12 @@ class AddNewUserUseCase @Inject constructor(private val databaseRepository: Data
         0.0, 0.0, arrayListOf<NewTytExamModel>(), "", 0.0,
     )
 
-    fun executeAddNewUser(userUid: String): Flow<Resource<Boolean>> = flow {
+    fun executeAddNewUser(userUid: String,userName:String): Flow<Resource<Boolean>> = flow {
         try {
-            Log.e("kontrol","addUserUseCase try")
             emit(Resource.Loading())
-            databaseRepository.addNewUser(userUid, user)
+            databaseRepository.addNewUser(userUid, user,userName)
             emit(Resource.Success(true))
         } catch (e: Exception) {
-            Log.e("kontrol","addUserUseCase catch")
             emit(Resource.Error(e.message.toString()))
         }
     }

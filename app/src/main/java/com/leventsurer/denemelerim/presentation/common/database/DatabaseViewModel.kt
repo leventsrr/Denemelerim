@@ -41,9 +41,9 @@ class DatabaseViewModel @Inject constructor(
     private var job: Job? = null
 
 
-    private fun addNewUser(userUid:String){
+    private fun addNewUser(userUid:String,userName:String){
         job?.cancel()
-        job = addNewUserUseCase.executeAddNewUser(userUid).onEach {
+        job = addNewUserUseCase.executeAddNewUser(userUid,userName).onEach {
             when(it){
                 is Resource.Loading->{
                     _addNewUserState.value = DatabaseState(isLoading = true)
@@ -102,7 +102,7 @@ class DatabaseViewModel @Inject constructor(
     fun onEvent(event: DatabaseEvent) {
         when (event) {
             is DatabaseEvent.AddNewUser -> {
-                addNewUser(event.userUid)
+                addNewUser(event.userUid,event.userName)
             }
 
             is DatabaseEvent.GetTytExams->{

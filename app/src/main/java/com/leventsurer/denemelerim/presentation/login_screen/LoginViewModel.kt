@@ -21,7 +21,6 @@ class LoginViewModel @Inject constructor(
 
     private var job : Job? = null
 
-
     private fun signIn(email:String,password:String){
         job?.cancel()
         job = signInUseCase.executeSignIn( email, password).onEach {

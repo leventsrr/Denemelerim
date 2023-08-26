@@ -1,9 +1,11 @@
 package com.leventsurer.denemelerim.presentation.register_screen
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.leventsurer.denemelerim.domain.repository.DataStoreRepository
 import com.leventsurer.denemelerim.domain.use_case.signUp.SignUpUseCase
 import com.leventsurer.denemelerim.util.Resource
@@ -13,6 +15,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 
@@ -33,6 +36,8 @@ class RegisterViewModel @Inject constructor(
             when(it){
                 is Resource.Success ->{
                     _state.value = RegisterState(user = it.data)
+                        Log.e("kontrol","değer atandı")
+
                 }
                 is Resource.Error->{
                     _state.value = RegisterState(error = it.message ?: "Error")

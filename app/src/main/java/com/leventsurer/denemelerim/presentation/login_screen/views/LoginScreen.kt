@@ -159,7 +159,7 @@ fun LoginScreen(
                     } else if (state.error != "") {
                         Toast.makeText(LocalContext.current, state.error, Toast.LENGTH_LONG).show()
                     } else {
-                        Text(text = dataStoreViewModel.getIsFirstLoginInfo().toString())
+                        Text(text = "Giriş Yap")
                     }
 
                 }

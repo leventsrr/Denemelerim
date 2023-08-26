@@ -66,11 +66,16 @@ fun ProfileScreen(
     val changeTargetState = setTargetViewModel.setTargetState.value
     var newTargetUniversity by remember{ mutableStateOf("") }
     var newTargetDepartment by remember{ mutableStateOf("") }
+
+
+
     LaunchedEffect(Unit) {
         profileViewModel.onEvent(
             ProfileEvent.GetUserProfileInfo(dataStoreViewModel.getUserUidFromDataStore())
         )
     }
+
+
 
     Scaffold(
         topBar = { MyTopAppBar("Profilim", navController = navController) },
@@ -89,7 +94,6 @@ fun ProfileScreen(
                         .fillMaxWidth()
                         .padding(top = 10.dp, start = 10.dp, end = 10.dp)
                 ) {
-
 
                     Card(
                         shape = RoundedCornerShape(20.dp),
@@ -123,10 +127,10 @@ fun ProfileScreen(
                                 Text(text = "Hedef Üniversite: ${state.result.targetUniversity}")
                                 Text(text = "Hedef Bölüm: ${state.result.targetDepartment}")
                             }
-
                         }
                     }
                 }
+
 
 
                 Card(
@@ -168,7 +172,6 @@ fun ProfileScreen(
                             })
                     }
                 }
-
 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     ElevatedButton(
