@@ -25,7 +25,6 @@ class GetUniversitiesAndDepartmentsUseCase @Inject constructor(private val getUn
 
                 emit(Resource.Loading())
                 val result = getUniversitiesAndDepartmentsRepository.getUniversitiesAndDepartments()
-                Log.e("kontrol", "GetUniversitiesAndDepartmentsUseCase: $result")
                 val universitiesAndDepartmentsModels =
                     arrayListOf<UniversitiesAndDepartmentsModel>()
                 for (universityAndDepartment in result) {
@@ -36,11 +35,9 @@ class GetUniversitiesAndDepartmentsUseCase @Inject constructor(private val getUn
                         )
                     )
                 }
-                Log.e("kontrol", "uniAndDepart: $result")
 
                 emit(Resource.Success(universitiesAndDepartmentsModels))
             } catch (e: Exception) {
-                Log.e("kontrol", "uniAndDepart catch")
                 emit(Resource.Error(e.message.toString()))
             }
         }

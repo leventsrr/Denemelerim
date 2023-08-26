@@ -34,7 +34,6 @@ class AddExamViewModel @Inject constructor(
         job = addTytExamUseCase.executeAddTytExam(newTytExam,userUid).onEach {
             when (it) {
                 is Resource.Success -> {
-                    Log.e("kontrol","viewmmodel success")
                     _state.value = AddExamState(result = true)
                 }
 

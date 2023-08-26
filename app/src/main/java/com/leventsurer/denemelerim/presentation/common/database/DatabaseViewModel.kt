@@ -86,7 +86,6 @@ class DatabaseViewModel @Inject constructor(
                     _getAytExamsState.value = DatabaseState(isLoading = true)
                 }
                 is Resource.Success->{
-                    Log.e("kontrol",it.data.toString())
                     _getAytExamsState.value = DatabaseState(aytExams = it.data, isLoading = false)
                 }
 

@@ -54,15 +54,12 @@ class SetTargetViewModel @Inject constructor(
         job = getUniversitiesAndDepartmentsUseCase.executeGetUniversitiesAndDepartments().onEach {
             when(it){
                 is Resource.Loading->{
-                    Log.e("kontrol","uniAndDepart loading")
                     _universitiesAndDepartmentsState.value = SetTargetState(isLoading = true)
                 }
                 is Resource.Success->{
-                    Log.e("kontrol","uniAndDepart success:${it.data}")
                     _universitiesAndDepartmentsState.value = SetTargetState(result = true,universitiesAndDepartments = it.data, isLoading = false)
                 }
                 is Resource.Error->{
-                    Log.e("kontrol","uniAndDepart error:${it.message}")
                     _universitiesAndDepartmentsState.value = SetTargetState(error = it.message.toString())
                 }
             }

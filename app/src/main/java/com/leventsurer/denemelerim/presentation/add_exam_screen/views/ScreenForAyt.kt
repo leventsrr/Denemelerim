@@ -253,7 +253,6 @@ fun ScreenForAyt(
 
             }) {
             if(state.isLoading){
-                Log.e("kontrol","else if içinde")
                 CircularProgressIndicator(modifier = Modifier.height(5.dp))
             }else if (state.error !=null){
                 Text(text = "!! ${state.error} !!")

@@ -1,5 +1,6 @@
 package com.leventsurer.denemelerim.domain.use_case.leaderboard_use_case
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseUser
 import com.leventsurer.denemelerim.data.remote.dto.UserModel
 import com.leventsurer.denemelerim.domain.repository.AuthenticationRepository

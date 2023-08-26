@@ -19,12 +19,17 @@ class GetUserProfileInfoUseCase @Inject constructor(private val databaseReposito
 
     fun executeGetUserProfileInfo(userUid: String): Flow<Resource<UserProfileInfoModel>> = flow {
         emit(Resource.Loading())
-        val result = databaseRepository.getUserProfileInfo(userUid)
-        if(result!=null){
-            emit(Resource.Success(result.toUserProfileInfoModel()))
-        }else{
-            emit(Resource.Error("true"))
+        try {
+            val result = databaseRepository.getUserProfileInfo(userUid)
+            if(result!=null){
+                emit(Resource.Success(result.toUserProfileInfoModel()))
+            }else{
+                emit(Resource.Error("true"))
+            }
+        }catch (e:Exception){
+            emit(Resource.Error(e.message.toString()))
         }
+
 
 
     }

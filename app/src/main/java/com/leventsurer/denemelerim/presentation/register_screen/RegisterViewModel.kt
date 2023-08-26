@@ -36,8 +36,6 @@ class RegisterViewModel @Inject constructor(
             when(it){
                 is Resource.Success ->{
                     _state.value = RegisterState(user = it.data)
-                        Log.e("kontrol","değer atandı")
-
                 }
                 is Resource.Error->{
                     _state.value = RegisterState(error = it.message ?: "Error")

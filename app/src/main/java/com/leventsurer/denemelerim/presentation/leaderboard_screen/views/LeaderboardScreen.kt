@@ -1,6 +1,8 @@
 package com.leventsurer.denemelerim.presentation.leaderboard_screen.views
 
 import android.annotation.SuppressLint
+import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -52,14 +54,8 @@ fun LeaderboardScreen(
 ) {
 
     val leaderboardState = leaderboardViewModel.leaderboardState.value
-    var universityName by remember {
-        mutableStateOf("")
-    }
-    var departmentName by remember {
-        mutableStateOf("")
-    }
-    var users = arrayListOf<UserModel>()
-    var profileState = profileViewModel.getUserProfileInfoState.value
+    val users = arrayListOf<UserModel>()
+    val profileState = profileViewModel.getUserProfileInfoState.value
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.data))
 
     LaunchedEffect(Unit) {
@@ -68,10 +64,7 @@ fun LeaderboardScreen(
                 datastoreViewModel.getUserUidFromDataStore()
             )
         )
-
     }
-
-
 
 
     Scaffold(
@@ -91,39 +84,41 @@ fun LeaderboardScreen(
                     )
                 } else if (profileState.result != null) {
 
-                    leaderboardViewModel.onEvent(
-                        LeaderboardEvent.GetUsersToLeaderboard(
-                            profileState.result!!.targetUniversity,
-                            profileState.result!!.targetDepartment
-                        )
-                    )
-
-                    if (leaderboardState.users != null) {
-                        users.addAll(leaderboardState.users)
-                    }
-
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
                         Text(
-                            text = profileState.result!!.targetUniversity,
+                            text = profileState.result.targetUniversity,
                             fontWeight = FontWeight.ExtraBold,
                             color = PrimaryColor,
                             fontSize = 30.sp
                         )
                         Text(
-                            text = profileState.result!!.targetDepartment,
+                            text = profileState.result.targetDepartment,
                             fontWeight = FontWeight.Bold,
                             color = fourthColor,
                             fontSize = 25.sp
                         )
+                    }
 
 
                 }
-                if (users.isEmpty()) {
-                    Text(
-                        text = "Burayı hedefleyen kimse bulunmuyor.",
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center
-                    )
-                } else {
+                if(profileState.result!=null){
+                        LaunchedEffect(Unit ){
+                            leaderboardViewModel.onEvent(
+                                LeaderboardEvent.GetUsersToLeaderboard(
+                                    profileState.result.targetUniversity,
+                                    profileState.result.targetDepartment
+                                )
+                            )
+                        }
+
+                }
+                if(leaderboardState.isLoading){
+                    CircularProgressIndicator()
+                }else if(leaderboardState.users !=null){
                     LazyColumn() {
                         items(users.size) { index ->
                             RankingCard(rank = index + 1, users[index])

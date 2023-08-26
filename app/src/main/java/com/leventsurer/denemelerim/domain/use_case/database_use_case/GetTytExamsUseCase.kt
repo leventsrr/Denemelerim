@@ -20,7 +20,6 @@ class GetTytExamsUseCase @Inject constructor(private val databaseRepository: Dat
             if(result!=null){
                 emit(Resource.Success(result))
             }else{
-                Log.e("kontrol",    "use case else içi")
                 emit(Resource.Error("true"))
             }
 

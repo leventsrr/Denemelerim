@@ -31,18 +31,15 @@ class LeaderboardViewModel @Inject constructor(private val leaderboardUseCase: G
             when(it){
                 is Resource.Success ->{
                     _leaderboardState.value = LeaderboardState(users = it.data, isLoading = false)
-                    Log.e("kontrol","leaderboard geldi ${it.data}")
                 }
                 is Resource.Error->{
                     _leaderboardState.value = LeaderboardState(error = it.message ?: "Error")
-                    Log.e("kontrol","leaderboard error ${it.message}")
                 }
                 is Resource.Loading->{
                     _leaderboardState.value = LeaderboardState(isLoading = true)
                 }
             }
         }.launchIn(viewModelScope)
-        job?.cancel()
     }
 
 

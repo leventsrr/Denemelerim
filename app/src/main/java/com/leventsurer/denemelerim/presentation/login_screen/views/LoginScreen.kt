@@ -62,7 +62,6 @@ fun LoginScreen(
     val state = loginViewModel.state.value
 
     if(dataStoreViewModel.getIsFirstLoginInfo() == true){
-        Log.e("kontrol","isFirstLogin true")
         LaunchedEffect(Unit) {
             navigateToHomeScreen()
         }

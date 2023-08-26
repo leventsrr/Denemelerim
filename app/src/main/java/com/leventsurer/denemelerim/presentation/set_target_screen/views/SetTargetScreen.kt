@@ -160,7 +160,6 @@ fun SetTargetScreen(
                 showDialog = showDialog.value,
                 options = universitiesOrDepartmentArrayList,
                 onDismiss = {
-                    Log.e("kontrol", "onDismiss")
                     showDialog.value = false
                     isRequestNeccessary = false
 
