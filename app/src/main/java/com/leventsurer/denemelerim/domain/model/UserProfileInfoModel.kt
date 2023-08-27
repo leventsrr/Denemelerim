@@ -8,7 +8,9 @@ data class UserProfileInfoModel(
     val averageVerbalPoint:Double,
     val averageEqualWeightPoint:Double,
     val averageNumericalPoint:Double,
-    val averageYksPoint:Double,
+    val numericalYksPoint:Double,
+    val equalWeightYksPoint:Double,
+    val verbalYksPoint:Double,
     val targetUniversity:String,
     val targetDepartment:String
 )

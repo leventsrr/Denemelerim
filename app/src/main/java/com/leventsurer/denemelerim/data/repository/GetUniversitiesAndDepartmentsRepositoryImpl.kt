@@ -11,4 +11,21 @@ class GetUniversitiesAndDepartmentsRepositoryImpl @Inject constructor(
     override suspend fun getUniversitiesAndDepartments(): List<UniversitiesAndDepartmentsDto> {
         return universitiesAndDepartmentsApi.getUniversitiesAndDepartments()
     }
+
+    override suspend fun getUniversitiesAndDepartmentPointType(
+        universityName: String,
+        departmentName: String
+    ): String {
+
+        val universitiesAndDepartment=  universitiesAndDepartmentsApi.getUniversitiesAndDepartments()
+        val filteredPointType:String
+        for(universityAndDepartment in universitiesAndDepartment){
+            if(universityName == universityAndDepartment.university && departmentName == universityAndDepartment.name){
+                filteredPointType = universityAndDepartment.point_type
+                return filteredPointType
+            }
+        }
+
+       return ""
+    }
 }

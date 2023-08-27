@@ -63,6 +63,7 @@ class AddAytExamUseCase @Inject constructor(private val databaseRepository: Data
         newAytExamModel.geographyForSocialNet = geographyForSocialTotalNet
         newAytExamModel.philosophyNet = philosophyTotalNet
         newAytExamModel.religionNet = religionTotalNet
+
         newAytExamModel.numericalPoint =
             mathTotalNet * 3.0 + physicsTotalNet * 2.85 + chemistryTotalNet * 3.07 + biologyTotalNet * 3.07 + 100.0
         newAytExamModel.equalWeightPoint =

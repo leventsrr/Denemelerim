@@ -1,5 +1,6 @@
 package com.leventsurer.denemelerim.presentation.leaderboard_screen.composable
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +24,8 @@ import com.leventsurer.denemelerim.presentation.ui.theme.thirdColor
 
 @Composable
 fun RankingCard(rank:Int,userModel: UserModel) {
+
+
     val backgroundColor = when (rank) {
         1 -> {
             goldColor
@@ -39,10 +42,8 @@ fun RankingCard(rank:Int,userModel: UserModel) {
     }
     Card(
         colors = CardDefaults.cardColors(backgroundColor),
-        //border = BorderStroke(borderStroke,backgroundColor),
         shape = RoundedCornerShape(20.dp),
         elevation = CardDefaults.cardElevation(
-
             defaultElevation = 10.dp
         ),
         modifier = Modifier
@@ -50,16 +51,13 @@ fun RankingCard(rank:Int,userModel: UserModel) {
             .padding(horizontal = 10.dp, vertical = 10.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(10.dp)) {
-
-            Text(text = rank.toString(), textAlign = TextAlign.Center,modifier = Modifier.weight(1f), fontWeight = FontWeight.Bold, )
-
+            Text(text = rank.toString(), textAlign = TextAlign.Center,modifier = Modifier.weight(1f), fontWeight = FontWeight.Bold )
             Column(modifier = Modifier.weight(6f)) {
-
                 Text(text = userModel.userName, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center,fontSize = 20.sp, fontWeight = FontWeight.ExtraBold)
-
-
                 Text(text = "Deneme Sayısı: ${userModel.numberOfAytExam}")
-                Text(text = "Ortalama Sınav Puanı: ${userModel.yksExamPoint}")
+                Text(text = "Ortalama Sayısal Sınav Puanı: ${userModel.numericalYksExamPoint}")
+                Text(text = "Ortalama Eşit Ağırlık Sınav Puanı: ${userModel.equalWeightYksExamPoint}")
+                Text(text = "Ortalama Sözel Sınav Puanı: ${userModel.verbalYksExamPoint}")
 
             }
         }

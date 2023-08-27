@@ -15,7 +15,9 @@ data class UserModel(
     val totalVerbalPoints: Double = 0.0,
     val tytExams: ArrayList<NewTytExamModel> = arrayListOf(),
     val userName: String = "",
-    val yksExamPoint: Double = 0.0
+    val numericalYksExamPoint: Double = 0.0,
+    val equalWeightYksExamPoint: Double = 0.0,
+    val verbalYksExamPoint: Double = 0.0
 
 )
 
@@ -29,7 +31,9 @@ fun UserModel.toUserProfileInfoModel(): UserProfileInfoModel {
         totalVerbalPoints / numberOfAytExam,
         totalEqualWeightPoints / numberOfAytExam,
         totalNumericalPoints / numberOfAytExam,
-        yksExamPoint,
+        numericalYksExamPoint,
+        equalWeightYksExamPoint,
+        verbalYksExamPoint,
         targetUniversity,
         targetDepartment
     )

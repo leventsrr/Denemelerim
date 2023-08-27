@@ -10,6 +10,7 @@ import com.leventsurer.denemelerim.data.remote.dto.UserModel
 import com.leventsurer.denemelerim.util.Constants.TARGET_DEPARTMENT
 import com.leventsurer.denemelerim.util.Constants.TARGET_UNIVERSITY
 import com.leventsurer.denemelerim.util.Constants.USER_COLLECTION
+import com.leventsurer.denemelerim.util.enums.PointType
 import kotlinx.coroutines.tasks.await
 
 class DatabaseApi(private val database: FirebaseFirestore) {
@@ -37,21 +38,65 @@ class DatabaseApi(private val database: FirebaseFirestore) {
             database.collection(USER_COLLECTION).document(userUid)
                 .update("aytExams", FieldValue.arrayUnion(newAytExamModel)).await()
             val user = database.collection(USER_COLLECTION).document(userUid).get().await()
+                .toObject(UserModel::class.java)
 
-            val aytQuantity = user.toObject(UserModel::class.java)?.numberOfAytExam
-            database.collection(USER_COLLECTION).document(userUid).update("numberOfAytExam", aytQuantity!!.toInt() + 1).await()
-
-            val totalEqualWeightPoints = user.toObject(UserModel::class.java)?.totalEqualWeightPoints
+            val aytQuantity = user?.numberOfAytExam
             database.collection(USER_COLLECTION).document(userUid)
-                .update("totalEqualWeightPoints", totalEqualWeightPoints!!.toDouble() + newAytExamModel.equalWeightPoint).await()
+                .update("numberOfAytExam", aytQuantity!!.toInt() + 1).await()
 
-            val totalNumericalPoints = user.toObject(UserModel::class.java)?.totalNumericalPoints
+            val totalEqualWeightPoints = user.totalEqualWeightPoints
             database.collection(USER_COLLECTION).document(userUid)
-                .update("totalNumericalPoints", totalNumericalPoints!!.toDouble() + newAytExamModel.numericalPoint).await()
+                .update(
+                    "totalEqualWeightPoints",
+                    totalEqualWeightPoints + newAytExamModel.equalWeightPoint
+                ).await()
 
-            val totalVerbalPoints = user.toObject(UserModel::class.java)?.totalVerbalPoints
+            val totalNumericalPoints = user.totalNumericalPoints
             database.collection(USER_COLLECTION).document(userUid)
-                .update("totalVerbalPoints", totalVerbalPoints!!.toDouble() + newAytExamModel.verbalPoint).await()
+                .update(
+                    "totalNumericalPoints",
+                    totalNumericalPoints + newAytExamModel.numericalPoint
+                ).await()
+
+            val totalVerbalPoints = user.totalVerbalPoints
+            database.collection(USER_COLLECTION).document(userUid)
+                .update("totalVerbalPoints", totalVerbalPoints + newAytExamModel.verbalPoint)
+                .await()
+
+
+            val newTotalNumericalPoint =
+                database.collection(USER_COLLECTION).document(userUid).get().await()
+                    .toObject(UserModel::class.java)?.totalNumericalPoints
+            val newTotalEqualWeightPoint =
+                database.collection(USER_COLLECTION).document(userUid).get().await()
+                    .toObject(UserModel::class.java)?.totalEqualWeightPoints
+            val newTotalVerbalPoint =
+                database.collection(USER_COLLECTION).document(userUid).get().await()
+                    .toObject(UserModel::class.java)?.totalVerbalPoints
+            val newAytQuantity =
+                database.collection(USER_COLLECTION).document(userUid).get().await()
+                    .toObject(UserModel::class.java)?.numberOfAytExam
+
+            val numericalYksExamPoint =
+                (newTotalNumericalPoint!!.toDouble() / newAytQuantity!!.toDouble()) * (6.0 / 10.0)
+            +(user.totalTytPoints / user.numberOfTytExam.toDouble()) * (4.0 / 10.0)
+
+            database.collection(USER_COLLECTION).document(userUid)
+                .update("numericalYksExamPoint", numericalYksExamPoint).await()
+
+            val equalWeightYksExamPoint =
+                (newTotalEqualWeightPoint!!.toDouble() / newAytQuantity.toDouble()) * (6.0 / 10.0)
+            +(user.totalTytPoints / user.numberOfTytExam.toDouble()) * (4.0 / 10.0)
+            Log.e("kontrol","equal:${equalWeightYksExamPoint}")
+            database.collection(USER_COLLECTION).document(userUid)
+                .update("equalWeightYksExamPoint", equalWeightYksExamPoint).await()
+
+            val verbalYksExamPoint =
+                (newTotalVerbalPoint!!.toDouble() / newAytQuantity.toDouble()) * (6.0 / 10.0)
+            +(user.totalTytPoints / user.numberOfTytExam.toDouble()) * (4.0 / 10.0)
+            Log.e("kontrol","verbalYksExamPoint:${verbalYksExamPoint}")
+            database.collection(USER_COLLECTION).document(userUid)
+                .update("verbalYksExamPoint", verbalYksExamPoint).await()
 
         } catch (e: java.lang.Exception) {
             Log.e("kontrol", e.message.toString())
@@ -100,15 +145,34 @@ class DatabaseApi(private val database: FirebaseFirestore) {
 
     suspend fun getUsersToLeaderboard(
         universityName: String,
-        departmentName: String
+        departmentName: String,
+        pointType: String
     ): List<UserModel> {
+        val filterQuery: String
+        when (pointType) {
+            PointType.EQUAL_WEIGHT.pointType -> {
+                filterQuery = "equalWeightYksExamPoint"
+            }
+
+            PointType.NUMERICAL.pointType -> {
+                filterQuery = "numericalYksExamPoint"
+            }
+
+            PointType.VERBAL.pointType -> {
+                filterQuery = "verbalYksExamPoint"
+            }
+
+            else -> {
+                filterQuery = ""
+            }
+        }
         val usersQuerySnapShot =
             database.collection(USER_COLLECTION).whereEqualTo("targetUniversity", universityName)
                 .whereEqualTo("targetDepartment", departmentName).orderBy(
-                    "yksExamPoint",
+                    filterQuery,
                     Query.Direction.DESCENDING
                 ).get().await()
-
+        Log.e("kontrol","DatabaseApi size:${usersQuerySnapShot.documents.size}")
         return usersQuerySnapShot.map { it.toObject(UserModel::class.java) }
     }
 

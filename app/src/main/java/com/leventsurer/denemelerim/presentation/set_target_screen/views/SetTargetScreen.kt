@@ -42,24 +42,13 @@ fun SetTargetScreen(
 
     var targetUniversity by remember { mutableStateOf("") }
     var targetDepartment by remember { mutableStateOf("") }
-    var isErrorVisible by remember {
-        mutableStateOf(false)
-    }
-    val showDialog = remember {
-        mutableStateOf(false)
-    }
-    val isLoading by remember {
-        mutableStateOf(false)
-    }
-
-    var isRequestNeccessary by remember {
-        mutableStateOf(true)
-    }
-
-    var isChoosingUniversity by remember {
-        mutableStateOf(true)
-    }
+    var isErrorVisible by remember { mutableStateOf(false) }
+    val showDialog = remember {mutableStateOf(false) }
+    val isLoading by remember { mutableStateOf(false) }
+    var isRequestNeccessary by remember {mutableStateOf(true) }
+    var isChoosingUniversity by remember {mutableStateOf(true) }
     val universitiesOrDepartmentArrayList = arrayListOf<String>()
+
     val universitiesAndDepartmentsState =
         setTargetViewModel.universitiesAndDepartmentsState.value
 
@@ -129,7 +118,7 @@ fun SetTargetScreen(
         }
 
 
-        if(universitiesAndDepartmentsState.isLoading){
+        if (universitiesAndDepartmentsState.isLoading) {
             CircularProgressIndicator()
         }
 
@@ -165,9 +154,9 @@ fun SetTargetScreen(
 
                 },
                 onItemClick = { selectedItem ->
-                    if(isChoosingUniversity){
+                    if (isChoosingUniversity) {
                         targetUniversity = selectedItem
-                    }else{
+                    } else {
                         targetDepartment = selectedItem
                     }
                     showDialog.value = false

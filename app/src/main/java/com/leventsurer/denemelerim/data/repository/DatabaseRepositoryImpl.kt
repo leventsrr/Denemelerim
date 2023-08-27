@@ -45,9 +45,10 @@ class DatabaseRepositoryImpl @Inject constructor(
 
     override suspend fun getUsersToLeaderboard(
         universityName: String,
-        departmentName: String
+        departmentName: String,
+        pointType:String
     ): List<UserModel> {
-        return databaseApi.getUsersToLeaderboard(universityName, departmentName)
+        return databaseApi.getUsersToLeaderboard(universityName, departmentName,pointType)
     }
 
 

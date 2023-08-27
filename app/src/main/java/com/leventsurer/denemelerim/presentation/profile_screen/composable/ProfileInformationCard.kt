@@ -74,8 +74,14 @@ fun ProfileInformationCard(state: ProfileState){
                 Divider(modifier = Modifier.height(1.dp))
                 Text(text = "Ortalama Sözel AYT Puanı: ${state.result.averageVerbalPoint}")
                 Divider(modifier = Modifier.height(1.dp))
-                Text(text = "Ortalama YKS Puanı: ${state.result.averageYksPoint}")
+
+                Text(text = "Ortalama Sayısal YKS Puanı: ${state.result.numericalYksPoint}")
                 Divider(modifier = Modifier.height(1.dp))
+                Text(text = "Ortalama Eşit Ağırlık YKS Puanı: ${state.result.equalWeightYksPoint}")
+                Divider(modifier = Modifier.height(1.dp))
+                Text(text = "Ortalama Sözel YKS Puanı: ${state.result.verbalYksPoint}")
+                Divider(modifier = Modifier.height(1.dp))
+
                 Text(text = "Hedef Üniversite: ${state.result.targetUniversity}")
                 Divider(modifier = Modifier.height(1.dp))
                 Text(text = "Hedef Bölüm: ${state.result.targetDepartment}")

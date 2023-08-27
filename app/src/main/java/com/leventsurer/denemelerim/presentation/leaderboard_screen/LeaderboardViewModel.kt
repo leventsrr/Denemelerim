@@ -30,6 +30,7 @@ class LeaderboardViewModel @Inject constructor(private val leaderboardUseCase: G
         job = leaderboardUseCase.getUsersToLeaderboard( universityName, departmentName).onEach {
             when(it){
                 is Resource.Success ->{
+                    Log.e("kontrol","vm users:${it.data}")
                     _leaderboardState.value = LeaderboardState(users = it.data, isLoading = false)
                 }
                 is Resource.Error->{

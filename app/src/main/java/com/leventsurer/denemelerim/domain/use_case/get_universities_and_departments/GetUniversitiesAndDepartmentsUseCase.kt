@@ -31,7 +31,8 @@ class GetUniversitiesAndDepartmentsUseCase @Inject constructor(private val getUn
                     universitiesAndDepartmentsModels.add(
                         UniversitiesAndDepartmentsModel(
                             universityName = universityAndDepartment.university,
-                            departmentName = universityAndDepartment.name
+                            departmentName = universityAndDepartment.name,
+                            point_type = universityAndDepartment.point_type
                         )
                     )
                 }

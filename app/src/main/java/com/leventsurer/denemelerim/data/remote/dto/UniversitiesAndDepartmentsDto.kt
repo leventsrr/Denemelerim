@@ -19,5 +19,5 @@ data class UniversitiesAndDepartmentsDto(
 
 
 fun UniversitiesAndDepartmentsDto.toUniversitiesAndDepartmentsModel() : UniversitiesAndDepartmentsModel {
-    return UniversitiesAndDepartmentsModel(universityName = university, departmentName = name)
+    return UniversitiesAndDepartmentsModel(universityName = university, departmentName = name,point_type=point_type)
 }

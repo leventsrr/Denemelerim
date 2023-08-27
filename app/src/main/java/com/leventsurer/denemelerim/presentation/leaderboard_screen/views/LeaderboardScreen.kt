@@ -119,9 +119,11 @@ fun LeaderboardScreen(
                 if(leaderboardState.isLoading){
                     CircularProgressIndicator()
                 }else if(leaderboardState.users !=null){
+                    users.addAll(leaderboardState.users)
+                    Log.e("kontrol","users:${users}")
                     LazyColumn() {
                         items(users.size) { index ->
-                            RankingCard(rank = index + 1, users[index])
+                            RankingCard(rank = index + 1, userModel = users[index])
                         }
                     }
                 }
