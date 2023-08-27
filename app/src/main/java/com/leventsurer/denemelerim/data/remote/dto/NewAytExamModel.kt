@@ -7,9 +7,11 @@ import com.google.firebase.firestore.ServerTimestamp
 data class NewAytExamModel(
     val examName :String = "",
     val aboutExam:String = "",
+
     val mathCorrect: Int = 0,
     val mathFalse: Int = 0,
     var mathNet:Double=0.0,
+
     val physicsCorrect:Int = 0,
     val physicsFalse:Int = 0,
     var physicsNet:Double=0.0,
@@ -53,6 +55,10 @@ data class NewAytExamModel(
     var numericalPoint:Double = 0.0,
     var equalWeightPoint:Double = 0.0,
     var verbalPoint:Double = 0.0,
+
+    var numericalTotalNet:Double = 0.0,
+    var equalWeightTotalNet:Double = 0.0,
+    var verbalTotalNet:Double = 0.0,
     @ServerTimestamp
     val examDate: Timestamp = Timestamp.now()
 )

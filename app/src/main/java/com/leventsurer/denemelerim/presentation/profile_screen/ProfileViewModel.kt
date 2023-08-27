@@ -47,12 +47,33 @@ class ProfileViewModel @Inject constructor(private val getUserProfileInfoUseCase
         }.launchIn(viewModelScope)
     }
 
+    private fun getUserProfileExam(userUid: String){
+        job?.cancel()
+        job = getUserProfileInfoUseCase.executeGetUserProfileForExamList(userUid).onEach {
+            when(it){
+                is Resource.Loading->{
+                    _getUserProfileInfoState.value = ProfileState(isLoading = true)
+                }
+                is Resource.Success->{
+                    _getUserProfileInfoState.value = ProfileState(resultWithExam = it.data, isLoading = false)
+                }
+
+                is Resource.Error-> {
+                    _getUserProfileInfoState.value = ProfileState(error = it.message.toString(), isLoading = false)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
 
 
     fun onEvent(event: ProfileEvent) {
         when (event) {
             is ProfileEvent.GetUserProfileInfo -> {
                 getUserProfileInfo( event.userUid)
+            }
+            is ProfileEvent.GetUserProfileExam->{
+                getUserProfileExam(event.userUid)
             }
         }
     }

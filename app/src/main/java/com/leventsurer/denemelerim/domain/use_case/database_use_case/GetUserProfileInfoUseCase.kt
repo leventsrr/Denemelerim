@@ -2,7 +2,9 @@ package com.leventsurer.denemelerim.domain.use_case.database_use_case
 
 import android.util.Log
 import com.leventsurer.denemelerim.data.remote.dto.NewTytExamModel
+import com.leventsurer.denemelerim.data.remote.dto.toUserProfileExamModel
 import com.leventsurer.denemelerim.data.remote.dto.toUserProfileInfoModel
+import com.leventsurer.denemelerim.domain.model.UserProfileExamModel
 import com.leventsurer.denemelerim.domain.model.UserProfileInfoModel
 import com.leventsurer.denemelerim.domain.repository.DatabaseRepository
 import com.leventsurer.denemelerim.util.Resource
@@ -29,9 +31,25 @@ class GetUserProfileInfoUseCase @Inject constructor(private val databaseReposito
         }catch (e:Exception){
             emit(Resource.Error(e.message.toString()))
         }
-
-
-
     }
+
+
+    fun executeGetUserProfileForExamList(userUid: String): Flow<Resource<UserProfileExamModel>> = flow {
+        emit(Resource.Loading())
+        try {
+            val result = databaseRepository.getUserProfileInfo(userUid)
+            if(result!=null){
+                Log.e("kontrol","viewModel ${result.aytEqualWeightNetList}")
+                emit(Resource.Success(result.toUserProfileExamModel()))
+            }else{
+                emit(Resource.Error("true"))
+            }
+        }catch (e:Exception){
+            emit(Resource.Error(e.message.toString()))
+        }
+    }
+
+
+
 
 }

@@ -1,5 +1,6 @@
 package com.leventsurer.denemelerim.domain.use_case.add_tyt_exam
 
+import android.util.Log
 import com.leventsurer.denemelerim.data.remote.dto.NewTytExamModel
 import com.leventsurer.denemelerim.domain.repository.DatabaseRepository
 import com.leventsurer.denemelerim.util.Resource
@@ -18,6 +19,7 @@ class AddTytExamUseCase @Inject constructor(private val databaseRepository: Data
 
             try {
                 emit(Resource.Loading())
+                Log.e("kontrol","net:${tytExam.totalNet}")
                 databaseRepository.addTytExam(tytExam,userUid)
                 emit(Resource.Success(""))
             } catch (e: Exception) {

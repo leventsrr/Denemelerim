@@ -11,14 +11,17 @@ import javax.inject.Inject
 class AddAytExamUseCase @Inject constructor(private val databaseRepository: DatabaseRepository) {
 
 
-    fun executeAddAytExam(newAytExamModel: NewAytExamModel, userUid:String): Flow<Resource<String>> = flow {
+    fun executeAddAytExam(
+        newAytExamModel: NewAytExamModel,
+        userUid: String
+    ): Flow<Resource<String>> = flow {
 
         val errorMessage = controlInputValues(newAytExamModel = newAytExamModel)
         if (errorMessage == null) {
             try {
 
                 emit(Resource.Loading())
-                databaseRepository.addAytExam(calculateExamPoint(newAytExamModel),userUid)
+                databaseRepository.addAytExam(calculateExamPoint(newAytExamModel), userUid)
                 emit(Resource.Success(""))
             } catch (e: Exception) {
                 emit(Resource.Error(e.message.toString()))
@@ -66,11 +69,18 @@ class AddAytExamUseCase @Inject constructor(private val databaseRepository: Data
 
         newAytExamModel.numericalPoint =
             mathTotalNet * 3.0 + physicsTotalNet * 2.85 + chemistryTotalNet * 3.07 + biologyTotalNet * 3.07 + 100.0
+        newAytExamModel.numericalTotalNet =
+            mathTotalNet + physicsTotalNet + chemistryTotalNet + biologyTotalNet
+
         newAytExamModel.equalWeightPoint =
             mathTotalNet * 3.0 + literatureTotalNet * 3.0 + historyTotalNet * 2.8 + geographyTotalNet * 3.33 + 100.0
+        newAytExamModel.equalWeightTotalNet =
+            mathTotalNet + literatureTotalNet + historyTotalNet + geographyTotalNet
+
         newAytExamModel.verbalPoint =
             literatureTotalNet * 3.0 + historyTotalNet * 2.8 + geographyTotalNet * 3.33 + historyForSocialTotalNet * 2.91 + geographyForSocialTotalNet * 2.91 + philosophyTotalNet * 3.0 + religionTotalNet * 3.33 + 100.0
-
+        newAytExamModel.verbalTotalNet =
+            literatureTotalNet + historyTotalNet + geographyTotalNet + historyForSocialTotalNet + geographyForSocialTotalNet + philosophyTotalNet + religionTotalNet
         return newAytExamModel
     }
 

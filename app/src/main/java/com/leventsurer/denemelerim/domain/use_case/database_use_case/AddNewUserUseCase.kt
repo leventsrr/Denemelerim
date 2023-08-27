@@ -15,8 +15,23 @@ import javax.inject.Inject
 class AddNewUserUseCase @Inject constructor(private val databaseRepository: DatabaseRepository) {
 
     val user = UserModel(
-        arrayListOf<NewAytExamModel>(), "", 0, 0, "", "",
-        0.0, 0.0, totalNumericalPoints = 0.0, totalVerbalPoints = 0.0, arrayListOf<NewTytExamModel>(), "", 0.0,
+        arrayListOf<NewAytExamModel>(),
+        "",
+        0,
+        0,
+        "",
+        "",
+        0.0,
+        0.0,
+        totalNumericalPoints = 0.0,
+        totalVerbalPoints = 0.0,
+        arrayListOf<NewTytExamModel>(),
+        "",
+        0.0,
+        tytNetList = arrayListOf(),
+        aytNumericalNetList = arrayListOf(),
+        aytEqualWeightNetList = arrayListOf(),
+        aytVerbalNetList = arrayListOf()
     )
 
     fun executeAddNewUser(userUid: String, userName: String): Flow<Resource<Boolean>> = flow {

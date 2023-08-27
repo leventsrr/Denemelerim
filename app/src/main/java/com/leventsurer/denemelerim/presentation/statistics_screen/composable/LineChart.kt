@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Black
+import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.unit.dp
@@ -16,6 +18,7 @@ import com.himanshoe.charty.line.CurveLineChart
 import com.himanshoe.charty.line.config.CurvedLineChartColors
 import com.himanshoe.charty.line.config.LineConfig
 import com.himanshoe.charty.line.model.LineData
+import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
 
 @Composable
 fun LineChart(examNetList:ArrayList<Float>) {
@@ -46,12 +49,12 @@ fun LineChart(examNetList:ArrayList<Float>) {
     val lineConfig = LineConfig(
         hasSmoothCurve = true,
         hasDotMarker = true,
-        strokeSize = 10f
+        strokeSize = 20f
     )
     val chartColors = CurvedLineChartColors(
-        dotColor = listOf(Color.Yellow, Color.Yellow),
+        dotColor = listOf(PrimaryColor, PrimaryColor),
         backgroundColors = listOf(White, White),
-        contentColor = listOf(LightGray, LightGray)
+        contentColor = listOf(LightGray, Gray)
     )
 
     CurveLineChart(

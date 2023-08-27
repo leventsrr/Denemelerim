@@ -19,6 +19,9 @@ class DatabaseApi(private val database: FirebaseFirestore) {
         try {
             database.collection(USER_COLLECTION).document(userUid)
                 .update("tytExams", FieldValue.arrayUnion(newTytExamModel)).await()
+            database.collection(USER_COLLECTION).document(userUid)
+                .update("tytNetList", FieldValue.arrayUnion(newTytExamModel.totalNet)).await()
+
             val user = database.collection(USER_COLLECTION).document(userUid).get().await()
             val tytQuantity = user.toObject(UserModel::class.java)?.numberOfTytExam
             val totalTytPoints = user.toObject(UserModel::class.java)?.totalTytPoints
@@ -37,6 +40,14 @@ class DatabaseApi(private val database: FirebaseFirestore) {
         try {
             database.collection(USER_COLLECTION).document(userUid)
                 .update("aytExams", FieldValue.arrayUnion(newAytExamModel)).await()
+
+            database.collection(USER_COLLECTION).document(userUid)
+                .update("aytNumericalNetList", FieldValue.arrayUnion(newAytExamModel.numericalTotalNet)).await()
+            database.collection(USER_COLLECTION).document(userUid)
+                .update("aytEqualWeightNetList", FieldValue.arrayUnion(newAytExamModel.equalWeightTotalNet)).await()
+            database.collection(USER_COLLECTION).document(userUid)
+                .update("aytVerbalNetList", FieldValue.arrayUnion(newAytExamModel.verbalTotalNet)).await()
+
             val user = database.collection(USER_COLLECTION).document(userUid).get().await()
                 .toObject(UserModel::class.java)
 
@@ -142,6 +153,8 @@ class DatabaseApi(private val database: FirebaseFirestore) {
             database.collection(USER_COLLECTION).document(userUid).get().await()
         return userDocumentSnapshot.toObject(UserModel::class.java)
     }
+
+
 
     suspend fun getUsersToLeaderboard(
         universityName: String,

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,8 +25,11 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.leventsurer.denemelerim.R
+import com.leventsurer.denemelerim.domain.repository.DatabaseRepository
 import com.leventsurer.denemelerim.presentation.add_exam_screen.AddExamEvent
 import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
+import com.leventsurer.denemelerim.presentation.common.database.DatabaseViewModel
+import com.leventsurer.denemelerim.presentation.profile_screen.ProfileEvent
 import com.leventsurer.denemelerim.presentation.profile_screen.ProfileViewModel
 import com.leventsurer.denemelerim.presentation.statistics_screen.StatisticsEvent
 import com.leventsurer.denemelerim.presentation.statistics_screen.StatisticsViewModel
@@ -34,26 +38,25 @@ import com.leventsurer.denemelerim.presentation.statistics_screen.composable.Lin
 @Composable
 fun TytStatisticsScreen(
     statisticsViewModel: StatisticsViewModel = hiltViewModel(),
-    dataStoreViewModel: DataStoreViewModel = hiltViewModel()
+    dataStoreViewModel: DataStoreViewModel = hiltViewModel(),
+    profileViewModel: ProfileViewModel = hiltViewModel()
 ) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.data))
 
     val statisticsState = statisticsViewModel.statisticsState.value
-
+    val profileState = profileViewModel.getUserProfileInfoState.value
 
     val mathTotalNetList = arrayListOf<Float>()
     val turkishTotalNetList = arrayListOf<Float>()
     val socialTotalNetList = arrayListOf<Float>()
     val scienceTotalNetList = arrayListOf<Float>()
+    val totalNetList = arrayListOf<Float>()
     LaunchedEffect(Unit) {
-
         statisticsViewModel.onEvent(
             StatisticsEvent.GetTytExams(
                 dataStoreViewModel.getUserUidFromDataStore()
             )
         )
-
-
     }
 
     if(statisticsState.isLoading){
@@ -72,14 +75,28 @@ fun TytStatisticsScreen(
                 socialTotalNetList.add(exam.socialNet.toFloat())
                 scienceTotalNetList.add(exam.scienceNet.toFloat())
             }
-            Column(modifier = Modifier.padding(horizontal = 10.dp)) {
-                Text(
-                    text = "Genel Toplam Net Bazlı Grafik",
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.fillMaxWidth()
+            LaunchedEffect(Unit){
+                profileViewModel.onEvent(
+                    ProfileEvent.GetUserProfileExam(
+                        dataStoreViewModel.getUserUidFromDataStore()
+                    )
                 )
-                LineChart(scienceTotalNetList)
+            }
+            Column(modifier = Modifier.padding(horizontal = 10.dp)) {
+
+                if(profileState.resultWithExam !=null){
+                    for (net in profileState.resultWithExam!!.tytNetList){
+                        totalNetList.add(net.toFloat())
+                    }
+                    Text(
+                        text = "Genel Toplam Net Bazlı Grafik",
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    LineChart(totalNetList)
+                }
+
                 //Genel Net Bazlı
                 Text(
                     text = "Ders Bazlı Grafik",
