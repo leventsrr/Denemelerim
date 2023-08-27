@@ -55,9 +55,9 @@ fun RankingCard(rank:Int,userModel: UserModel) {
             Column(modifier = Modifier.weight(6f)) {
                 Text(text = userModel.userName, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center,fontSize = 20.sp, fontWeight = FontWeight.ExtraBold)
                 Text(text = "Deneme Sayısı: ${userModel.numberOfAytExam}")
-                Text(text = "Ortalama Sayısal Sınav Puanı: ${userModel.numericalYksExamPoint}")
-                Text(text = "Ortalama Eşit Ağırlık Sınav Puanı: ${userModel.equalWeightYksExamPoint}")
-                Text(text = "Ortalama Sözel Sınav Puanı: ${userModel.verbalYksExamPoint}")
+                Text(text = "Ortalama Sayısal Yks Puanı: ${userModel.numericalYksExamPoint}")
+                Text(text = "Ortalama Eşit Ağırlık Yks Puanı: ${userModel.equalWeightYksExamPoint}")
+                Text(text = "Ortalama Sözel Yks Puanı: ${userModel.verbalYksExamPoint}")
 
             }
         }

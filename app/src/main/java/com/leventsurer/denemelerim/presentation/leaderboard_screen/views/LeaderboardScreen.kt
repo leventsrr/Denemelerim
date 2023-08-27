@@ -93,7 +93,8 @@ fun LeaderboardScreen(
                             text = profileState.result.targetUniversity,
                             fontWeight = FontWeight.ExtraBold,
                             color = PrimaryColor,
-                            fontSize = 30.sp
+                            fontSize = 30.sp,
+                            textAlign = TextAlign.Center
                         )
                         Text(
                             text = profileState.result.targetDepartment,

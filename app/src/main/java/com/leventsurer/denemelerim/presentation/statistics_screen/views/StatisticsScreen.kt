@@ -4,7 +4,10 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,19 +31,21 @@ fun StatisticsScreen(navController: NavController) {
     Scaffold(
         topBar = { MyTopAppBar(appBarTitle = "İstatistiklerim", navController = navController) },
         content = {padding->
-            Column(modifier = Modifier.fillMaxSize().padding(padding)) {
+            Column(modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .verticalScroll(rememberScrollState())) {
                 CustomSpinner(
                     listOfOptions = arrayListOf("TYT Net Bilgilerim", "AYT Net Bilgilerim"),
                     spinnerTitle = "Grafik Bilgisi"
                 ) { statisticsType ->
                     chosenStatisticsType = statisticsType
                 }
-                //Puan bazlı
-                LineChart()
-                //Genel Net Bazlı
-                LineChart()
-                //Ders özelinde Net Bazlı
-                LineChart()
+                if(chosenStatisticsType=="TYT Net Bilgilerim"){
+                    TytStatisticsScreen()
+                }else if(chosenStatisticsType=="AYT Net Bilgilerim"){
+                    AytStatisticsScreen()
+                }
             }
         }
     )

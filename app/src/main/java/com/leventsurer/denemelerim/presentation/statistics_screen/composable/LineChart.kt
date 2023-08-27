@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.LightGray
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.unit.dp
 import com.himanshoe.charty.common.ChartDataCollection
 import com.himanshoe.charty.common.config.AxisConfig
@@ -16,18 +18,18 @@ import com.himanshoe.charty.line.config.LineConfig
 import com.himanshoe.charty.line.model.LineData
 
 @Composable
-fun LineChart() {
+fun LineChart(examNetList:ArrayList<Float>) {
+
+
+    val lineDataList= ArrayList<LineData>()
+    var index = 1
+    for(line in examNetList){
+        lineDataList.add(LineData(line,index))
+        index++
+    }
+
     val dataCollection = ChartDataCollection(
-        listOf(
-            LineData(1f,"1"),
-            LineData(3f,"2"),
-            LineData(5f,"3"),
-            LineData(7f,"4"),
-            LineData(2f,"5"),
-            LineData(2f,"6"),
-            LineData(7f,"7"),
-            LineData(10f,"8"),
-        ))
+        lineDataList)
 
     val modifier = Modifier.height(200.dp).fillMaxWidth()
     val padding = 16.dp
@@ -35,21 +37,21 @@ fun LineChart() {
         showAxes = true,
         showGridLines = true,
         showGridLabel = true,
-        axisStroke = 2f,
+        axisStroke = 3f,
         minLabelCount = 4,
         axisColor = Color.Black,
-        gridColor = Color.LightGray
+        gridColor = White
     )
     val radiusScale = 0.02f
     val lineConfig = LineConfig(
         hasSmoothCurve = true,
         hasDotMarker = true,
-        strokeSize = 2f
+        strokeSize = 10f
     )
     val chartColors = CurvedLineChartColors(
         dotColor = listOf(Color.Yellow, Color.Yellow),
-        backgroundColors = listOf(Color.Blue, Color.Black),
-        contentColor = listOf(Color.White, Color.White)
+        backgroundColors = listOf(White, White),
+        contentColor = listOf(LightGray, LightGray)
     )
 
     CurveLineChart(
