@@ -22,7 +22,7 @@ import com.leventsurer.denemelerim.presentation.add_exam_screen.AddExamEvent
 import com.leventsurer.denemelerim.presentation.add_exam_screen.AddExamViewModel
 import com.leventsurer.denemelerim.presentation.add_exam_screen.views.composable.LessonCorrectAndFalseInputs
 import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
-import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
+import com.leventsurer.denemelerim.presentation.ui.theme.Primary
 
 
 @Composable
@@ -108,7 +108,7 @@ fun ScreenForTyt(
 
 
         ElevatedButton(
-            colors = ButtonDefaults.buttonColors(PrimaryColor),
+            colors = ButtonDefaults.buttonColors(Primary),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp, vertical = 5.dp),
@@ -116,14 +116,14 @@ fun ScreenForTyt(
                 val newTytExamModel = NewTytExamModel(
                     examName = examName,
                     aboutExam = aboutExam,
-                    turkishCorrect = turkishCorrect.toInt(),
-                    turkishFalse = turkishFalse.toInt(),
-                    socialCorrect = socialCorrect.toInt(),
-                    socialFalse = socialFalse.toInt(),
-                    mathCorrect = mathCorrect.toInt(),
-                    mathFalse = mathFalse.toInt(),
-                    scienceCorrect = scienceCorrect.toInt(),
-                    scienceFalse = scienceFalse.toInt(),
+                    turkishCorrect = turkishCorrect.toIntOrNull()?:0,
+                    turkishFalse = turkishFalse.toIntOrNull()?:0,
+                    socialCorrect = socialCorrect.toIntOrNull()?:0,
+                    socialFalse = socialFalse.toIntOrNull()?:0,
+                    mathCorrect = mathCorrect.toIntOrNull()?:0,
+                    mathFalse = mathFalse.toIntOrNull()?:0,
+                    scienceCorrect = scienceCorrect.toIntOrNull()?:0,
+                    scienceFalse = scienceFalse.toIntOrNull()?:0,
                     examDate =  com.google.firebase.Timestamp.now()
                 )
 
@@ -140,7 +140,7 @@ fun ScreenForTyt(
             }
         ) {
             if(state.isLoading){
-                CircularProgressIndicator(modifier = Modifier.height(5.dp))
+                CircularProgressIndicator()
             }else if (state.error !=null){
                 Text(text = "!! ${state.error} !!")
             }

@@ -20,6 +20,7 @@ import com.leventsurer.denemelerim.presentation.set_target_screen.SetTargetEvent
 import com.leventsurer.denemelerim.presentation.set_target_screen.SetTargetState
 import com.leventsurer.denemelerim.presentation.set_target_screen.SetTargetViewModel
 import com.leventsurer.denemelerim.presentation.ui.Screen
+import com.leventsurer.denemelerim.presentation.ui.theme.Primary
 
 @Composable
 fun Buttons(
@@ -35,6 +36,7 @@ fun Buttons(
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         ElevatedButton(
+            colors = ButtonDefaults.buttonColors(Primary),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 10.dp),
@@ -58,6 +60,7 @@ fun Buttons(
 
         }
         ElevatedButton(
+            colors = ButtonDefaults.buttonColors(Primary),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 10.dp),

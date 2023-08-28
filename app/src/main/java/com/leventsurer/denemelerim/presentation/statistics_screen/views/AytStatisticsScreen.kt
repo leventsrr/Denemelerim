@@ -1,6 +1,7 @@
 package com.leventsurer.denemelerim.presentation.statistics_screen.views
 
 import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -90,22 +91,31 @@ fun AytStatisticsScreen(
                 composition = composition,
                 iterations = LottieConstants.IterateForever,
             )
-        }else{
+        } else {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        isNumericalStatisticsChecked = !isNumericalStatisticsChecked
+                    }
             ) {
                 Text(text = "Sayısal İstatistikleri")
                 Checkbox(
                     checked = isNumericalStatisticsChecked,
-                    onCheckedChange = { isNumericalStatisticsChecked = it })
+                    onCheckedChange = { isNumericalStatisticsChecked = it }
+                )
 
             }
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        isEqualWeightStatisticsChecked = !isEqualWeightStatisticsChecked
+                    }
             ) {
                 Text(text = "Eşit Ağırlık İstatistikleri")
 
@@ -116,13 +126,18 @@ fun AytStatisticsScreen(
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        isVerbalStatisticsChecked = !isVerbalStatisticsChecked
+                    }
             ) {
                 Text(text = "Sözel İstatistikleri")
 
                 Checkbox(
                     checked = isVerbalStatisticsChecked,
-                    onCheckedChange = { isVerbalStatisticsChecked = it })
+                    onCheckedChange = { isVerbalStatisticsChecked = it }
+                )
             }
 
             if (statisticsState.aytExams != null) {
@@ -255,7 +270,6 @@ fun AytStatisticsScreen(
 
             }
         }
-
 
 
     }

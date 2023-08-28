@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -44,8 +45,9 @@ import com.leventsurer.denemelerim.presentation.common.database.DatabaseEvent
 import com.leventsurer.denemelerim.presentation.common.database.DatabaseViewModel
 import com.leventsurer.denemelerim.presentation.register_screen.RegisterEvent
 import com.leventsurer.denemelerim.presentation.register_screen.RegisterViewModel
-import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
-import com.leventsurer.denemelerim.util.Constants.USER_UID
+import com.leventsurer.denemelerim.presentation.ui.theme.Primary
+import com.leventsurer.denemelerim.presentation.ui.theme.Secondary
+import com.leventsurer.denemelerim.presentation.ui.theme.Third
 
 
 @Composable
@@ -73,7 +75,7 @@ fun RegisterScreen(
         modifier = Modifier
 
             .fillMaxSize()
-            .background(PrimaryColor)
+            .background(Primary)
     ) {
         Image(
             painter = painterResource(id = R.drawable.logo),
@@ -101,7 +103,7 @@ fun RegisterScreen(
                     text = "Kayıt Ol",
                     style = MaterialTheme.typography.headlineLarge,
                     fontWeight = FontWeight.ExtraBold,
-                    color = MaterialTheme.colorScheme.secondary
+                    color = Third
                 )
 
                 OutlinedTextField(modifier = Modifier.weight(1f),
@@ -176,7 +178,9 @@ fun RegisterScreen(
                 }
 
                 Spacer(modifier = Modifier.height(5.dp))
-                Button(onClick = {
+                Button(
+                    colors = ButtonDefaults.buttonColors(Secondary),
+                    onClick = {
                     registerViewModel.onEvent(
                         RegisterEvent.SignUp(
                             userName, email, password, passwordAgain

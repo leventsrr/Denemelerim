@@ -25,7 +25,8 @@ import com.leventsurer.denemelerim.presentation.set_target_screen.SetTargetEvent
 import com.leventsurer.denemelerim.presentation.set_target_screen.SetTargetState
 import com.leventsurer.denemelerim.presentation.set_target_screen.SetTargetViewModel
 import com.leventsurer.denemelerim.presentation.set_target_screen.views.composable.CustomSpinnerDialog
-import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
+import com.leventsurer.denemelerim.presentation.ui.theme.Primary
+import com.leventsurer.denemelerim.presentation.ui.theme.Secondary
 
 @Composable
 fun ChangeTargetCard(
@@ -68,6 +69,7 @@ fun ChangeTargetCard(
         ) {
             Text(
                 text = "Hedef Değiştir",
+                color = Secondary,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 10.dp),
@@ -78,7 +80,7 @@ fun ChangeTargetCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 10.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
+                colors = ButtonDefaults.buttonColors(containerColor = Primary),
                 onClick = {
                     isChoosingUniversity = true
                     setTargetViewModel.onEvent(
@@ -99,7 +101,7 @@ fun ChangeTargetCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 10.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
+                colors = ButtonDefaults.buttonColors(containerColor = Primary),
                 onClick = {
                     isChoosingUniversity = false
                     setTargetViewModel.onEvent(

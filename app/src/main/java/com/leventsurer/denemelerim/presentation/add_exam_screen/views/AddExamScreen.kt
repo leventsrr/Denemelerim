@@ -56,8 +56,7 @@ fun AddExamScreen(navController: NavController) {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(padding)
-                    .verticalScroll(state)
-                    .background(LightGray),
+                    .verticalScroll(state),
                 verticalArrangement = Arrangement.Top,
             ) {
                 CustomSpinner(

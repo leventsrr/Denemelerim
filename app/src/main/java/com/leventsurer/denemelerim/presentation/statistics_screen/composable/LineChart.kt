@@ -18,7 +18,7 @@ import com.himanshoe.charty.line.CurveLineChart
 import com.himanshoe.charty.line.config.CurvedLineChartColors
 import com.himanshoe.charty.line.config.LineConfig
 import com.himanshoe.charty.line.model.LineData
-import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
+import com.leventsurer.denemelerim.presentation.ui.theme.Primary
 
 @Composable
 fun LineChart(examNetList:ArrayList<Float>) {
@@ -52,7 +52,7 @@ fun LineChart(examNetList:ArrayList<Float>) {
         strokeSize = 20f
     )
     val chartColors = CurvedLineChartColors(
-        dotColor = listOf(PrimaryColor, PrimaryColor),
+        dotColor = listOf(Primary, Primary),
         backgroundColors = listOf(White, White),
         contentColor = listOf(LightGray, Gray)
     )

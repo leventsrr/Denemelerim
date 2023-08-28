@@ -15,13 +15,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import com.leventsurer.denemelerim.R
 import com.leventsurer.denemelerim.presentation.ui.Screen
-import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
+import com.leventsurer.denemelerim.presentation.ui.theme.Primary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyTopAppBar(appBarTitle:String,navController: NavController) {
     TopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(PrimaryColor),
+        colors = TopAppBarDefaults.topAppBarColors(Primary),
         title =
         {
             Text(appBarTitle, color = Color.White)

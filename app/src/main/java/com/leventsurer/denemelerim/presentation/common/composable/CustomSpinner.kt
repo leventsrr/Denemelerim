@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -17,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.leventsurer.denemelerim.presentation.ui.theme.Primary
 
 @Composable
 fun CustomSpinner(
@@ -30,7 +32,10 @@ fun CustomSpinner(
     }
     Box {
         Button(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 5.dp),
+            colors = ButtonDefaults.buttonColors(Primary),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 5.dp),
             onClick = { expanded = !expanded }){
             Text (chosenExamType)
             Icon(

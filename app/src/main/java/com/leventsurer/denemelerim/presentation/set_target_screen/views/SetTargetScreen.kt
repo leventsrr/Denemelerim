@@ -31,7 +31,7 @@ import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewM
 import com.leventsurer.denemelerim.presentation.set_target_screen.SetTargetEvent
 import com.leventsurer.denemelerim.presentation.set_target_screen.SetTargetViewModel
 import com.leventsurer.denemelerim.presentation.set_target_screen.views.composable.CustomSpinnerDialog
-import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
+import com.leventsurer.denemelerim.presentation.ui.theme.Primary
 
 @Composable
 fun SetTargetScreen(
@@ -79,7 +79,7 @@ fun SetTargetScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 10.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
+            colors = ButtonDefaults.buttonColors(containerColor = Primary),
             onClick = {
                 isChoosingUniversity = true
                 setTargetViewModel.onEvent(
@@ -101,7 +101,7 @@ fun SetTargetScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 10.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor),
+            colors = ButtonDefaults.buttonColors(containerColor = Primary),
             onClick = {
                 isChoosingUniversity = false
                 setTargetViewModel.onEvent(

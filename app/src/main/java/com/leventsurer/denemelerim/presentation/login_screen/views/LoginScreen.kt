@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -47,7 +48,9 @@ import com.leventsurer.denemelerim.presentation.login_screen.LoginViewModel
 import com.leventsurer.denemelerim.presentation.register_screen.RegisterEvent
 import com.leventsurer.denemelerim.presentation.register_screen.RegisterViewModel
 import com.leventsurer.denemelerim.presentation.ui.Screen
-import com.leventsurer.denemelerim.presentation.ui.theme.PrimaryColor
+import com.leventsurer.denemelerim.presentation.ui.theme.Primary
+import com.leventsurer.denemelerim.presentation.ui.theme.Secondary
+import com.leventsurer.denemelerim.presentation.ui.theme.Third
 
 
 @Composable
@@ -81,7 +84,7 @@ fun LoginScreen(
         modifier = Modifier
 
             .fillMaxSize()
-            .background(PrimaryColor)
+            .background(Primary)
     ) {
         Image(
 
@@ -110,7 +113,7 @@ fun LoginScreen(
                     text = "Giriş Yap",
                     style = MaterialTheme.typography.headlineLarge,
                     fontWeight = FontWeight.ExtraBold,
-                    color = MaterialTheme.colorScheme.secondary
+                    color = Third
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 OutlinedTextField(
@@ -143,6 +146,7 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(5.dp))
                 Button(
+                    colors = ButtonDefaults.buttonColors(Secondary),
                     onClick = {
                         loginViewModel.onEvent(
                             LoginEvent.SignIn(

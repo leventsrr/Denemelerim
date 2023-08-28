@@ -8,12 +8,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.leventsurer.denemelerim.presentation.home_screen.views.composable.TytExamCard
+import com.leventsurer.denemelerim.presentation.ui.theme.Primary
 
 @Composable
 fun CustomSpinnerDialog(
@@ -38,7 +40,10 @@ fun CustomSpinnerDialog(
                 ) {
                     items(options) { item ->
                         Button(
-                            modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp),
+                            colors = ButtonDefaults.buttonColors(Primary),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 10.dp),
                             onClick = {
                                 onItemClick(item)
                                 onDismiss()
