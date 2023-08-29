@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 //Source about moving state -> https://developer.android.com/jetpack/compose/state
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun LessonCorrectAndFalseInputs(lessonTitle:String, onCorrectValueChange:(String)->Unit, onFalseValueChange:(String)->Unit, correctValue:String, falseValue:String) {
     Column() {
@@ -32,7 +32,7 @@ fun LessonCorrectAndFalseInputs(lessonTitle:String, onCorrectValueChange:(String
                     .fillMaxWidth(),
                 value = correctValue,
                 onValueChange = onCorrectValueChange,
-                label = { Text(text = "$lessonTitle Doğru Sayısı" ) },
+                label = {Text(text = "$lessonTitle Doğru Sayısı" )},
                 textStyle = TextStyle.Default.copy(fontSize = 15.sp),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )

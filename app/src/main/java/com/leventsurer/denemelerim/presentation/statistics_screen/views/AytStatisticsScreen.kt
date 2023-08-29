@@ -10,15 +10,20 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchColors
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -28,12 +33,15 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.leventsurer.denemelerim.R
+import com.leventsurer.denemelerim.presentation.add_exam_screen.views.composable.ShowOrHideExamType
 import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
 import com.leventsurer.denemelerim.presentation.profile_screen.ProfileEvent
 import com.leventsurer.denemelerim.presentation.profile_screen.ProfileViewModel
 import com.leventsurer.denemelerim.presentation.statistics_screen.StatisticsEvent
 import com.leventsurer.denemelerim.presentation.statistics_screen.StatisticsViewModel
 import com.leventsurer.denemelerim.presentation.statistics_screen.composable.LineChart
+import com.leventsurer.denemelerim.presentation.ui.theme.Primary
+import com.leventsurer.denemelerim.presentation.ui.theme.Secondary
 
 @Composable
 fun AytStatisticsScreen(
@@ -48,7 +56,7 @@ fun AytStatisticsScreen(
     var isEqualWeightStatisticsChecked by remember {
         mutableStateOf(false)
     }
-    var isVerbalStatisticsChecked by remember {
+    var isVerbalStatisticsChecked by rememberSaveable {
         mutableStateOf(false)
     }
 
@@ -92,53 +100,6 @@ fun AytStatisticsScreen(
                 iterations = LottieConstants.IterateForever,
             )
         } else {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        isNumericalStatisticsChecked = !isNumericalStatisticsChecked
-                    }
-            ) {
-                Text(text = "Sayısal İstatistikleri")
-                Checkbox(
-                    checked = isNumericalStatisticsChecked,
-                    onCheckedChange = { isNumericalStatisticsChecked = it }
-                )
-
-            }
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        isEqualWeightStatisticsChecked = !isEqualWeightStatisticsChecked
-                    }
-            ) {
-                Text(text = "Eşit Ağırlık İstatistikleri")
-
-                Checkbox(
-                    checked = isEqualWeightStatisticsChecked,
-                    onCheckedChange = { isEqualWeightStatisticsChecked = it })
-            }
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        isVerbalStatisticsChecked = !isVerbalStatisticsChecked
-                    }
-            ) {
-                Text(text = "Sözel İstatistikleri")
-
-                Checkbox(
-                    checked = isVerbalStatisticsChecked,
-                    onCheckedChange = { isVerbalStatisticsChecked = it }
-                )
-            }
 
             if (statisticsState.aytExams != null) {
                 LaunchedEffect(Unit) {
@@ -167,6 +128,44 @@ fun AytStatisticsScreen(
                     Text(text = "Gösterilecek bir istatistik bulunmuyor.")
 
                 } else {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                isNumericalStatisticsChecked = !isNumericalStatisticsChecked
+                            }
+                    ) {
+                        Text(text = "Sayısal İstatistikleri")
+                        ShowOrHideExamType(isNumericalStatisticsChecked) {isNumericalStatisticsChecked = it}
+                    }
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                isEqualWeightStatisticsChecked = !isEqualWeightStatisticsChecked
+                            }
+                    ) {
+                        Text(text = "Eşit Ağırlık İstatistikleri")
+                        ShowOrHideExamType(isEqualWeightStatisticsChecked) {isEqualWeightStatisticsChecked = it}
+
+                    }
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                isVerbalStatisticsChecked = !isVerbalStatisticsChecked
+                            }
+                    ) {
+                        Text(text = "Sözel İstatistikleri")
+                        ShowOrHideExamType(isVerbalStatisticsChecked) { isVerbalStatisticsChecked = it }
+
+                    }
                     for (exam in statisticsState.aytExams) {
                         mathTotalNetList.add(exam.mathNet.toFloat())
                         physicsTotalNetList.add(exam.physicsNet.toFloat())
@@ -267,10 +266,9 @@ fun AytStatisticsScreen(
                         }
                     }
                 }
-
             }
         }
-
-
     }
 }
+
+

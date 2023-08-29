@@ -85,33 +85,34 @@ fun LeaderboardScreen(
                             text = profileState.result.targetUniversity,
                             fontWeight = FontWeight.ExtraBold,
                             color = Primary,
-                            fontSize = 30.sp,
-                            textAlign = TextAlign.Center
+                            fontSize = 20.sp,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth()
                         )
                         Text(
                             text = profileState.result.targetDepartment,
                             fontWeight = FontWeight.Bold,
                             color = Fourth,
-                            fontSize = 25.sp
+                            fontSize = 16.sp,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                }
+                if (profileState.result != null) {
+                    LaunchedEffect(Unit) {
+                        leaderboardViewModel.onEvent(
+                            LeaderboardEvent.GetUsersToLeaderboard(
+                                profileState.result.targetUniversity,
+                                profileState.result.targetDepartment
+                            )
                         )
                     }
 
-
                 }
-                if(profileState.result!=null){
-                        LaunchedEffect(Unit ){
-                            leaderboardViewModel.onEvent(
-                                LeaderboardEvent.GetUsersToLeaderboard(
-                                    profileState.result.targetUniversity,
-                                    profileState.result.targetDepartment
-                                )
-                            )
-                        }
-
-                }
-                if(leaderboardState.isLoading){
+                if (leaderboardState.isLoading) {
                     CircularProgressIndicator()
-                }else if(leaderboardState.users !=null){
+                } else if (leaderboardState.users != null) {
                     users.addAll(leaderboardState.users)
                     LazyColumn() {
                         items(users.size) { index ->

@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,21 +19,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.leventsurer.denemelerim.R
 import com.leventsurer.denemelerim.presentation.common.composable.CustomSpinner
 import com.leventsurer.denemelerim.presentation.common.composable.MyTopAppBar
 import com.leventsurer.denemelerim.presentation.statistics_screen.composable.LineChart
+import com.leventsurer.denemelerim.presentation.ui.theme.Primary
+import com.leventsurer.denemelerim.presentation.ui.theme.Secondary
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun StatisticsScreen(navController: NavController) {
 
-    var chosenStatisticsType by remember {
-        mutableStateOf("")
-    }
-
+    val examTitles = arrayListOf("TYT Net Bilgilerim","AYT Net Bilgilerim")
+    var state by remember { mutableStateOf(0) }
 
     Scaffold(
         topBar = { MyTopAppBar(appBarTitle = "İstatistiklerim", navController = navController) },
@@ -42,29 +45,21 @@ fun StatisticsScreen(navController: NavController) {
                     .padding(padding)
                     .verticalScroll(rememberScrollState())
             ) {
-                CustomSpinner(
-                    listOfOptions = arrayListOf("TYT Net Bilgilerim", "AYT Net Bilgilerim"),
-                    spinnerTitle = "Grafik Bilgisi"
-                ) { statisticsType ->
-                    chosenStatisticsType = statisticsType
-                }
-                when (chosenStatisticsType) {
-                    "TYT Net Bilgilerim" -> {
-                        TytStatisticsScreen()
-                    }
-                    "AYT Net Bilgilerim" -> {
-                        AytStatisticsScreen()
-                    }
-                    else -> {
-                        Image(
-                            painter = painterResource(id = R.drawable.charts_image),
-                            contentDescription = "App Logo",
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(3f)
-                                .padding(horizontal = 15.dp)
+                TabRow(selectedTabIndex = state) {
+                    examTitles.forEachIndexed { index, title ->
+                        Tab(
+                            selected = state == index,
+                            onClick = { state = index },
+                            text = { Text(text = title, maxLines = 2, overflow = TextOverflow.Ellipsis) },
+                            selectedContentColor = Secondary,
+                            unselectedContentColor = Primary
                         )
                     }
+                }
+                if(state==0){
+                    TytStatisticsScreen()
+                }else{
+                    AytStatisticsScreen()
                 }
             }
         }

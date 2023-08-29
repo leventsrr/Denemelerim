@@ -12,6 +12,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,10 +26,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.leventsurer.denemelerim.presentation.common.composable.CustomSpinner
 import com.leventsurer.denemelerim.presentation.common.composable.MyTopAppBar
+import com.leventsurer.denemelerim.presentation.ui.theme.Primary
+import com.leventsurer.denemelerim.presentation.ui.theme.Secondary
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -45,25 +50,31 @@ fun AddExamScreen(navController: NavController) {
     var aboutExam by remember {
         mutableStateOf("")
     }
+    val examTitles = arrayListOf("TYT Sınavı Ekle","AYT Sınavı Ekle")
+    var examTypeState by remember { mutableStateOf(0) }
 
     Scaffold(
         topBar = {
             MyTopAppBar("Sınav Ekle", navController = navController)
         },
         content = { padding ->
-
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(padding)
-                    .verticalScroll(state),
-                verticalArrangement = Arrangement.Top,
+                    .verticalScroll(rememberScrollState()),
             ) {
-                CustomSpinner(
-                    listOfOptions = arrayListOf("TYT", "AYT"),
-                    spinnerTitle = "Sınav Tipi"
-                ) { examType ->
-                    chosenExamType = examType
+
+                TabRow(selectedTabIndex = examTypeState) {
+                    examTitles.forEachIndexed { index, title ->
+                        Tab(
+                            selected = examTypeState == index,
+                            onClick = { examTypeState = index },
+                            text = { Text(text = title, maxLines = 2, overflow = TextOverflow.Ellipsis) },
+                            selectedContentColor = Secondary,
+                            unselectedContentColor = Primary
+                        )
+                    }
                 }
                 OutlinedTextField(
                     modifier = Modifier
@@ -85,30 +96,11 @@ fun AddExamScreen(navController: NavController) {
                     },
                     label = { Text(text = "Deneme Hakkında") },
                 )
-                when (chosenExamType) {
-                    "" -> {
-                        Box(
-                            contentAlignment = Center
-                        , modifier = Modifier.weight(1f).fillMaxWidth()
-                        ) {
-                            Text(
-                                text = "Lütfen Sınav Tipini Seçiniz",
-                                fontWeight = FontWeight.ExtraBold,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier
-                            )
-                        }
-                    }
-
-                    "TYT" -> {
-                        ScreenForTyt(examName, aboutExam)
-                    }
-
-                    "AYT" -> {
-                        ScreenForAyt(examName, aboutExam)
-                    }
+                if (examTypeState == 0){
+                    ScreenForTyt(examName, aboutExam)
+                }else{
+                    ScreenForAyt(examName, aboutExam)
                 }
-
             }
         },
     )

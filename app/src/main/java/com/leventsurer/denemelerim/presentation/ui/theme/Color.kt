@@ -13,3 +13,6 @@ val Secondary =    Color(0xFFF46036)
 val Third = Color(0xFF414770)
 val Fourth = Color(0xFF372248)
 val Fifth = Color(0xFF171123)
+
+val Green700 = Color(0xFF41C300)
+val Green100 = Color(0xFFDEFAAB)

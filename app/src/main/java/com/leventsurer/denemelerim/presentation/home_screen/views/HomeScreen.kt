@@ -20,8 +20,11 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -46,6 +50,7 @@ import com.leventsurer.denemelerim.presentation.common.database.DatabaseEvent
 import com.leventsurer.denemelerim.presentation.common.database.DatabaseViewModel
 import com.leventsurer.denemelerim.presentation.home_screen.views.composable.AytExamCard
 import com.leventsurer.denemelerim.presentation.ui.Screen
+import com.leventsurer.denemelerim.presentation.ui.theme.Primary
 import com.leventsurer.denemelerim.presentation.ui.theme.Secondary
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -58,22 +63,16 @@ fun HomeScreen(
 
     val databaseTytState = databaseViewModel.getTytExamsState.value
     val databaseAytState = databaseViewModel.getAytExamsState.value
-    var chosenExamType by remember {
-        mutableStateOf("")
-    }
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.data))
-
-
-
+    val examTitles = arrayListOf("TYT Sınavlarım","AYT Sınavlarım")
+    var state by remember { mutableStateOf(0) }
 
     Scaffold(
-        //containerColor = Color.LightGray,
         bottomBar = {},
         topBar = {
             MyTopAppBar("Denemelerim", navController = navController)
         },
         floatingActionButton = {
-
             FloatingActionButton(
                 containerColor = Secondary,
                 onClick = { navController.navigate(Screen.AddExamScreen.route) }
@@ -87,45 +86,31 @@ fun HomeScreen(
         },
         floatingActionButtonPosition = FabPosition.End,
         content = { padding ->
-
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(padding)
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
 
-                   ElevatedButton(
-                       border = BorderStroke(1.dp, Secondary),
-                       onClick = {
+                TabRow(selectedTabIndex = state) {
+                    examTitles.forEachIndexed { index, title ->
+                        Tab(
+                            selected = state == index,
+                            onClick = { state = index },
+                            text = { Text(text = title, maxLines = 2, overflow = TextOverflow.Ellipsis) },
+                            selectedContentColor = Secondary,
+                            unselectedContentColor = Primary
+                        )
+                    }
+                }
+                if(state == 0){
+                    LaunchedEffect(Unit ){
                         databaseViewModel.onEvent(
                             DatabaseEvent.GetTytExams(
                                 dataStoreViewModel.getUserUidFromDataStore()
                             )
                         )
-                        chosenExamType = "TYT"
-                    }) {
-                        Text(text = "TYT Sınavlarım", color = Secondary)
                     }
-                    ElevatedButton(
-                        border = BorderStroke(1.dp, Secondary),
-                        onClick = {
-                        databaseViewModel.onEvent(
-                            DatabaseEvent.GetAytExams(
-                                dataStoreViewModel.getUserUidFromDataStore()
-                            )
-                        )
-                        chosenExamType = "AYT"
-                    }) {
-                        Text(text = "AYT Sınavlarım", color = Secondary)
-                    }
-                }
-
-
-                if (chosenExamType == "TYT") {
                     if (databaseTytState.isLoading) {
                         LottieAnimation(
                             modifier = Modifier.fillMaxWidth(),
@@ -146,15 +131,20 @@ fun HomeScreen(
                             }
                         }
                     }
-                }
-                else if (chosenExamType == "AYT") {
+                }else{
+                    LaunchedEffect(Unit ){
+                        databaseViewModel.onEvent(
+                            DatabaseEvent.GetAytExams(
+                                dataStoreViewModel.getUserUidFromDataStore()
+                            )
+                        )
+                    }
                     if (databaseAytState.isLoading) {
                         LottieAnimation(
                             modifier = Modifier.fillMaxWidth(),
                             composition = composition,
                             iterations = LottieConstants.IterateForever,
                         )
-
                     } else if (databaseAytState.aytExams?.size == 0) {
                         Text(
                             text = "Henüz Eklenmiş bir sınavın bulunmuyor.",
@@ -169,19 +159,7 @@ fun HomeScreen(
                         }
                     }
                 }
-                else{
-                    Image(
-                        painter = painterResource(id = R.drawable.home_page_image),
-                        contentDescription = "App Logo",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(3f)
-                            .padding(horizontal = 15.dp)
-                    )
-                }
             }
-
-
         }
     )
 }
