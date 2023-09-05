@@ -72,7 +72,7 @@ fun AytExamCard(
                     .padding(5.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
+                /*Text(
                     text = "AYT",
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.ExtraBold,
@@ -81,7 +81,7 @@ fun AytExamCard(
                         .fillMaxHeight()
                         .weight(1f),
                     color = Secondary
-                )
+                )*/
                 Column(
                     modifier = Modifier
                         .fillMaxHeight()
@@ -96,7 +96,7 @@ fun AytExamCard(
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth()
                     )
-                    Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+                    Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp),color = Color.White)
                     if(!isExpanded){
 
                             Text(
@@ -170,7 +170,7 @@ fun AytExamCard(
                                     textAlign = TextAlign.Center
                                 )
                             }
-                            Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+                            Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp),color = Color.White)
 
                             Column(modifier = Modifier.fillMaxWidth()) {
                                 Text(
@@ -220,7 +220,7 @@ fun AytExamCard(
                                     textAlign = TextAlign.Center
                                 )
                             }
-                            Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
+                            Divider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp),color = Color.White)
 
                             Column(modifier = Modifier.fillMaxWidth()) {
                                 Text(

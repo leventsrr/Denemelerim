@@ -34,6 +34,7 @@ import com.leventsurer.denemelerim.presentation.profile_screen.ProfileViewModel
 import com.leventsurer.denemelerim.presentation.statistics_screen.StatisticsEvent
 import com.leventsurer.denemelerim.presentation.statistics_screen.StatisticsViewModel
 import com.leventsurer.denemelerim.presentation.statistics_screen.composable.LineChart
+import com.leventsurer.denemelerim.presentation.statistics_screen.composable.MyBarChart
 
 @Composable
 fun TytStatisticsScreen(
@@ -94,7 +95,7 @@ fun TytStatisticsScreen(
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.fillMaxWidth()
                     )
-                    LineChart(totalNetList)
+                    MyBarChart(totalNetList)
                 }
 
                 //Genel Net Bazlı
@@ -105,16 +106,16 @@ fun TytStatisticsScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
                 Text(text = "Türkçe", fontSize = 15.sp)
-                LineChart(turkishTotalNetList)
+                MyBarChart(turkishTotalNetList)
                 Divider(modifier = Modifier.height(1.dp))
                 Text(text = "Matematik", fontSize = 15.sp)
-                LineChart(mathTotalNetList)
+                MyBarChart(mathTotalNetList)
                 Divider(modifier = Modifier.height(1.dp))
                 Text(text = "Sosyal", fontSize = 15.sp)
-                LineChart(socialTotalNetList)
+                MyBarChart(socialTotalNetList)
                 Divider(modifier = Modifier.height(1.dp))
                 Text(text = "Fen", fontSize = 15.sp)
-                LineChart(scienceTotalNetList)
+                MyBarChart(scienceTotalNetList)
             }
         }
     }

@@ -77,6 +77,7 @@ fun AddNewQuestionGoalBottomSheet(onDismiss: () -> Unit) {
                         questionModel,
                         dataStoreViewModel.getUserUidFromDataStore()
                     ))
+
                     if(!addQuestionGoalState.isLoading){
                         goalName = ""
                         goalQuestionQuantity = ""

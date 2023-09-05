@@ -58,7 +58,7 @@ fun TytExamCard(
                 .padding(5.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
+           /* Text(
                 text = "TYT",
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.ExtraBold,
@@ -67,7 +67,7 @@ fun TytExamCard(
                     .fillMaxHeight()
                     .weight(1f),
                 color = Secondary
-            )
+            )*/
 
             Column(
                 modifier = Modifier

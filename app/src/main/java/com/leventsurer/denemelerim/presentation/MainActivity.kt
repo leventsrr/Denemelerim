@@ -20,6 +20,7 @@ import com.leventsurer.denemelerim.presentation.register_screen.views.RegisterSc
 import com.leventsurer.denemelerim.presentation.leaderboard_screen.views.LeaderboardScreen
 import com.leventsurer.denemelerim.presentation.question_goal_screen.views.QuestionGoalScreen
 import com.leventsurer.denemelerim.presentation.set_target_screen.views.SetTargetScreen
+import com.leventsurer.denemelerim.presentation.splash_screen.views.SplashScreen
 import com.leventsurer.denemelerim.presentation.statistics_screen.views.StatisticsScreen
 import com.leventsurer.denemelerim.presentation.ui.Screen
 import com.leventsurer.denemelerim.presentation.ui.theme.DenemelerimTheme
@@ -42,7 +43,7 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
-                        startDestination = Screen.LoginScreen.route
+                        startDestination = Screen.SplashScreen.route
                     ) {
                         composable(route = Screen.LoginScreen.route) {
                             LoginScreen(
@@ -91,6 +92,13 @@ class MainActivity : ComponentActivity() {
                         composable(Screen.QuestionGoalScreen.route) {
                             QuestionGoalScreen(
                                 navController = navController
+                            )
+                        }
+
+                        composable(Screen.SplashScreen.route){
+                            SplashScreen(
+                                navigateToHomeScreen = { navController.navigate(Screen.HomeScreen.route) },
+                                navigateToLoginScreen = { navController.navigate(Screen.LoginScreen.route) }
                             )
                         }
                     }

@@ -40,6 +40,7 @@ import com.leventsurer.denemelerim.presentation.profile_screen.ProfileViewModel
 import com.leventsurer.denemelerim.presentation.statistics_screen.StatisticsEvent
 import com.leventsurer.denemelerim.presentation.statistics_screen.StatisticsViewModel
 import com.leventsurer.denemelerim.presentation.statistics_screen.composable.LineChart
+import com.leventsurer.denemelerim.presentation.statistics_screen.composable.MyBarChart
 import com.leventsurer.denemelerim.presentation.ui.theme.Primary
 import com.leventsurer.denemelerim.presentation.ui.theme.Secondary
 
@@ -189,20 +190,21 @@ fun AytStatisticsScreen(
                             )
                             if (profileState.resultWithExam != null) {
                                 Text(text = "Genel Toplam Net")
-                                LineChart(totalNumericalNetList)
+                                MyBarChart(totalNumericalNetList)
+
                             }
 
                             Text(text = "Matematik Toplam Net")
-                            LineChart(mathTotalNetList)
+                            MyBarChart(mathTotalNetList)
                             Divider(modifier = Modifier.height(1.dp))
                             Text(text = "Fizik Toplam Net")
-                            LineChart(physicsTotalNetList)
+                            MyBarChart(mathTotalNetList)
                             Divider(modifier = Modifier.height(1.dp))
                             Text(text = "Kimya Toplam Net")
-                            LineChart(chemistryTotalNetList)
+                            MyBarChart(chemistryTotalNetList)
                             Divider(modifier = Modifier.height(1.dp))
                             Text(text = "Biyoloji Toplam Net")
-                            LineChart(biologyTotalNetList)
+                            MyBarChart(biologyTotalNetList)
                             Divider(modifier = Modifier.height(1.dp))
                         }
                     }
@@ -216,19 +218,19 @@ fun AytStatisticsScreen(
                             )
                             if (profileState.resultWithExam != null) {
                                 Text(text = "Genel Toplam Net")
-                                LineChart(totalEqualWeightNetList)
+                                MyBarChart(totalEqualWeightNetList)
                             }
                             Text(text = "Matematik Toplam Net")
-                            LineChart(mathTotalNetList)
+                            MyBarChart(mathTotalNetList)
                             Divider(modifier = Modifier.height(1.dp))
                             Text(text = "Edebiyat Toplam Net")
-                            LineChart(literatureTotalNetList)
+                            MyBarChart(literatureTotalNetList)
                             Divider(modifier = Modifier.height(1.dp))
                             Text(text = "Tarih Toplam Net")
-                            LineChart(historyTotalNetList)
+                            MyBarChart(historyTotalNetList)
                             Divider(modifier = Modifier.height(1.dp))
                             Text(text = "Coğrafya Toplam Net")
-                            LineChart(geographyTotalNetList)
+                            MyBarChart(geographyTotalNetList)
                         }
                     }
                     if (isVerbalStatisticsChecked) {
@@ -241,28 +243,29 @@ fun AytStatisticsScreen(
                             )
                             if (profileState.resultWithExam != null) {
                                 Text(text = "Genel Toplam Net")
-                                LineChart(totalVerbalNetList)
+                                MyBarChart(totalVerbalNetList)
                             }
                             Text(text = "Edebiyat Toplam Net")
-                            LineChart(literatureTotalNetList)
+                            MyBarChart(literatureTotalNetList)
                             Divider(modifier = Modifier.height(1.dp))
                             Text(text = "Tarih Toplam Net")
-                            LineChart(historyTotalNetList)
+                            MyBarChart(historyTotalNetList)
                             Divider(modifier = Modifier.height(1.dp))
                             Text(text = "Coğrafya Toplam Net")
-                            LineChart(geographyTotalNetList)
+                            MyBarChart(geographyTotalNetList)
                             Divider(modifier = Modifier.height(1.dp))
                             Text(text = "Tarih-2 Toplam Net")
-                            LineChart(historyForSocialTotalNetList)
+                            MyBarChart(historyForSocialTotalNetList)
                             Divider(modifier = Modifier.height(1.dp))
                             Text(text = "Coğrafya-2 Toplam Net")
-                            LineChart(geographyForSocialTotalNetList)
+                            MyBarChart(geographyForSocialTotalNetList)
                             Divider(modifier = Modifier.height(1.dp))
                             Text(text = "Felsefe Toplam Net")
-                            LineChart(philosophy)
+                            MyBarChart(philosophy)
                             Divider(modifier = Modifier.height(1.dp))
                             Text(text = "D.K.V.A.B Toplam Net")
-                            LineChart(religion)
+                            MyBarChart(religion)
+
                         }
                     }
                 }

@@ -15,4 +15,6 @@ sealed class Screen (val route:String){
     object SetTargetScreen:Screen("set_target_screen")
 
     object QuestionGoalScreen:Screen("question_goal_screen")
+
+    object SplashScreen:Screen("splash_screen")
 }
