@@ -22,7 +22,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.leventsurer.denemelerim.presentation.ui.theme.Secondary
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomSheet(onDismiss: () -> Unit) {
+fun EditGoalBottomSheet(onDismiss: () -> Unit) {
 
 
         val modalBottomSheetState = rememberModalBottomSheetState()

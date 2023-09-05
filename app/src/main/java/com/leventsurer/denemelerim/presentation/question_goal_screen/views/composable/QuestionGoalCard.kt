@@ -6,33 +6,19 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material3.BottomSheetDefaults
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
-import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,10 +26,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.leventsurer.denemelerim.R
 import com.leventsurer.denemelerim.presentation.ui.theme.Primary
@@ -51,20 +35,21 @@ import com.leventsurer.denemelerim.presentation.ui.theme.Secondary
 
 //Show bottom sheet source :https://medium.com/@manojbhadane/mastering-android-jetpack-compose-bottomsheet-with-material-3-e61af75c0cac
 @Composable
-fun QuestionGoalCard() {
+fun QuestionGoalCard(goalName:String,goalQuestionQuantity:Int,solvedQuestionQuantity:Int,rightQuestionQuantity:Int,falseQuestionQuantity:Int) {
     var isExpanded by remember {
         mutableStateOf(false)
     }
     var showSheet by remember { mutableStateOf(false) }
 
     if (showSheet) {
-        BottomSheet() {
+        EditGoalBottomSheet() {
             showSheet = false
         }
     }
 
 
     Card(
+        //elevation = CardDefaults.cardElevation(10.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         shape = RoundedCornerShape(20.dp),
         border = BorderStroke(1.dp, Primary),
@@ -81,7 +66,7 @@ fun QuestionGoalCard() {
     ) {
         Column(
             modifier = Modifier
-                .padding(10.dp)
+                .padding(start = 10.dp, end = 10.dp, top = 5.dp)
                 .fillMaxWidth()
         ) {
             Column(modifier = Modifier.fillMaxWidth()) {
@@ -90,7 +75,7 @@ fun QuestionGoalCard() {
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(text = "Türkçe Soru Hedefim")
+                    Text(text = goalName)
                     IconButton(
                         onClick = {
 
@@ -103,45 +88,49 @@ fun QuestionGoalCard() {
                         )
                     }
                 }
-                CustomLinearProgressIndicator(0.5f)
+                CustomLinearProgressIndicator(solvedQuestionQuantity.toFloat()/goalQuestionQuantity.toFloat())
             }
-
             if (isExpanded) {
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = "Hedeflenen Soru Sayısı")
-                    Text(text = "450")
+                    Text(text = goalQuestionQuantity.toString())
                 }
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = "Çözülen Soru Sayısı")
-                    Text(text = "300")
+                    Text(text = solvedQuestionQuantity.toString())
                 }
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = "Doğru Sayısı")
-                    Text(text = "250")
+                    Text(text = rightQuestionQuantity.toString())
                 }
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = "Yanlış Sayısı")
-                    Text(text = "25")
+                    Text(text = falseQuestionQuantity.toString())
                 }
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = "Boş Sayısı")
-                    Text(text = "25")
+                    Text(text = (goalQuestionQuantity- (rightQuestionQuantity + falseQuestionQuantity)).toString())
                 }
+            }
+            if(isExpanded){
+                Icon(imageVector = Icons.Default.KeyboardArrowUp, contentDescription = "Arrow Down", modifier = Modifier.fillMaxWidth())
+            }else{
+                Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "Arrow Down", modifier = Modifier.fillMaxWidth())
             }
 
         }

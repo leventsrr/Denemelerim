@@ -1,9 +1,9 @@
 package com.leventsurer.denemelerim.data.repository
 
-import android.util.Log
 import com.leventsurer.denemelerim.data.remote.DatabaseApi
 import com.leventsurer.denemelerim.data.remote.dto.NewAytExamModel
 import com.leventsurer.denemelerim.data.remote.dto.NewTytExamModel
+import com.leventsurer.denemelerim.data.remote.dto.QuestionGoalModel
 import com.leventsurer.denemelerim.data.remote.dto.UserModel
 import com.leventsurer.denemelerim.domain.repository.DatabaseRepository
 import javax.inject.Inject
@@ -51,5 +51,15 @@ class DatabaseRepositoryImpl @Inject constructor(
         return databaseApi.getUsersToLeaderboard(universityName, departmentName,pointType)
     }
 
+    override suspend fun addNewQuestionGoal(
+        questionGoalModel:QuestionGoalModel,
+        userUid: String
+    ) {
+        databaseApi.addNewQuestionGoal(questionGoalModel,userUid)
+    }
+
+    override suspend fun getQuestionGoals(userUid: String): ArrayList<QuestionGoalModel>? {
+        return databaseApi.getQuestionGoals(userUid)
+    }
 
 }

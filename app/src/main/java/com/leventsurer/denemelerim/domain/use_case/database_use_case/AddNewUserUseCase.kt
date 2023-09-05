@@ -1,6 +1,5 @@
 package com.leventsurer.denemelerim.domain.use_case.database_use_case
 
-import android.util.Log
 import com.leventsurer.denemelerim.data.remote.dto.NewAytExamModel
 import com.leventsurer.denemelerim.data.remote.dto.NewTytExamModel
 import com.leventsurer.denemelerim.data.remote.dto.UserModel
@@ -31,7 +30,8 @@ class AddNewUserUseCase @Inject constructor(private val databaseRepository: Data
         tytNetList = arrayListOf(),
         aytNumericalNetList = arrayListOf(),
         aytEqualWeightNetList = arrayListOf(),
-        aytVerbalNetList = arrayListOf()
+        aytVerbalNetList = arrayListOf(),
+        questionGoals = arrayListOf()
     )
 
     fun executeAddNewUser(userUid: String, userName: String): Flow<Resource<Boolean>> = flow {

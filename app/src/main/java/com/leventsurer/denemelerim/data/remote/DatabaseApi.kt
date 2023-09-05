@@ -6,6 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.leventsurer.denemelerim.data.remote.dto.NewAytExamModel
 import com.leventsurer.denemelerim.data.remote.dto.NewTytExamModel
+import com.leventsurer.denemelerim.data.remote.dto.QuestionGoalModel
 import com.leventsurer.denemelerim.data.remote.dto.UserModel
 import com.leventsurer.denemelerim.util.Constants.TARGET_DEPARTMENT
 import com.leventsurer.denemelerim.util.Constants.TARGET_UNIVERSITY
@@ -42,11 +43,18 @@ class DatabaseApi(private val database: FirebaseFirestore) {
                 .update("aytExams", FieldValue.arrayUnion(newAytExamModel)).await()
 
             database.collection(USER_COLLECTION).document(userUid)
-                .update("aytNumericalNetList", FieldValue.arrayUnion(newAytExamModel.numericalTotalNet)).await()
+                .update(
+                    "aytNumericalNetList",
+                    FieldValue.arrayUnion(newAytExamModel.numericalTotalNet)
+                ).await()
             database.collection(USER_COLLECTION).document(userUid)
-                .update("aytEqualWeightNetList", FieldValue.arrayUnion(newAytExamModel.equalWeightTotalNet)).await()
+                .update(
+                    "aytEqualWeightNetList",
+                    FieldValue.arrayUnion(newAytExamModel.equalWeightTotalNet)
+                ).await()
             database.collection(USER_COLLECTION).document(userUid)
-                .update("aytVerbalNetList", FieldValue.arrayUnion(newAytExamModel.verbalTotalNet)).await()
+                .update("aytVerbalNetList", FieldValue.arrayUnion(newAytExamModel.verbalTotalNet))
+                .await()
 
             val user = database.collection(USER_COLLECTION).document(userUid).get().await()
                 .toObject(UserModel::class.java)
@@ -98,14 +106,14 @@ class DatabaseApi(private val database: FirebaseFirestore) {
             val equalWeightYksExamPoint =
                 (newTotalEqualWeightPoint!!.toDouble() / newAytQuantity.toDouble()) * (6.0 / 10.0)
             +(user.totalTytPoints / user.numberOfTytExam.toDouble()) * (4.0 / 10.0)
-            Log.e("kontrol","equal:${equalWeightYksExamPoint}")
+            Log.e("kontrol", "equal:${equalWeightYksExamPoint}")
             database.collection(USER_COLLECTION).document(userUid)
                 .update("equalWeightYksExamPoint", equalWeightYksExamPoint).await()
 
             val verbalYksExamPoint =
                 (newTotalVerbalPoint!!.toDouble() / newAytQuantity.toDouble()) * (6.0 / 10.0)
             +(user.totalTytPoints / user.numberOfTytExam.toDouble()) * (4.0 / 10.0)
-            Log.e("kontrol","verbalYksExamPoint:${verbalYksExamPoint}")
+            Log.e("kontrol", "verbalYksExamPoint:${verbalYksExamPoint}")
             database.collection(USER_COLLECTION).document(userUid)
                 .update("verbalYksExamPoint", verbalYksExamPoint).await()
 
@@ -155,7 +163,6 @@ class DatabaseApi(private val database: FirebaseFirestore) {
     }
 
 
-
     suspend fun getUsersToLeaderboard(
         universityName: String,
         departmentName: String,
@@ -185,8 +192,26 @@ class DatabaseApi(private val database: FirebaseFirestore) {
                     filterQuery,
                     Query.Direction.DESCENDING
                 ).get().await()
-        Log.e("kontrol","DatabaseApi size:${usersQuerySnapShot.documents.size}")
+        Log.e("kontrol", "DatabaseApi size:${usersQuerySnapShot.documents.size}")
         return usersQuerySnapShot.map { it.toObject(UserModel::class.java) }
+    }
+
+
+    suspend fun addNewQuestionGoal(
+        questionGoalModel: QuestionGoalModel,
+        userUid: String
+    ) {
+        database.collection(USER_COLLECTION).document(userUid)
+            .update("questionGoals", FieldValue.arrayUnion(questionGoalModel)).await()
+    }
+
+    suspend fun getQuestionGoals(
+        userUid: String
+    ): ArrayList<QuestionGoalModel>? {
+        Log.e("kontrol","userModel:${database.collection(USER_COLLECTION).document(userUid).get().await()
+            .toObject(UserModel::class.java)?.questionGoals}")
+        return database.collection(USER_COLLECTION).document(userUid).get().await()
+            .toObject(UserModel::class.java)?.questionGoals
     }
 
 

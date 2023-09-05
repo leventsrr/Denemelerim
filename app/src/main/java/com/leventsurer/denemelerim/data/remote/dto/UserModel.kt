@@ -22,9 +22,10 @@ data class UserModel(
     val aytNumericalNetList:ArrayList<Double> = arrayListOf(),
     val aytEqualWeightNetList:ArrayList<Double> = arrayListOf(),
     val aytVerbalNetList:ArrayList<Double> = arrayListOf(),
-    val tytNetList:ArrayList<Double> = arrayListOf()
+    val tytNetList:ArrayList<Double> = arrayListOf(),
+    val questionGoals:ArrayList<QuestionGoalModel> = arrayListOf(),
 
-)
+    )
 
 
 fun UserModel.toUserProfileInfoModel(): UserProfileInfoModel {
