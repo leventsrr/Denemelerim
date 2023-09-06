@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leventsurer.denemelerim.data.remote.dto.QuestionGoalModel
 import com.leventsurer.denemelerim.domain.use_case.question_goal_use_case.AddNewQuestionGoalUseCase
+import com.leventsurer.denemelerim.domain.use_case.question_goal_use_case.DeleteQuestionGoalUseCase
 import com.leventsurer.denemelerim.domain.use_case.question_goal_use_case.GetQuestionGoalUseCase
+import com.leventsurer.denemelerim.domain.use_case.question_goal_use_case.UpdateQuestionGoalUseCase
 import com.leventsurer.denemelerim.presentation.profile_screen.ProfileEvent
 import com.leventsurer.denemelerim.presentation.profile_screen.ProfileState
 import com.leventsurer.denemelerim.util.Resource
@@ -21,7 +23,9 @@ import javax.inject.Inject
 @HiltViewModel
 class GoalQuestionViewModel @Inject constructor(
     private val addNewQuestionGoalUseCase: AddNewQuestionGoalUseCase,
-    private val getQuestionGoalsUseCase: GetQuestionGoalUseCase
+    private val getQuestionGoalsUseCase: GetQuestionGoalUseCase,
+    private val updateQuestionGoalUseCase: UpdateQuestionGoalUseCase,
+    private val deleteQuestionGoalUseCase: DeleteQuestionGoalUseCase,
 ) :
     ViewModel() {
 
@@ -31,6 +35,13 @@ class GoalQuestionViewModel @Inject constructor(
 
     private val _addQuestionGoalState = mutableStateOf(QuestionGoalState())
     val addQuestionGoalState: State<QuestionGoalState> = _addQuestionGoalState
+
+    private val _updateGoalState = mutableStateOf(QuestionGoalState())
+    val updateGoalState: State<QuestionGoalState> = _updateGoalState
+
+
+    private val _deleteGoalState = mutableStateOf(QuestionGoalState())
+    val deleteGoalState: State<QuestionGoalState> = _deleteGoalState
 
 
     private var job: Job? = null
@@ -77,6 +88,50 @@ class GoalQuestionViewModel @Inject constructor(
             }.launchIn(viewModelScope)
     }
 
+    private fun updateQuestionGoal(questionGoalModel: QuestionGoalModel, userUid: String) {
+        job?.cancel()
+        job =
+            updateQuestionGoalUseCase.executeUpdateQuestionGoal(questionGoalModel, userUid).onEach {
+                when (it) {
+                    is Resource.Loading -> {
+                        _updateGoalState.value = QuestionGoalState(isLoading = true)
+                    }
+
+                    is Resource.Success -> {
+                        _updateGoalState.value = QuestionGoalState(isLoading = false,)
+                    }
+
+                    is Resource.Error -> {
+                        _updateGoalState.value =
+                            QuestionGoalState(error = it.message.toString(), isLoading = false)
+                    }
+                }
+            }.launchIn(viewModelScope)
+    }
+
+    private fun deleteQuestionGoal(questionGoalModel: QuestionGoalModel, userUid: String) {
+        job?.cancel()
+        job =
+            deleteQuestionGoalUseCase.executeDeleteQuestionGoal(questionGoalModel, userUid).onEach {
+                when (it) {
+                    is Resource.Loading -> {
+                        _deleteGoalState.value = QuestionGoalState(isLoading = true)
+                    }
+
+                    is Resource.Success -> {
+                        Log.e("kontrol","Success:")
+                        _deleteGoalState.value = QuestionGoalState(isLoading = false)
+                    }
+
+                    is Resource.Error -> {
+                        Log.e("kontrol","exception:${it.message}")
+                        _deleteGoalState.value =
+                            QuestionGoalState(error = it.message.toString(), isLoading = false)
+                    }
+                }
+            }.launchIn(viewModelScope)
+    }
+
 
     fun onEvent(event: QuestionGoalEvent) {
         when (event) {
@@ -86,6 +141,14 @@ class GoalQuestionViewModel @Inject constructor(
 
             is QuestionGoalEvent.AddNewQuestionGoal -> {
                 addNewQuestionGoal(event.questionGoalModel, event.userUid)
+            }
+
+            is QuestionGoalEvent.UpdateQuestionGoal ->{
+                updateQuestionGoal(event.questionGoalModel,event.userUid)
+            }
+
+            is QuestionGoalEvent.DeleteQuestionGoal->{
+                deleteQuestionGoal(event.questionGoalModel,event.userUid)
             }
         }
     }

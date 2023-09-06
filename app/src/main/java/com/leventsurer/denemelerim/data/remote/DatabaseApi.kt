@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.toObject
 import com.leventsurer.denemelerim.data.remote.dto.NewAytExamModel
 import com.leventsurer.denemelerim.data.remote.dto.NewTytExamModel
 import com.leventsurer.denemelerim.data.remote.dto.QuestionGoalModel
@@ -208,11 +209,59 @@ class DatabaseApi(private val database: FirebaseFirestore) {
     suspend fun getQuestionGoals(
         userUid: String
     ): ArrayList<QuestionGoalModel>? {
-        Log.e("kontrol","userModel:${database.collection(USER_COLLECTION).document(userUid).get().await()
-            .toObject(UserModel::class.java)?.questionGoals}")
+        Log.e(
+            "kontrol", "userModel:${
+                database.collection(USER_COLLECTION).document(userUid).get().await()
+                    .toObject(UserModel::class.java)?.questionGoals
+            }"
+        )
         return database.collection(USER_COLLECTION).document(userUid).get().await()
             .toObject(UserModel::class.java)?.questionGoals
     }
 
+    suspend fun updateQuestionGoal(userUid: String, questionGoalModel: QuestionGoalModel) {
+        val questionGoals = database.collection(USER_COLLECTION).document(userUid).get().await()
+            .toObject(UserModel::class.java)?.questionGoals
+        for (questionGoal in questionGoals!!) {
+            if (questionGoal.goalName == questionGoalModel.goalName && questionGoal.goalQuestionQuantity == questionGoalModel.goalQuestionQuantity) {
+                questionGoal.solvedQuestionQuantity = questionGoalModel.solvedQuestionQuantity
+                questionGoal.rightQuestionQuantity = questionGoalModel.rightQuestionQuantity
+                questionGoal.falseQuestionQuantity = questionGoalModel.falseQuestionQuantity
+                questionGoal.emptyQuestionQuantity = questionGoalModel.emptyQuestionQuantity
+            }
+        }
 
+        database.collection(USER_COLLECTION).document(userUid)
+            .update("questionGoals", questionGoals).await()
+
+
+    }
+
+
+    suspend fun deleteQuestionGoal(userUid: String, questionGoalModel: QuestionGoalModel) {
+        val questionGoals = database.collection(USER_COLLECTION).document(userUid).get().await()
+            .toObject(UserModel::class.java)?.questionGoals
+
+        val questionGoalsIterator = questionGoals!!.iterator()
+        while (questionGoalsIterator.hasNext()) {
+            val questionGoal = questionGoalsIterator.next()
+            if (questionGoalModel.goalName== questionGoal.goalName && questionGoalModel.goalQuestionQuantity == questionGoal.goalQuestionQuantity) {
+                questionGoalsIterator.remove()
+            }
+        }
+        try {
+            database.collection(USER_COLLECTION).document(userUid)
+                .update("questionGoals", questionGoals).await()
+
+        } catch (e: Exception) {
+            Log.e("kontrol", "error:${e.message}")
+        }
+
+    }
+
+
+    suspend fun deleteUserAccount(userUid: String){
+        database.collection(USER_COLLECTION).document(userUid).delete().await()
+    }
 }
+

@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leventsurer.denemelerim.domain.use_case.database_use_case.AddNewUserUseCase
+import com.leventsurer.denemelerim.domain.use_case.database_use_case.DeleteUserAccountUseCase
 import com.leventsurer.denemelerim.domain.use_case.database_use_case.GetAytExamsUseCase
 import com.leventsurer.denemelerim.domain.use_case.database_use_case.GetTytExamsUseCase
 import com.leventsurer.denemelerim.domain.use_case.database_use_case.GetUserProfileInfoUseCase
@@ -25,6 +26,7 @@ class DatabaseViewModel @Inject constructor(
     private val getTytExamsUseCase: GetTytExamsUseCase,
     private val getAytExamsUseCase: GetAytExamsUseCase,
     private val getUserProfileInfoUseCase: GetUserProfileInfoUseCase,
+    private val deleteUserAccountUseCase: DeleteUserAccountUseCase,
 ) : ViewModel(){
 
     private val _addNewUserState = mutableStateOf(DatabaseState())
@@ -96,6 +98,24 @@ class DatabaseViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    private fun deleteUserAccount(userUid:String){
+        job?.cancel()
+        job = deleteUserAccountUseCase.executeDeleteUserAccount(userUid).onEach {
+            when(it){
+                is Resource.Loading->{
+                    _addNewUserState.value = DatabaseState(isLoading = true)
+                }
+                is Resource.Success->{
+
+                    _addNewUserState.value = DatabaseState(result = it.data, isLoading = false)
+                }
+
+                is Resource.Error-> {
+                    _addNewUserState.value = DatabaseState(error = it.message.toString(), isLoading = false)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
 
 
     fun onEvent(event: DatabaseEvent) {
@@ -110,6 +130,10 @@ class DatabaseViewModel @Inject constructor(
 
             is DatabaseEvent.GetAytExams->{
                 getAytExams(event.userUid)
+            }
+
+            is DatabaseEvent.DeleteUserAccount->{
+                deleteUserAccount(event.userUid)
             }
 
         }

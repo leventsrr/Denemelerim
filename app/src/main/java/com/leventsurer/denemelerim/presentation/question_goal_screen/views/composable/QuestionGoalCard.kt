@@ -10,9 +10,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -29,20 +31,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.leventsurer.denemelerim.R
+import com.leventsurer.denemelerim.data.remote.dto.QuestionGoalModel
+import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
+import com.leventsurer.denemelerim.presentation.question_goal_screen.GoalQuestionViewModel
+import com.leventsurer.denemelerim.presentation.question_goal_screen.QuestionGoalEvent
 import com.leventsurer.denemelerim.presentation.ui.theme.Primary
 import com.leventsurer.denemelerim.presentation.ui.theme.Secondary
 
 //Show bottom sheet source :https://medium.com/@manojbhadane/mastering-android-jetpack-compose-bottomsheet-with-material-3-e61af75c0cac
 @Composable
-fun QuestionGoalCard(goalName:String,goalQuestionQuantity:Int,solvedQuestionQuantity:Int,rightQuestionQuantity:Int,falseQuestionQuantity:Int) {
+fun QuestionGoalCard(
+    questionGoalModel: QuestionGoalModel,
+    deleteItem: (QuestionGoalModel) -> Unit
+) {
     var isExpanded by remember {
         mutableStateOf(false)
     }
     var showSheet by remember { mutableStateOf(false) }
+    val goalQuestionViewModel:GoalQuestionViewModel = hiltViewModel()
+    val dataStoreViewModel:DataStoreViewModel = hiltViewModel()
 
     if (showSheet) {
-        EditGoalBottomSheet() {
+        EditGoalBottomSheet(questionGoalModel) {
             showSheet = false
         }
     }
@@ -75,20 +87,42 @@ fun QuestionGoalCard(goalName:String,goalQuestionQuantity:Int,solvedQuestionQuan
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(text = goalName)
-                    IconButton(
-                        onClick = {
+                    Text(text = questionGoalModel.goalName)
+                    Row() {
+                        IconButton(
+                            onClick = {
 
-                            showSheet = true
-                        }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.outline_edit_note_24),
-                            tint = Secondary,
-                            contentDescription = "asdasd"
-                        )
+                                showSheet = true
+                            }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.outline_edit_note_24),
+                                tint = Secondary,
+                                contentDescription = "asdasd"
+                            )
+                        }
+
+                        IconButton(
+                            modifier = Modifier.width(20.dp),
+                            onClick = {
+                                goalQuestionViewModel.onEvent(QuestionGoalEvent.DeleteQuestionGoal(
+                                    questionGoalModel,
+                                    dataStoreViewModel.getUserUidFromDataStore()
+                                ))
+
+                                deleteItem(questionGoalModel)
+
+
+
+                            }) {
+                            Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = "delete goal",
+                                tint = Color.Red
+                            )
+                        }
                     }
                 }
-                CustomLinearProgressIndicator(solvedQuestionQuantity.toFloat()/goalQuestionQuantity.toFloat())
+                CustomLinearProgressIndicator(questionGoalModel.solvedQuestionQuantity.toFloat() / questionGoalModel.goalQuestionQuantity.toFloat())
             }
             if (isExpanded) {
                 Row(
@@ -96,41 +130,49 @@ fun QuestionGoalCard(goalName:String,goalQuestionQuantity:Int,solvedQuestionQuan
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = "Hedeflenen Soru Sayısı")
-                    Text(text = goalQuestionQuantity.toString())
+                    Text(text = questionGoalModel.goalQuestionQuantity.toString())
                 }
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = "Çözülen Soru Sayısı")
-                    Text(text = solvedQuestionQuantity.toString())
+                    Text(text = questionGoalModel.solvedQuestionQuantity.toString())
                 }
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = "Doğru Sayısı")
-                    Text(text = rightQuestionQuantity.toString())
+                    Text(text = questionGoalModel.rightQuestionQuantity.toString())
                 }
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = "Yanlış Sayısı")
-                    Text(text = falseQuestionQuantity.toString())
+                    Text(text = questionGoalModel.falseQuestionQuantity.toString())
                 }
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(text = "Boş Sayısı")
-                    Text(text = (goalQuestionQuantity- (rightQuestionQuantity + falseQuestionQuantity)).toString())
+                    Text(text = (questionGoalModel.goalQuestionQuantity - (questionGoalModel.rightQuestionQuantity + questionGoalModel.falseQuestionQuantity)).toString())
                 }
             }
-            if(isExpanded){
-                Icon(imageVector = Icons.Default.KeyboardArrowUp, contentDescription = "Arrow Down", modifier = Modifier.fillMaxWidth())
-            }else{
-                Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "Arrow Down", modifier = Modifier.fillMaxWidth())
+            if (isExpanded) {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowUp,
+                    contentDescription = "Arrow Down",
+                    modifier = Modifier.fillMaxWidth()
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.Default.ArrowDropDown,
+                    contentDescription = "Arrow Down",
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
 
         }

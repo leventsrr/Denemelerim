@@ -60,23 +60,27 @@ fun TytStatisticsScreen(
         )
     }
 
-    if(statisticsState.isLoading){
+    if (statisticsState.isLoading) {
         LottieAnimation(
             modifier = Modifier.fillMaxWidth(),
             composition = composition,
             iterations = LottieConstants.IterateForever,
         )
-    }else if(statisticsState.tytExams!=null){
-        if(statisticsState.tytExams.isEmpty()){
-            Text(text = "Henüz kayıtlı istatistiğiniz bulunmuyor")
-        }else{
-            for(exam in statisticsState.tytExams){
+    } else if (statisticsState.tytExams != null) {
+        if (statisticsState.tytExams.isEmpty()) {
+            Text(
+                text = "Henüz kayıtlı istatistiğiniz bulunmuyor",
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+        } else {
+            for (exam in statisticsState.tytExams) {
                 mathTotalNetList.add(exam.mathNet.toFloat())
                 turkishTotalNetList.add(exam.turkishNet.toFloat())
                 socialTotalNetList.add(exam.socialNet.toFloat())
                 scienceTotalNetList.add(exam.scienceNet.toFloat())
             }
-            LaunchedEffect(Unit){
+            LaunchedEffect(Unit) {
                 profileViewModel.onEvent(
                     ProfileEvent.GetUserProfileExam(
                         dataStoreViewModel.getUserUidFromDataStore()
@@ -85,8 +89,8 @@ fun TytStatisticsScreen(
             }
             Column(modifier = Modifier.padding(horizontal = 10.dp)) {
 
-                if(profileState.resultWithExam !=null){
-                    for (net in profileState.resultWithExam!!.tytNetList){
+                if (profileState.resultWithExam != null) {
+                    for (net in profileState.resultWithExam!!.tytNetList) {
                         totalNetList.add(net.toFloat())
                     }
                     Text(

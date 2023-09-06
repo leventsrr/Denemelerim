@@ -1,5 +1,6 @@
 package com.leventsurer.denemelerim.data.repository
 
+import android.util.Log
 import com.leventsurer.denemelerim.data.remote.DatabaseApi
 import com.leventsurer.denemelerim.data.remote.dto.NewAytExamModel
 import com.leventsurer.denemelerim.data.remote.dto.NewTytExamModel
@@ -60,6 +61,18 @@ class DatabaseRepositoryImpl @Inject constructor(
 
     override suspend fun getQuestionGoals(userUid: String): ArrayList<QuestionGoalModel>? {
         return databaseApi.getQuestionGoals(userUid)
+    }
+
+    override suspend fun updateQuestionGoal(userUid: String, questionGoalModel: QuestionGoalModel) {
+         databaseApi.updateQuestionGoal(userUid, questionGoalModel)
+    }
+
+    override suspend fun deleteQuestionGoal(userUid: String, questionGoalModel: QuestionGoalModel) {
+        return databaseApi.deleteQuestionGoal(userUid, questionGoalModel)
+    }
+
+    override suspend fun deleteUserAccount(userUid: String) {
+        databaseApi.deleteUserAccount(userUid)
     }
 
 }

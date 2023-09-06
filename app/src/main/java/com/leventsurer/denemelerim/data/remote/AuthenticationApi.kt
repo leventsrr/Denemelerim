@@ -20,8 +20,14 @@ class AuthenticationApi(private val firebaseAuth: FirebaseAuth) {
         return result.user!!
     }
     
-    suspend fun logOut(){
+     fun logOut(){
         firebaseAuth.signOut()
     }
+
+     fun deleteAccount(){
+        firebaseAuth.currentUser!!.delete()
+    }
+
+
 
 }

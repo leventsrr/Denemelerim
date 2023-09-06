@@ -28,4 +28,8 @@ class AuthenticationRepositoryImpl @Inject constructor(
         api.logOut()
     }
 
+    override suspend fun deleteAccount() {
+        api.deleteAccount()
+    }
+
 }

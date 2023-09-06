@@ -1,5 +1,6 @@
 package com.leventsurer.denemelerim.presentation.question_goal_screen.views
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -45,6 +46,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.leventsurer.denemelerim.R
+import com.leventsurer.denemelerim.data.remote.dto.QuestionGoalModel
 import com.leventsurer.denemelerim.presentation.common.composable.MyTopAppBar
 import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
 import com.leventsurer.denemelerim.presentation.leaderboard_screen.composable.LeaderBoardCardPointRow
@@ -66,11 +68,13 @@ fun QuestionGoalScreen(
     val goalQuestionState = questionGoalViewModel.getQuestionGoalState.value
     var showSheet by remember { mutableStateOf(false) }
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.data))
+    var goalList by remember { mutableStateOf(emptyList<QuestionGoalModel>()) }
     if (showSheet) {
         AddNewQuestionGoalBottomSheet() {
             showSheet = false
         }
     }
+
 
     LaunchedEffect(Unit) {
         questionGoalViewModel.onEvent(
@@ -93,16 +97,28 @@ fun QuestionGoalScreen(
                         iterations = LottieConstants.IterateForever,
                     )
                 } else if (goalQuestionState.result != null && goalQuestionState.result.isEmpty()) {
-                    Text(text = "Kayıtlı Bir Hedefiniz Bulunmuyor")
+                    Text(
+                        text = "Kayıtlı Bir Soru Hedefiniz Bulunmuyor",
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
                 } else if (!goalQuestionState.result.isNullOrEmpty()) {
+                    goalList = goalQuestionState.result.toList()
                     LazyColumn() {
-                        items(goalQuestionState.result.size) { index ->
+                        items(goalList.size) { index ->
+                            val questionGoalModel = QuestionGoalModel(
+                                goalList[index].goalName,
+                                goalList[index].goalQuestionQuantity,
+                                goalList[index].solvedQuestionQuantity,
+                                goalList[index].rightQuestionQuantity,
+                                goalList[index].falseQuestionQuantity,
+                                goalList[index].emptyQuestionQuantity
+                            )
                             QuestionGoalCard(
-                                goalQuestionState.result[index].goalName,
-                                goalQuestionState.result[index].goalQuestionQuantity,
-                                goalQuestionState.result[index].solvedQuestionQuantity,
-                                goalQuestionState.result[index].rightQuestionQuantity,
-                                goalQuestionState.result[index].falseQuestionQuantity
+                                questionGoalModel,
+                                deleteItem = {
+                                    goalList = goalList.toMutableList().apply { removeAt(index) }
+                                }
                             )
                         }
                     }

@@ -43,6 +43,7 @@ fun SetTargetScreen(
     var targetUniversity by remember { mutableStateOf("") }
     var targetDepartment by remember { mutableStateOf("") }
     var isErrorVisible by remember { mutableStateOf(false) }
+    var isUniversityChosen by remember { mutableStateOf(true) }
     val showDialog = remember {mutableStateOf(false) }
     val isLoading by remember { mutableStateOf(false) }
     var isRequestNeccessary by remember {mutableStateOf(true) }
@@ -103,11 +104,16 @@ fun SetTargetScreen(
                 .padding(horizontal = 10.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Primary),
             onClick = {
-                isChoosingUniversity = false
-                setTargetViewModel.onEvent(
-                    SetTargetEvent.GetUniversitiesAndDepartment
-                )
-                isRequestNeccessary = true
+                if(targetUniversity == ""){
+                    isUniversityChosen = false
+                }else{
+                    isChoosingUniversity = false
+                    setTargetViewModel.onEvent(
+                        SetTargetEvent.GetUniversitiesAndDepartment
+                    )
+                    isRequestNeccessary = true
+                }
+
             }) {
             if (targetDepartment.isEmpty()) {
                 Text(text = "Hedef Bölüm")
@@ -205,6 +211,9 @@ fun SetTargetScreen(
         if (isErrorVisible) {
             Spacer(modifier = Modifier.height(15.dp))
             Text(text = "Lütfen belirli bir hedef belirle...", color = Color.Red)
+        }else if (!isUniversityChosen){
+            Spacer(modifier = Modifier.height(15.dp))
+            Text(text = "Lütfen önce üniversite hedefini belirle...", color = Color.Red)
         }
 
 

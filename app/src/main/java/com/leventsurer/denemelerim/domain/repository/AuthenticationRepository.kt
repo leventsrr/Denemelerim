@@ -8,4 +8,5 @@ interface AuthenticationRepository {
     suspend fun signIn(email:String,password: String):FirebaseUser
     suspend fun signUp(userName:String,email:String,password:String):FirebaseUser
     suspend fun logout()
+    suspend fun deleteAccount()
 }

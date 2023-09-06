@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.leventsurer.denemelerim.data.remote.dto.QuestionGoalModel
@@ -27,13 +28,14 @@ import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewM
 import com.leventsurer.denemelerim.presentation.question_goal_screen.GoalQuestionViewModel
 import com.leventsurer.denemelerim.presentation.question_goal_screen.QuestionGoalEvent
 import com.leventsurer.denemelerim.presentation.ui.theme.Secondary
+import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddNewQuestionGoalBottomSheet(onDismiss: () -> Unit) {
 
-    val questionGoalViewModel:GoalQuestionViewModel = hiltViewModel()
-    val dataStoreViewModel:DataStoreViewModel = hiltViewModel()
+    val questionGoalViewModel: GoalQuestionViewModel = hiltViewModel()
+    val dataStoreViewModel: DataStoreViewModel = hiltViewModel()
     val addQuestionGoalState = questionGoalViewModel.addQuestionGoalState.value
     val modalBottomSheetState = rememberModalBottomSheetState()
     var goalQuestionQuantity by remember {
@@ -43,14 +45,19 @@ fun AddNewQuestionGoalBottomSheet(onDismiss: () -> Unit) {
     var goalName by remember {
         mutableStateOf("")
     }
-
+    var isError by remember {
+        mutableStateOf(false)
+    }
 
     ModalBottomSheet(
         onDismissRequest = { onDismiss() },
         sheetState = modalBottomSheetState,
         dragHandle = { BottomSheetDefaults.DragHandle() },
     ) {
-        Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             OutlinedTextField(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 value = goalName,
@@ -69,25 +76,48 @@ fun AddNewQuestionGoalBottomSheet(onDismiss: () -> Unit) {
                 label = { Text("Hedef Soru Sayısı") },
 
                 )
+            
+            if(isError){
+              Text(text = "Hedef Adı Boş Bırakılamaz.", color = Color.Red)
+            }
             ElevatedButton(
                 colors = ButtonDefaults.buttonColors(containerColor = Secondary),
                 onClick = {
-                    val questionModel = QuestionGoalModel(goalName = goalName, goalQuestionQuantity = goalQuestionQuantity.toInt())
-                    questionGoalViewModel.onEvent(QuestionGoalEvent.AddNewQuestionGoal(
-                        questionModel,
-                        dataStoreViewModel.getUserUidFromDataStore()
-                    ))
 
-                    if(!addQuestionGoalState.isLoading){
+                    val questionModel = QuestionGoalModel(
+                        goalName = goalName,
+                        goalQuestionQuantity = goalQuestionQuantity.toIntOrNull()?:0
+                    )
+                    if(goalName.isNullOrEmpty()){
+                        isError = true
+                    }else{
+                        questionGoalViewModel.onEvent(
+                            QuestionGoalEvent.AddNewQuestionGoal(
+                                questionModel,
+                                dataStoreViewModel.getUserUidFromDataStore()
+                            )
+                        )
+
+                        questionGoalViewModel.onEvent(
+                            QuestionGoalEvent.GetQuestionGoals(
+                                dataStoreViewModel.getUserUidFromDataStore(),
+                            )
+                        )
+                    }
+
+
+                    if (!addQuestionGoalState.isLoading) {
                         goalName = ""
                         goalQuestionQuantity = ""
                     }
+
+
+
+
                 }) {
-                if(addQuestionGoalState.isLoading){
-                    CircularProgressIndicator()
-                }else{
-                    Text(text = "kaydet")
-                }
+
+                Text(text = "kaydet")
+
             }
         }
     }

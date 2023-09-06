@@ -20,5 +20,9 @@ class AuthenticationViewModel @Inject constructor(
         authenticationRepository.logout()
     }
 
+    fun deleteAccount() = runBlocking {
+        authenticationRepository.deleteAccount()
+    }
+
 
 }
