@@ -15,4 +15,6 @@ sealed class QuestionGoalEvent {
     data class DeleteQuestionGoal(val questionGoalModel: QuestionGoalModel, val userUid: String) :
         QuestionGoalEvent()
 
+   object GetTytLessonsTopics:QuestionGoalEvent()
+
 }

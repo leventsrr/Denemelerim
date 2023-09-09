@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leventsurer.denemelerim.data.remote.dto.QuestionGoalModel
+import com.leventsurer.denemelerim.domain.use_case.get_exams_topics.GetTytExamLessonsTopicUseCase
 import com.leventsurer.denemelerim.domain.use_case.question_goal_use_case.AddNewQuestionGoalUseCase
 import com.leventsurer.denemelerim.domain.use_case.question_goal_use_case.DeleteQuestionGoalUseCase
 import com.leventsurer.denemelerim.domain.use_case.question_goal_use_case.GetQuestionGoalUseCase
@@ -26,6 +27,7 @@ class GoalQuestionViewModel @Inject constructor(
     private val getQuestionGoalsUseCase: GetQuestionGoalUseCase,
     private val updateQuestionGoalUseCase: UpdateQuestionGoalUseCase,
     private val deleteQuestionGoalUseCase: DeleteQuestionGoalUseCase,
+    private val getTytExamLessonsTopicUseCase: GetTytExamLessonsTopicUseCase
 ) :
     ViewModel() {
 
@@ -43,6 +45,8 @@ class GoalQuestionViewModel @Inject constructor(
     private val _deleteGoalState = mutableStateOf(QuestionGoalState())
     val deleteGoalState: State<QuestionGoalState> = _deleteGoalState
 
+    private val _tytExamLessonsTopicState = mutableStateOf(QuestionGoalState())
+    val tytExamLessonsTopicState:State<QuestionGoalState> = _tytExamLessonsTopicState
 
     private var job: Job? = null
     private fun getQuestionGoals(userUid: String) {
@@ -133,6 +137,29 @@ class GoalQuestionViewModel @Inject constructor(
     }
 
 
+    private fun getTytExamLessonsTopics() {
+        job?.cancel()
+        job = getTytExamLessonsTopicUseCase.executeGetTytExamLessonsTopics().onEach {
+            when (it) {
+                is Resource.Loading -> {
+                    _tytExamLessonsTopicState.value = QuestionGoalState(isLoading = true)
+                }
+
+                is Resource.Success -> {
+                    _tytExamLessonsTopicState.value =
+                        QuestionGoalState(tytTopicsResult = it.data, isLoading = false)
+                }
+
+                is Resource.Error -> {
+                    _tytExamLessonsTopicState.value =
+                        QuestionGoalState(error = it.message.toString(), isLoading = false)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+
+
     fun onEvent(event: QuestionGoalEvent) {
         when (event) {
             is QuestionGoalEvent.GetQuestionGoals -> {
@@ -149,6 +176,10 @@ class GoalQuestionViewModel @Inject constructor(
 
             is QuestionGoalEvent.DeleteQuestionGoal->{
                 deleteQuestionGoal(event.questionGoalModel,event.userUid)
+            }
+
+            is QuestionGoalEvent.GetTytLessonsTopics->{
+                getTytExamLessonsTopics()
             }
         }
     }

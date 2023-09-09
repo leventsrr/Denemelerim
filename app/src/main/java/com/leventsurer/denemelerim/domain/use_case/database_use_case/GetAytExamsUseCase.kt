@@ -12,14 +12,13 @@ import javax.inject.Inject
 class GetAytExamsUseCase @Inject constructor(private val databaseRepository: DatabaseRepository) {
 
 
-
     fun executeGetAytExams(userUid: String): Flow<Resource<ArrayList<NewAytExamModel>>> = flow {
         emit(Resource.Loading())
 
         val result = databaseRepository.getUserAytExam(userUid)
-        if(result!=null){
+        if (result != null) {
             emit(Resource.Success(result))
-        }else{
+        } else {
             emit(Resource.Error("true"))
         }
 

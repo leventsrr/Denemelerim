@@ -10,10 +10,12 @@ import com.leventsurer.denemelerim.data.remote.UniversitiesAndDepartmentsApi
 import com.leventsurer.denemelerim.data.repository.AuthenticationRepositoryImpl
 import com.leventsurer.denemelerim.data.repository.DataStoreRepositoryImpl
 import com.leventsurer.denemelerim.data.repository.DatabaseRepositoryImpl
+import com.leventsurer.denemelerim.data.repository.GetExamsLessonsTopicApiRepositoryImpl
 import com.leventsurer.denemelerim.data.repository.GetUniversitiesAndDepartmentsRepositoryImpl
 import com.leventsurer.denemelerim.domain.repository.AuthenticationRepository
 import com.leventsurer.denemelerim.domain.repository.DataStoreRepository
 import com.leventsurer.denemelerim.domain.repository.DatabaseRepository
+import com.leventsurer.denemelerim.domain.repository.GetExamsLessonsTopicApiRepository
 import com.leventsurer.denemelerim.domain.repository.GetUniversitiesAndDepartmentsRepository
 import com.leventsurer.denemelerim.util.Constants.UNIVERSITIES_AND_DEPARTMENTS_BASE_URL
 import dagger.Module
@@ -45,6 +47,13 @@ object AppModule {
     @Singleton
     fun provideAuthenticationRepository(api:AuthenticationApi): AuthenticationRepository {
         return AuthenticationRepositoryImpl(api = api)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideGetExamsLessonsTopicApiRepository(examsLessonsTopicsApi: ExamsLessonsTopicsApi): GetExamsLessonsTopicApiRepository {
+        return GetExamsLessonsTopicApiRepositoryImpl(examsLessonsTopicsApi = examsLessonsTopicsApi)
     }
 
     @Provides

@@ -42,6 +42,9 @@ fun QuestionGoalScreen(
             showSheet = false
         }
     }
+    var isInQuestionGoalScreen by remember {
+        mutableStateOf(false)
+    }
 
 
     
@@ -65,10 +68,13 @@ fun QuestionGoalScreen(
                     }
                 }
                 if(state == 0){
+                    isInQuestionGoalScreen = false
                     LessonsTopicScreen()
                 }
                 else if(state == 1){
+                    isInQuestionGoalScreen = true
                     QuestionGoalsScreen()
+
                 }
                 
                 
@@ -77,18 +83,21 @@ fun QuestionGoalScreen(
 
         },
         floatingActionButton = {
-            FloatingActionButton(
-                containerColor = Secondary,
-                onClick = {
-                    showSheet = true
+            if(isInQuestionGoalScreen){
+                FloatingActionButton(
+                    containerColor = Secondary,
+                    onClick = {
+                        showSheet = true
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Add New Goal",
+                        tint = Color.White
+                    )
                 }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Add New Goal",
-                    tint = Color.White
-                )
             }
+
         },
         floatingActionButtonPosition = FabPosition.End,
     )
