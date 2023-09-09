@@ -9,7 +9,8 @@ object Constants {
     const val USER_COLLECTION = "users"
     const val TARGET_DEPARTMENT = "targetDepartment"
     const val TARGET_UNIVERSITY = "targetUniversity"
-    const val USER_AYT_EXAMS = "aytExams"
-    const val USER_TYT_EXAMS = "tytExams"
-    const val UNIVERSITIES_AND_DEPARTMENTS_BASE_URL = "https://raw.githubusercontent.com/leventsrr/"
+
+    const val UNIVERSITIES_AND_DEPARTMENTS_BASE_URL = "https://raw.githubusercontent.com/leventsrr/universitiesAnddepartments/main/"
 }
+
+

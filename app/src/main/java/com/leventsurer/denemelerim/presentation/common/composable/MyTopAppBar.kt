@@ -2,7 +2,6 @@ package com.leventsurer.denemelerim.presentation.common.composable
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -31,7 +30,7 @@ fun MyTopAppBar(appBarTitle: String, navController: NavController) {
 
             IconButton(
                 onClick = {
-                    navController.navigate(Screen.QuestionGoalScreen.route)
+                    navController.navigate(Screen.GoalsScreen.route)
                 }) {
 
                 Icon(

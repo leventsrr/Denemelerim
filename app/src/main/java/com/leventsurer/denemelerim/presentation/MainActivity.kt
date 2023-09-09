@@ -89,7 +89,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
-                        composable(Screen.QuestionGoalScreen.route) {
+                        composable(Screen.GoalsScreen.route) {
                             QuestionGoalScreen(
                                 navController = navController
                             )

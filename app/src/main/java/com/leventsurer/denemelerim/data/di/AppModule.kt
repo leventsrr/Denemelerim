@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.leventsurer.denemelerim.data.remote.AuthenticationApi
 import com.leventsurer.denemelerim.data.remote.DatabaseApi
+import com.leventsurer.denemelerim.data.remote.ExamsLessonsTopicsApi
 import com.leventsurer.denemelerim.data.remote.UniversitiesAndDepartmentsApi
 import com.leventsurer.denemelerim.data.repository.AuthenticationRepositoryImpl
 import com.leventsurer.denemelerim.data.repository.DataStoreRepositoryImpl
@@ -54,6 +55,17 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(UniversitiesAndDepartmentsApi::class.java)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideExamsLessonsTopicsApi(): ExamsLessonsTopicsApi {
+        return Retrofit.Builder()
+            .baseUrl(UNIVERSITIES_AND_DEPARTMENTS_BASE_URL) // Base URL for your API
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ExamsLessonsTopicsApi::class.java)
     }
 
     @Provides
