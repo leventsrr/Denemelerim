@@ -17,4 +17,7 @@ sealed class QuestionGoalEvent {
 
    object GetTytLessonsTopics:QuestionGoalEvent()
 
+    object GetAytNumericalExamLessonsTopic:QuestionGoalEvent()
+    object GetAytEqualWeightExamLessonsTopic:QuestionGoalEvent()
+
 }

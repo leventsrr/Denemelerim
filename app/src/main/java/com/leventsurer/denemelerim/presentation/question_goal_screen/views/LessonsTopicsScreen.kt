@@ -34,6 +34,8 @@ import com.leventsurer.denemelerim.presentation.common.composable.CustomSpinner
 import com.leventsurer.denemelerim.presentation.home_screen.views.composable.TytExamCard
 import com.leventsurer.denemelerim.presentation.question_goal_screen.GoalQuestionViewModel
 import com.leventsurer.denemelerim.presentation.question_goal_screen.QuestionGoalEvent
+import com.leventsurer.denemelerim.presentation.question_goal_screen.views.composable.AytEqualWeightTopics
+import com.leventsurer.denemelerim.presentation.question_goal_screen.views.composable.AytNumericalTopics
 import com.leventsurer.denemelerim.presentation.question_goal_screen.views.composable.TytLessonsTopics
 import com.leventsurer.denemelerim.presentation.set_target_screen.SetTargetEvent
 
@@ -74,12 +76,5 @@ fun LessonsTopicScreen() {
     }
 }
 
-@Composable
-fun AytEqualWeightTopics() {
 
-}
 
-@Composable
-fun AytNumericalTopics() {
-
-}
