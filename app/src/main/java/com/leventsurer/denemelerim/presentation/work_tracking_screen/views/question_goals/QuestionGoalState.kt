@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.presentation.question_goal_screen
+package com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals
 
 import com.leventsurer.denemelerim.data.remote.dto.AytEqualWeightExamLessonsTopicsModel
 import com.leventsurer.denemelerim.data.remote.dto.AytNumericalExamLessonsTopicsModel
@@ -12,5 +12,7 @@ data class QuestionGoalState(
     val result: List<QuestionGoalModel>? = null,
     val tytTopicsResult: TytExamLessonsTopicsModel? = null,
     val aytNumericalExamLessonsTopic :AytNumericalExamLessonsTopicsModel? = null,
-    val aytEqualWeightExamLessonsTopic :AytEqualWeightExamLessonsTopicsModel? = null
+    val aytEqualWeightExamLessonsTopic :AytEqualWeightExamLessonsTopicsModel? = null,
+    val changeExamLessonTopicStatusResult:Boolean?=null,
+    val userExamLessonsTopicStatus:ArrayList<String>?=null
 )

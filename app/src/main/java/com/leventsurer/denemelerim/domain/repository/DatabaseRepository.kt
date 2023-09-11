@@ -35,4 +35,8 @@ interface DatabaseRepository {
     suspend fun deleteQuestionGoal(userUid: String,questionGoalModel: QuestionGoalModel)
     suspend fun deleteUserAccount(userUid: String)
 
+    suspend fun changeExamLessonTopicStatus(topicName:String,isDone:Boolean,userUid: String)
+
+    suspend fun getUserExamLessonsTopicStatus(userUid: String):ArrayList<String>
+
 }

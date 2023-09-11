@@ -24,6 +24,7 @@ data class UserModel(
     val aytVerbalNetList:ArrayList<Double> = arrayListOf(),
     val tytNetList:ArrayList<Double> = arrayListOf(),
     val questionGoals:ArrayList<QuestionGoalModel> = arrayListOf(),
+    val lessonsTopic:ArrayList<String>  = arrayListOf()
 
     )
 

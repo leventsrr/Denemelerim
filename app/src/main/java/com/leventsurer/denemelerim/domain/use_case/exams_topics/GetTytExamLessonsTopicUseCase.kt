@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.domain.use_case.get_exams_topics
+package com.leventsurer.denemelerim.domain.use_case.exams_topics
 
 import com.leventsurer.denemelerim.data.remote.dto.TytExamLessonsTopicsModel
 import com.leventsurer.denemelerim.domain.repository.GetExamsLessonsTopicApiRepository

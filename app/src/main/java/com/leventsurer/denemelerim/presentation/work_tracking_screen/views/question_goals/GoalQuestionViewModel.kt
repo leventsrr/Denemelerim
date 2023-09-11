@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.presentation.question_goal_screen
+package com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals
 
 import android.util.Log
 import androidx.compose.runtime.State
@@ -6,15 +6,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.leventsurer.denemelerim.data.remote.dto.QuestionGoalModel
-import com.leventsurer.denemelerim.domain.use_case.get_exams_topics.GetAytEqualWeightLessonsTopicUseCase
-import com.leventsurer.denemelerim.domain.use_case.get_exams_topics.GetAytNumericalExamLessonsTopicUseCase
-import com.leventsurer.denemelerim.domain.use_case.get_exams_topics.GetTytExamLessonsTopicUseCase
+import com.leventsurer.denemelerim.domain.use_case.exams_topics.ChangeExamLessonTopicStatusUseCase
+import com.leventsurer.denemelerim.domain.use_case.exams_topics.GetAytEqualWeightLessonsTopicUseCase
+import com.leventsurer.denemelerim.domain.use_case.exams_topics.GetAytNumericalExamLessonsTopicUseCase
+import com.leventsurer.denemelerim.domain.use_case.exams_topics.GetTytExamLessonsTopicUseCase
+import com.leventsurer.denemelerim.domain.use_case.exams_topics.GetUserExamLessonsTopicStatusUseCase
 import com.leventsurer.denemelerim.domain.use_case.question_goal_use_case.AddNewQuestionGoalUseCase
 import com.leventsurer.denemelerim.domain.use_case.question_goal_use_case.DeleteQuestionGoalUseCase
 import com.leventsurer.denemelerim.domain.use_case.question_goal_use_case.GetQuestionGoalUseCase
 import com.leventsurer.denemelerim.domain.use_case.question_goal_use_case.UpdateQuestionGoalUseCase
-import com.leventsurer.denemelerim.presentation.profile_screen.ProfileEvent
-import com.leventsurer.denemelerim.presentation.profile_screen.ProfileState
 import com.leventsurer.denemelerim.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -32,6 +32,8 @@ class GoalQuestionViewModel @Inject constructor(
     private val getTytExamLessonsTopicUseCase: GetTytExamLessonsTopicUseCase,
     private val getAytNumericalExamLessonsTopicUseCase: GetAytNumericalExamLessonsTopicUseCase,
     private val getAytEqualWeightExamLessonsTopicUseCase: GetAytEqualWeightLessonsTopicUseCase,
+    private val changeExamLessonTopicStatusUseCase: ChangeExamLessonTopicStatusUseCase,
+    private val getUserExamLessonsTopicStatusUseCase: GetUserExamLessonsTopicStatusUseCase,
 ) :
     ViewModel() {
 
@@ -50,13 +52,23 @@ class GoalQuestionViewModel @Inject constructor(
     val deleteGoalState: State<QuestionGoalState> = _deleteGoalState
 
     private val _tytExamLessonsTopicState = mutableStateOf(QuestionGoalState())
-    val tytExamLessonsTopicState:State<QuestionGoalState> = _tytExamLessonsTopicState
+    val tytExamLessonsTopicState: State<QuestionGoalState> = _tytExamLessonsTopicState
 
     private val _aytNumericalExamLessonsTopicState = mutableStateOf(QuestionGoalState())
-    val aytNumericalExamLessonsTopicState:State<QuestionGoalState> = _aytNumericalExamLessonsTopicState
+    val aytNumericalExamLessonsTopicState: State<QuestionGoalState> =
+        _aytNumericalExamLessonsTopicState
 
     private val _aytEqualWeightExamLessonsTopicState = mutableStateOf(QuestionGoalState())
-    val aytEqualWeightExamLessonsTopicState:State<QuestionGoalState> = _aytEqualWeightExamLessonsTopicState
+    val aytEqualWeightExamLessonsTopicState: State<QuestionGoalState> =
+        _aytEqualWeightExamLessonsTopicState
+
+    private val _changeExamLessonTopicStatusState = mutableStateOf(QuestionGoalState())
+    val changeExamLessonTopicStatusState: State<QuestionGoalState> =
+        _changeExamLessonTopicStatusState
+
+    private val _getUserExamLessonsTopicStatus = mutableStateOf(QuestionGoalState())
+    val getUserExamLessonsTopicStatus: State<QuestionGoalState> =
+        _getUserExamLessonsTopicStatus
 
     private var job: Job? = null
     private fun getQuestionGoals(userUid: String) {
@@ -68,7 +80,7 @@ class GoalQuestionViewModel @Inject constructor(
                 }
 
                 is Resource.Success -> {
-                    Log.e("kontrol","viewmodel success")
+                    Log.e("kontrol", "viewmodel success")
                     _getQuestionGoalState.value =
                         QuestionGoalState(result = it.data, isLoading = false)
                 }
@@ -91,7 +103,7 @@ class GoalQuestionViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
-                        _addQuestionGoalState.value = QuestionGoalState(isLoading = false,)
+                        _addQuestionGoalState.value = QuestionGoalState(isLoading = false)
                     }
 
                     is Resource.Error -> {
@@ -112,7 +124,7 @@ class GoalQuestionViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
-                        _updateGoalState.value = QuestionGoalState(isLoading = false,)
+                        _updateGoalState.value = QuestionGoalState(isLoading = false)
                     }
 
                     is Resource.Error -> {
@@ -133,12 +145,12 @@ class GoalQuestionViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
-                        Log.e("kontrol","Success:")
+                        Log.e("kontrol", "Success:")
                         _deleteGoalState.value = QuestionGoalState(isLoading = false)
                     }
 
                     is Resource.Error -> {
-                        Log.e("kontrol","exception:${it.message}")
+                        Log.e("kontrol", "exception:${it.message}")
                         _deleteGoalState.value =
                             QuestionGoalState(error = it.message.toString(), isLoading = false)
                     }
@@ -170,41 +182,104 @@ class GoalQuestionViewModel @Inject constructor(
 
     private fun getAytNumericalExamLessonsTopics() {
         job?.cancel()
-        job = getAytNumericalExamLessonsTopicUseCase.executeGetAytNumericalExamLessonsTopics().onEach {
+        job = getAytNumericalExamLessonsTopicUseCase.executeGetAytNumericalExamLessonsTopics()
+            .onEach {
+                when (it) {
+                    is Resource.Loading -> {
+                        _aytNumericalExamLessonsTopicState.value =
+                            QuestionGoalState(isLoading = true)
+                    }
+
+                    is Resource.Success -> {
+                        _aytNumericalExamLessonsTopicState.value =
+                            QuestionGoalState(
+                                aytNumericalExamLessonsTopic = it.data,
+                                isLoading = false
+                            )
+                    }
+
+                    is Resource.Error -> {
+                        _aytNumericalExamLessonsTopicState.value =
+                            QuestionGoalState(error = it.message.toString(), isLoading = false)
+                    }
+                }
+            }.launchIn(viewModelScope)
+    }
+
+
+    private fun getAytEqualWeightExamLessonsTopics() {
+        job?.cancel()
+        job = getAytEqualWeightExamLessonsTopicUseCase.executeGetAytEqualWeightExamLessonsTopics()
+            .onEach {
+                when (it) {
+                    is Resource.Loading -> {
+                        _aytEqualWeightExamLessonsTopicState.value =
+                            QuestionGoalState(isLoading = true)
+                    }
+
+                    is Resource.Success -> {
+                        _aytEqualWeightExamLessonsTopicState.value =
+                            QuestionGoalState(
+                                aytEqualWeightExamLessonsTopic = it.data,
+                                isLoading = false
+                            )
+                    }
+
+                    is Resource.Error -> {
+                        _aytEqualWeightExamLessonsTopicState.value =
+                            QuestionGoalState(error = it.message.toString(), isLoading = false)
+                    }
+                }
+            }.launchIn(viewModelScope)
+    }
+
+    private fun changeExamLessonTopicStatus(topicName: String, isDone: Boolean, userUid: String) {
+        Log.e("kontrol","status viewModel:${isDone}")
+        job?.cancel()
+        job = changeExamLessonTopicStatusUseCase.executeChangeExamLessonTopicStatusUseCase(
+            topicName,
+            isDone,
+            userUid
+        ).onEach {
             when (it) {
                 is Resource.Loading -> {
-                    _aytNumericalExamLessonsTopicState.value = QuestionGoalState(isLoading = true)
+                    _changeExamLessonTopicStatusState.value = QuestionGoalState(isLoading = true)
                 }
 
                 is Resource.Success -> {
-                    _aytNumericalExamLessonsTopicState.value =
-                        QuestionGoalState(aytNumericalExamLessonsTopic = it.data, isLoading = false)
+                    _changeExamLessonTopicStatusState.value =
+                        QuestionGoalState(
+                            changeExamLessonTopicStatusResult = it.data,
+                            isLoading = false
+                        )
                 }
 
                 is Resource.Error -> {
-                    _aytNumericalExamLessonsTopicState.value =
+                    _changeExamLessonTopicStatusState.value =
                         QuestionGoalState(error = it.message.toString(), isLoading = false)
                 }
             }
         }.launchIn(viewModelScope)
     }
 
-
-    private fun getAytEqualWeightExamLessonsTopics() {
+    private fun getExamLessonTopicStatus(userUid: String) {
         job?.cancel()
-        job = getAytEqualWeightExamLessonsTopicUseCase.executeGetAytEqualWeightExamLessonsTopics().onEach {
+        job = getUserExamLessonsTopicStatusUseCase.executeGetUserExamLessonsTopicStatusUseCase(userUid).onEach {
             when (it) {
                 is Resource.Loading -> {
-                    _aytEqualWeightExamLessonsTopicState.value = QuestionGoalState(isLoading = true)
+                    _getUserExamLessonsTopicStatus.value = QuestionGoalState(isLoading = true)
                 }
 
                 is Resource.Success -> {
-                    _aytEqualWeightExamLessonsTopicState.value =
-                        QuestionGoalState(aytEqualWeightExamLessonsTopic = it.data, isLoading = false)
+                    _getUserExamLessonsTopicStatus.value =
+                        QuestionGoalState(
+                            userExamLessonsTopicStatus = it.data,
+                            isLoading = false
+                        )
                 }
 
                 is Resource.Error -> {
-                    _aytEqualWeightExamLessonsTopicState.value =
+                    _getUserExamLessonsTopicStatus.value =
                         QuestionGoalState(error = it.message.toString(), isLoading = false)
                 }
             }
@@ -223,24 +298,32 @@ class GoalQuestionViewModel @Inject constructor(
                 addNewQuestionGoal(event.questionGoalModel, event.userUid)
             }
 
-            is QuestionGoalEvent.UpdateQuestionGoal ->{
-                updateQuestionGoal(event.questionGoalModel,event.userUid)
+            is QuestionGoalEvent.UpdateQuestionGoal -> {
+                updateQuestionGoal(event.questionGoalModel, event.userUid)
             }
 
-            is QuestionGoalEvent.DeleteQuestionGoal->{
-                deleteQuestionGoal(event.questionGoalModel,event.userUid)
+            is QuestionGoalEvent.DeleteQuestionGoal -> {
+                deleteQuestionGoal(event.questionGoalModel, event.userUid)
             }
 
-            is QuestionGoalEvent.GetTytLessonsTopics->{
+            is QuestionGoalEvent.GetTytLessonsTopics -> {
                 getTytExamLessonsTopics()
             }
 
-            is QuestionGoalEvent.GetAytNumericalExamLessonsTopic->{
+            is QuestionGoalEvent.GetAytNumericalExamLessonsTopic -> {
                 getAytNumericalExamLessonsTopics()
             }
 
-            is QuestionGoalEvent.GetAytEqualWeightExamLessonsTopic->{
+            is QuestionGoalEvent.GetAytEqualWeightExamLessonsTopic -> {
                 getAytEqualWeightExamLessonsTopics()
+            }
+
+            is QuestionGoalEvent.ChangeExamLessonTopicStatus -> {
+                changeExamLessonTopicStatus(event.topicName, event.isDone, event.userUid)
+            }
+
+            is QuestionGoalEvent.GetExamLessonTopicStatus -> {
+                getExamLessonTopicStatus(event.userUid)
             }
         }
     }

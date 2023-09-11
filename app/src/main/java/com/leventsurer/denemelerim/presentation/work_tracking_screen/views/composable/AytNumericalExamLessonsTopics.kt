@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.presentation.question_goal_screen.views.composable
+package com.leventsurer.denemelerim.presentation.work_tracking_screen.views.composable
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
@@ -13,8 +13,9 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.leventsurer.denemelerim.R
-import com.leventsurer.denemelerim.presentation.question_goal_screen.GoalQuestionViewModel
-import com.leventsurer.denemelerim.presentation.question_goal_screen.QuestionGoalEvent
+import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.lesson_topic_tracking.composable.LessonTopicCard
+import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals.GoalQuestionViewModel
+import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals.QuestionGoalEvent
 
 @Composable
 fun AytNumericalTopics() {

@@ -245,7 +245,7 @@ class DatabaseApi(private val database: FirebaseFirestore) {
         val questionGoalsIterator = questionGoals!!.iterator()
         while (questionGoalsIterator.hasNext()) {
             val questionGoal = questionGoalsIterator.next()
-            if (questionGoalModel.goalName== questionGoal.goalName && questionGoalModel.goalQuestionQuantity == questionGoal.goalQuestionQuantity) {
+            if (questionGoalModel.goalName == questionGoal.goalName && questionGoalModel.goalQuestionQuantity == questionGoal.goalQuestionQuantity) {
                 questionGoalsIterator.remove()
             }
         }
@@ -260,8 +260,30 @@ class DatabaseApi(private val database: FirebaseFirestore) {
     }
 
 
-    suspend fun deleteUserAccount(userUid: String){
+    suspend fun deleteUserAccount(userUid: String) {
         database.collection(USER_COLLECTION).document(userUid).delete().await()
+    }
+
+
+    suspend fun getUserExamLessonsTopicStatus(userUid: String): ArrayList<String> {
+        return database.collection(USER_COLLECTION).document(userUid).get().await()
+            .toObject(UserModel::class.java)?.lessonsTopic!!
+    }
+
+    suspend fun changeExamLessonTopicStatus(topicName: String, isDone: Boolean, userUid: String) {
+        if (isDone) {
+            database.collection(USER_COLLECTION).document(userUid)
+                .update(
+                    "lessonsTopic",
+                    FieldValue.arrayUnion(topicName)
+                ).await()
+        } else {
+            database.collection(USER_COLLECTION).document(userUid)
+                .update(
+                    "lessonsTopic",
+                    FieldValue.arrayRemove(topicName)
+                ).await()
+        }
     }
 }
 

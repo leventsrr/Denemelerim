@@ -75,4 +75,13 @@ class DatabaseRepositoryImpl @Inject constructor(
         databaseApi.deleteUserAccount(userUid)
     }
 
+    override suspend fun changeExamLessonTopicStatus(topicName:String,isDone:Boolean,userUid: String) {
+        Log.e("kontrol","status repo:${isDone}")
+        databaseApi.changeExamLessonTopicStatus(topicName, isDone, userUid)
+    }
+
+    override suspend fun getUserExamLessonsTopicStatus(userUid: String): ArrayList<String> {
+        return databaseApi.getUserExamLessonsTopicStatus(userUid)
+    }
+
 }

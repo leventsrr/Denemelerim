@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.presentation.question_goal_screen.views
+package com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,9 +19,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.leventsurer.denemelerim.R
 import com.leventsurer.denemelerim.data.remote.dto.QuestionGoalModel
 import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
-import com.leventsurer.denemelerim.presentation.question_goal_screen.GoalQuestionViewModel
-import com.leventsurer.denemelerim.presentation.question_goal_screen.QuestionGoalEvent
-import com.leventsurer.denemelerim.presentation.question_goal_screen.views.composable.QuestionGoalCard
+import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.composable.QuestionGoalCard
 
 @Composable
 fun QuestionGoalsScreen() {

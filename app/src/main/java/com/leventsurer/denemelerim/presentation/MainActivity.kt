@@ -18,7 +18,7 @@ import com.leventsurer.denemelerim.presentation.login_screen.views.LoginScreen
 import com.leventsurer.denemelerim.presentation.profile_screen.views.ProfileScreen
 import com.leventsurer.denemelerim.presentation.register_screen.views.RegisterScreen
 import com.leventsurer.denemelerim.presentation.leaderboard_screen.views.LeaderboardScreen
-import com.leventsurer.denemelerim.presentation.question_goal_screen.views.QuestionGoalScreen
+import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.QuestionGoalScreen
 import com.leventsurer.denemelerim.presentation.set_target_screen.views.SetTargetScreen
 import com.leventsurer.denemelerim.presentation.splash_screen.views.SplashScreen
 import com.leventsurer.denemelerim.presentation.statistics_screen.views.StatisticsScreen

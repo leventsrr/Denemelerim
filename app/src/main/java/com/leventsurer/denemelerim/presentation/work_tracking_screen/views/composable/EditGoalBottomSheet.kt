@@ -1,6 +1,5 @@
-package com.leventsurer.denemelerim.presentation.question_goal_screen.views.composable
+package com.leventsurer.denemelerim.presentation.work_tracking_screen.views.composable
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
@@ -21,20 +20,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.leventsurer.denemelerim.data.remote.dto.QuestionGoalModel
 import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
-import com.leventsurer.denemelerim.presentation.question_goal_screen.GoalQuestionViewModel
-import com.leventsurer.denemelerim.presentation.question_goal_screen.QuestionGoalEvent
+import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals.GoalQuestionViewModel
+import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals.QuestionGoalEvent
 import com.leventsurer.denemelerim.presentation.ui.theme.Secondary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditGoalBottomSheet(questionGoalModel: QuestionGoalModel, onDismiss: () -> Unit) {
 
-    val goalQuestionViewModel:GoalQuestionViewModel = hiltViewModel()
+    val goalQuestionViewModel: GoalQuestionViewModel = hiltViewModel()
 
     val datastoreViewModel:DataStoreViewModel = hiltViewModel()
     val goalQuestionViewModelState = goalQuestionViewModel.updateGoalState.value
@@ -112,7 +110,8 @@ fun EditGoalBottomSheet(questionGoalModel: QuestionGoalModel, onDismiss: () -> U
                     if((falseSolvedQuestionQuantity.toIntOrNull()?:0) + (correctSolvedQuestionQuantity.toIntOrNull()?:0) > questionGoalModel.goalQuestionQuantity){
                         isError = true
                     }else{
-                        goalQuestionViewModel.onEvent(QuestionGoalEvent.UpdateQuestionGoal(
+                        goalQuestionViewModel.onEvent(
+                            QuestionGoalEvent.UpdateQuestionGoal(
                             questionGoalModel = questionGoal,
                             userUid = datastoreViewModel.getUserUidFromDataStore()
                         ))

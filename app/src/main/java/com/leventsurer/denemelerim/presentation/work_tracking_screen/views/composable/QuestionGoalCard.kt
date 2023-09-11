@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.presentation.question_goal_screen.views.composable
+package com.leventsurer.denemelerim.presentation.work_tracking_screen.views.composable
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -35,8 +35,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.leventsurer.denemelerim.R
 import com.leventsurer.denemelerim.data.remote.dto.QuestionGoalModel
 import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
-import com.leventsurer.denemelerim.presentation.question_goal_screen.GoalQuestionViewModel
-import com.leventsurer.denemelerim.presentation.question_goal_screen.QuestionGoalEvent
+import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals.GoalQuestionViewModel
+import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals.QuestionGoalEvent
 import com.leventsurer.denemelerim.presentation.ui.theme.Primary
 import com.leventsurer.denemelerim.presentation.ui.theme.Secondary
 
@@ -50,7 +50,7 @@ fun QuestionGoalCard(
         mutableStateOf(false)
     }
     var showSheet by remember { mutableStateOf(false) }
-    val goalQuestionViewModel:GoalQuestionViewModel = hiltViewModel()
+    val goalQuestionViewModel: GoalQuestionViewModel = hiltViewModel()
     val dataStoreViewModel:DataStoreViewModel = hiltViewModel()
 
     if (showSheet) {
@@ -104,7 +104,8 @@ fun QuestionGoalCard(
                         IconButton(
                             modifier = Modifier.width(20.dp),
                             onClick = {
-                                goalQuestionViewModel.onEvent(QuestionGoalEvent.DeleteQuestionGoal(
+                                goalQuestionViewModel.onEvent(
+                                    QuestionGoalEvent.DeleteQuestionGoal(
                                     questionGoalModel,
                                     dataStoreViewModel.getUserUidFromDataStore()
                                 ))

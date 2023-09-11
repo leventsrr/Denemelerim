@@ -1,17 +1,11 @@
-package com.leventsurer.denemelerim.presentation.question_goal_screen.views.composable
+package com.leventsurer.denemelerim.presentation.work_tracking_screen.views.composable
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieAnimation
@@ -19,8 +13,9 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.leventsurer.denemelerim.R
-import com.leventsurer.denemelerim.presentation.question_goal_screen.GoalQuestionViewModel
-import com.leventsurer.denemelerim.presentation.question_goal_screen.QuestionGoalEvent
+import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.lesson_topic_tracking.composable.LessonTopicCard
+import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals.GoalQuestionViewModel
+import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals.QuestionGoalEvent
 
 
 @Composable

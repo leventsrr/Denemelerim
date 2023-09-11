@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.presentation.question_goal_screen.views.composable
+package com.leventsurer.denemelerim.presentation.work_tracking_screen.views.composable
 
 
 import androidx.compose.foundation.layout.Column
@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
@@ -25,10 +24,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.leventsurer.denemelerim.data.remote.dto.QuestionGoalModel
 import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
-import com.leventsurer.denemelerim.presentation.question_goal_screen.GoalQuestionViewModel
-import com.leventsurer.denemelerim.presentation.question_goal_screen.QuestionGoalEvent
+import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals.GoalQuestionViewModel
+import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals.QuestionGoalEvent
 import com.leventsurer.denemelerim.presentation.ui.theme.Secondary
-import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
