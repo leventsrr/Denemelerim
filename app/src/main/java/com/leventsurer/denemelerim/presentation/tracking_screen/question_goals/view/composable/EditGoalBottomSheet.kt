@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.presentation.work_tracking_screen.views.composable
+package com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.view.composable
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,8 +24,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.leventsurer.denemelerim.data.remote.dto.QuestionGoalModel
 import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
-import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals.GoalQuestionViewModel
-import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals.QuestionGoalEvent
+import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.GoalQuestionViewModel
+import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.QuestionGoalEvent
 import com.leventsurer.denemelerim.presentation.ui.theme.Secondary
 
 @OptIn(ExperimentalMaterial3Api::class)

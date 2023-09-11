@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.presentation.work_tracking_screen.views.lesson_topic_tracking.composable
+package com.leventsurer.denemelerim.presentation.tracking_screen.lesson_topic_tracking.view.composable
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -33,10 +33,11 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.leventsurer.denemelerim.R
 import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
+import com.leventsurer.denemelerim.presentation.tracking_screen.lesson_topic_tracking.LessonTopicTrackingEvent
+import com.leventsurer.denemelerim.presentation.tracking_screen.lesson_topic_tracking.LessonTopicTrackingViewModel
 import com.leventsurer.denemelerim.presentation.ui.theme.Primary
-import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.composable.TopicCard
-import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals.GoalQuestionViewModel
-import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals.QuestionGoalEvent
+import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.GoalQuestionViewModel
+import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.QuestionGoalEvent
 
 @Composable
 fun LessonTopicCard(lessonName: String, lessonTopics: List<String>) {
@@ -45,19 +46,19 @@ fun LessonTopicCard(lessonName: String, lessonTopics: List<String>) {
     }
     val userDoneTopics = remember { mutableListOf<String>() }
     val dataStoreViewModel: DataStoreViewModel = hiltViewModel()
-    val goalQuestionViewModel: GoalQuestionViewModel = hiltViewModel()
-    val goalQuestionViewModelState = goalQuestionViewModel.getUserExamLessonsTopicStatus.value
+    val lessonTopicTrackingViewModel: LessonTopicTrackingViewModel = hiltViewModel()
+    val lessonTopicTrackingViewModelState = lessonTopicTrackingViewModel.getUserExamLessonsTopicStatus.value
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.data))
     LaunchedEffect(Unit ){
-        goalQuestionViewModel.onEvent(
-            QuestionGoalEvent.GetExamLessonTopicStatus(
+        lessonTopicTrackingViewModel.onEvent(
+            LessonTopicTrackingEvent.GetExamLessonTopicStatus(
             dataStoreViewModel.getUserUidFromDataStore()
         ))
     }
 
 
-    if(goalQuestionViewModelState.userExamLessonsTopicStatus != null){
-        userDoneTopics.addAll(goalQuestionViewModelState.userExamLessonsTopicStatus)
+    if(lessonTopicTrackingViewModelState.userExamLessonsTopicStatusResult != null){
+        userDoneTopics.addAll(lessonTopicTrackingViewModelState.userExamLessonsTopicStatusResult)
     }
 
     Card(
@@ -77,8 +78,8 @@ fun LessonTopicCard(lessonName: String, lessonTopics: List<String>) {
             .clickable {
                 isExtended = !isExtended
                 if(isExtended){
-                    goalQuestionViewModel.onEvent(
-                        QuestionGoalEvent.GetExamLessonTopicStatus(
+                    lessonTopicTrackingViewModel.onEvent(
+                        LessonTopicTrackingEvent.GetExamLessonTopicStatus(
                             dataStoreViewModel.getUserUidFromDataStore()
                         ))
                 }
@@ -95,7 +96,7 @@ fun LessonTopicCard(lessonName: String, lessonTopics: List<String>) {
             Text(text = lessonName)
             Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "arrow")
             if (isExtended) {
-                if(goalQuestionViewModelState.isLoading){
+                if(lessonTopicTrackingViewModelState.isLoading){
                     LottieAnimation(
                         modifier = Modifier.fillMaxWidth(),
                         composition = composition,

@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.presentation.work_tracking_screen.views.composable
+package com.leventsurer.denemelerim.presentation.tracking_screen.lesson_topic_tracking.view.composable
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
@@ -13,16 +13,17 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.leventsurer.denemelerim.R
-import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.lesson_topic_tracking.composable.LessonTopicCard
-import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals.GoalQuestionViewModel
-import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals.QuestionGoalEvent
+import com.leventsurer.denemelerim.presentation.tracking_screen.lesson_topic_tracking.LessonTopicTrackingEvent
+import com.leventsurer.denemelerim.presentation.tracking_screen.lesson_topic_tracking.LessonTopicTrackingViewModel
+import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.GoalQuestionViewModel
+import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.QuestionGoalEvent
 
 
 @Composable
 fun TytLessonsTopics() {
 
-    val goalQuestionViewModel: GoalQuestionViewModel = hiltViewModel()
-    val goalQuestionViewModelState = goalQuestionViewModel.tytExamLessonsTopicState.value
+    val lessonTopicTrackingViewModel: LessonTopicTrackingViewModel = hiltViewModel()
+    val lessonTopicTrackingViewModelState = lessonTopicTrackingViewModel.tytExamLessonsTopicState.value
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.data))
 
     val biologyTopicList = remember { mutableListOf<String>() }
@@ -37,31 +38,31 @@ fun TytLessonsTopics() {
 
 
     LaunchedEffect(Unit) {
-        goalQuestionViewModel.onEvent(
-            QuestionGoalEvent.GetTytLessonsTopics
+        lessonTopicTrackingViewModel.onEvent(
+            LessonTopicTrackingEvent.GetTytLessonsTopics
         )
 
     }
 
-    if (goalQuestionViewModelState.isLoading) {
+    if (lessonTopicTrackingViewModelState.isLoading) {
         LottieAnimation(
             modifier = Modifier.fillMaxWidth(),
             composition = composition,
             iterations = LottieConstants.IterateForever,
         )
-    } else if (goalQuestionViewModelState.error != null) {
-        Text(text = goalQuestionViewModelState.error)
-    } else if (goalQuestionViewModelState.tytTopicsResult != null) {
+    } else if (lessonTopicTrackingViewModelState.error != null) {
+        Text(text = lessonTopicTrackingViewModelState.error)
+    } else if (lessonTopicTrackingViewModelState.tytTopicsResult != null) {
 
-        mathTopicList.addAll(goalQuestionViewModelState.tytTopicsResult.Matematik)
-        turkishTopicList.addAll(goalQuestionViewModelState.tytTopicsResult.Turkce)
-        physicsTopicList.addAll(goalQuestionViewModelState.tytTopicsResult.Fizik)
-        biologyTopicList.addAll(goalQuestionViewModelState.tytTopicsResult.Biyoloji)
-        chemicalTopicList.addAll(goalQuestionViewModelState.tytTopicsResult.Kimya)
-        historyTopicList.addAll(goalQuestionViewModelState.tytTopicsResult.Tarih)
-        geographyTopicList.addAll(goalQuestionViewModelState.tytTopicsResult.Cografya)
-        religionTopicList.addAll(goalQuestionViewModelState.tytTopicsResult.DinKulturu)
-        philosophyTopicList.addAll(goalQuestionViewModelState.tytTopicsResult.Felsefe)
+        mathTopicList.addAll(lessonTopicTrackingViewModelState.tytTopicsResult.Matematik)
+        turkishTopicList.addAll(lessonTopicTrackingViewModelState.tytTopicsResult.Turkce)
+        physicsTopicList.addAll(lessonTopicTrackingViewModelState.tytTopicsResult.Fizik)
+        biologyTopicList.addAll(lessonTopicTrackingViewModelState.tytTopicsResult.Biyoloji)
+        chemicalTopicList.addAll(lessonTopicTrackingViewModelState.tytTopicsResult.Kimya)
+        historyTopicList.addAll(lessonTopicTrackingViewModelState.tytTopicsResult.Tarih)
+        geographyTopicList.addAll(lessonTopicTrackingViewModelState.tytTopicsResult.Cografya)
+        religionTopicList.addAll(lessonTopicTrackingViewModelState.tytTopicsResult.DinKulturu)
+        philosophyTopicList.addAll(lessonTopicTrackingViewModelState.tytTopicsResult.Felsefe)
 
 
         LessonTopicCard("Türkçe Konuları",turkishTopicList)

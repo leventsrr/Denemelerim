@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.presentation.work_tracking_screen.views.lesson_topic_tracking
+package com.leventsurer.denemelerim.presentation.tracking_screen.lesson_topic_tracking.view
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,9 +11,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.leventsurer.denemelerim.presentation.common.composable.CustomSpinner
-import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.composable.AytEqualWeightTopics
-import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.composable.AytNumericalTopics
-import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.composable.TytLessonsTopics
+import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.view.composable.AytEqualWeightTopics
+import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.view.composable.AytNumericalTopics
+import com.leventsurer.denemelerim.presentation.tracking_screen.lesson_topic_tracking.view.composable.TytLessonsTopics
 
 @Composable
 fun LessonsTopicScreen() {

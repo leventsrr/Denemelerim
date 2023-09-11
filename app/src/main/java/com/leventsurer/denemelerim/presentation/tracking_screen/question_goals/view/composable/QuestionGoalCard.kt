@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.presentation.work_tracking_screen.views.composable
+package com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.view.composable
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -35,8 +35,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.leventsurer.denemelerim.R
 import com.leventsurer.denemelerim.data.remote.dto.QuestionGoalModel
 import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
-import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals.GoalQuestionViewModel
-import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals.QuestionGoalEvent
+import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.GoalQuestionViewModel
+import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.QuestionGoalEvent
 import com.leventsurer.denemelerim.presentation.ui.theme.Primary
 import com.leventsurer.denemelerim.presentation.ui.theme.Secondary
 

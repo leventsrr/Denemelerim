@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.presentation.work_tracking_screen.views
+package com.leventsurer.denemelerim.presentation.tracking_screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -22,11 +22,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavController
 import com.leventsurer.denemelerim.presentation.common.composable.MyTopAppBar
-import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.composable.AddNewQuestionGoalBottomSheet
+import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.view.composable.AddNewQuestionGoalBottomSheet
 import com.leventsurer.denemelerim.presentation.ui.theme.Primary
 import com.leventsurer.denemelerim.presentation.ui.theme.Secondary
-import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.lesson_topic_tracking.LessonsTopicScreen
-import com.leventsurer.denemelerim.presentation.work_tracking_screen.views.question_goals.QuestionGoalsScreen
+import com.leventsurer.denemelerim.presentation.tracking_screen.lesson_topic_tracking.view.LessonsTopicScreen
+import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.view.QuestionGoalsScreen
 
 @Composable
 fun QuestionGoalScreen(
