@@ -21,17 +21,15 @@
 </a> 
 </p>
 
-## Kullanılan Yapılar
  <table  align="center" style="margin: 0px auto; text-align:center;">
 
   <tr>
     <td>MVVM</td>
     <td>Retrofit</td>
     <td>Okhttp</td>
-    <td>Glide</td>
+    <td>Kotlin Compose</td>
   </tr>
   <tr>
-    <td>Kotlin Compose</td>
     <td>Flow</td>
     <td>Data Store</td>
     <td>Dagger Hilt</td>
