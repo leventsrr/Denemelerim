@@ -1,5 +1,6 @@
 package com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.view
 
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
@@ -51,7 +52,7 @@ fun QuestionGoalsScreen() {
         )
     } else if (!goalQuestionState.result.isNullOrEmpty()) {
         goalList = goalQuestionState.result.toList()
-        LazyColumn() {
+        LazyColumn(modifier = Modifier.fillMaxHeight()) {
             items(goalList.size) { index ->
                 val questionGoalModel = QuestionGoalModel(
                     goalList[index].goalName,

@@ -9,6 +9,9 @@ import com.leventsurer.denemelerim.data.remote.dto.NewAytExamModel
 import com.leventsurer.denemelerim.data.remote.dto.NewTytExamModel
 import com.leventsurer.denemelerim.domain.use_case.add_ayt_exam.AddAytExamUseCase
 import com.leventsurer.denemelerim.domain.use_case.add_tyt_exam.AddTytExamUseCase
+import com.leventsurer.denemelerim.domain.use_case.exams_topics.GetAytEqualWeightLessonsTopicUseCase
+import com.leventsurer.denemelerim.domain.use_case.exams_topics.GetAytNumericalExamLessonsTopicUseCase
+import com.leventsurer.denemelerim.domain.use_case.exams_topics.GetTytExamLessonsTopicUseCase
 import com.leventsurer.denemelerim.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -19,7 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddExamViewModel @Inject constructor(
     private val addTytExamUseCase: AddTytExamUseCase,
-    private val addAytExamUseCase: AddAytExamUseCase
+    private val addAytExamUseCase: AddAytExamUseCase,
 ) : ViewModel() {
 
     private val _state = mutableStateOf(AddExamState())

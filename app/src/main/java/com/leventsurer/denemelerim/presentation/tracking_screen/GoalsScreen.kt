@@ -51,7 +51,8 @@ fun QuestionGoalScreen(
 
     
     Scaffold(
-        topBar = { MyTopAppBar(appBarTitle = "Sıralamam", navController = navController) },
+        topBar = {
+            MyTopAppBar(appBarTitle = "Hedeflerim", navController = navController) },
         content = { padding ->
             Column(
                 modifier = Modifier.padding(padding),

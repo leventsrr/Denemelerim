@@ -1,9 +1,5 @@
 package com.leventsurer.denemelerim.presentation.tracking_screen.lesson_topic_tracking.view.composable
 
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,10 +31,6 @@ import com.leventsurer.denemelerim.R
 import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
 import com.leventsurer.denemelerim.presentation.tracking_screen.lesson_topic_tracking.LessonTopicTrackingEvent
 import com.leventsurer.denemelerim.presentation.tracking_screen.lesson_topic_tracking.LessonTopicTrackingViewModel
-import com.leventsurer.denemelerim.presentation.ui.theme.Primary
-import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.GoalQuestionViewModel
-import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.QuestionGoalEvent
-
 @Composable
 fun LessonTopicCard(lessonName: String, lessonTopics: List<String>) {
     var isExtended by remember {
@@ -62,22 +54,23 @@ fun LessonTopicCard(lessonName: String, lessonTopics: List<String>) {
     }
 
     Card(
-        border = BorderStroke(width = 1.dp, color = Primary),
-        //elevation = CardDefaults.cardElevation(10.dp),
+        //border = BorderStroke(width = 1.dp, color = Primary),
+        elevation = CardDefaults.cardElevation(10.dp),
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp, vertical = 5.dp)
-            .animateContentSize(
+            /*.animateContentSize(
                 animationSpec = tween(
                     durationMillis = 400,
                     easing = LinearOutSlowInEasing,
                 )
-            )
+            )*/
             .clickable {
                 isExtended = !isExtended
                 if(isExtended){
+                    userDoneTopics.clear()
                     lessonTopicTrackingViewModel.onEvent(
                         LessonTopicTrackingEvent.GetExamLessonTopicStatus(
                             dataStoreViewModel.getUserUidFromDataStore()

@@ -25,8 +25,6 @@ fun CustomSpinnerDialog(
     onItemClick: (String) -> Unit
 ) {
     if (showDialog) {
-        val context = LocalContext.current
-
         AlertDialog(
             onDismissRequest = {
                 onDismiss()

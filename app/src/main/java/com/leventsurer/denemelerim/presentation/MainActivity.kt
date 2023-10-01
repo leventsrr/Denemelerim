@@ -22,6 +22,7 @@ import com.leventsurer.denemelerim.presentation.tracking_screen.QuestionGoalScre
 import com.leventsurer.denemelerim.presentation.set_target_screen.views.SetTargetScreen
 import com.leventsurer.denemelerim.presentation.splash_screen.views.SplashScreen
 import com.leventsurer.denemelerim.presentation.statistics_screen.views.StatisticsScreen
+import com.leventsurer.denemelerim.presentation.tyt_exam_detail.views.TytExamDetail
 import com.leventsurer.denemelerim.presentation.ui.Screen
 import com.leventsurer.denemelerim.presentation.ui.theme.DenemelerimTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -100,6 +101,10 @@ class MainActivity : ComponentActivity() {
                                 navigateToHomeScreen = { navController.navigate(Screen.HomeScreen.route) },
                                 navigateToLoginScreen = { navController.navigate(Screen.LoginScreen.route) }
                             )
+                        }
+
+                        composable(Screen.TytExamDetail.route){
+                            TytExamDetail(navController)
                         }
                     }
                 }

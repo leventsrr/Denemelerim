@@ -1,6 +1,7 @@
 package com.leventsurer.denemelerim.presentation.home_screen.views.composable
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.toUpperCase
@@ -41,12 +43,16 @@ import java.util.Locale
 
 @Composable
 fun TytExamCard(
-    tytExam: NewTytExamModel
+    tytExam: NewTytExamModel,
+    navController: NavController
 ) {
     Card(
-        colors = CardDefaults.cardColors(Color(0x755B85AA)),
-        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(Color.White),
 
+        shape = RoundedCornerShape(20.dp),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 10.dp
+        ),
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp, vertical = 10.dp)
@@ -55,20 +61,9 @@ fun TytExamCard(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(5.dp),
+                .padding( 5.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-           /* Text(
-                text = "TYT",
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.ExtraBold,
-                modifier = Modifier
-                    .rotate(-90f)
-                    .fillMaxHeight()
-                    .weight(1f),
-                color = Secondary
-            )*/
-
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
@@ -79,51 +74,68 @@ fun TytExamCard(
                 Text(
                     text = tytExam.examName.uppercase(Locale.ROOT),
                     fontWeight = FontWeight.ExtraBold,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
                 )
-                Divider(color = Color.White)
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 10.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Column(
+                    Row(
                         modifier = Modifier.weight(1f),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Start
                     ) {
-                        Text(text = "Toplam Net", fontWeight = FontWeight.Bold)
+                        Text(text = "Toplam Net:")
                         Text(text = String.format("%.2f", tytExam.totalNet))
                     }
-                    Column(
+                    Row(
                         modifier = Modifier.weight(1f),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Start
                     ) {
-                        Text(text = "Puan", fontWeight = FontWeight.Bold)
-                        Text(text = String.format("%.3f", tytExam.totalPoint))
+                        Text(text = "Puan", modifier = Modifier.weight(1f))
+                        Text(
+                            text = ": ${String.format("%.3f", tytExam.totalPoint)}",
+                            modifier = Modifier.weight(1f)
+                        )
                     }
                 }
-                Divider(color = Color.White)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    Column(
-                        modifier = Modifier.weight(1f),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(text = "Türkçe:${tytExam.turkishNet}")
-                        Text(text = "Fen:${tytExam.scienceNet}")
-                    }
-                    Column(
-                        modifier = Modifier.weight(1f),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(text = "Matematik:${tytExam.mathNet}")
-                        Text(text = "Sosyal:${tytExam.socialNet}")
-                    }
+                    TytLessonNetCardColumn(
+                        Modifier
+                            .weight(1f)
+                            .padding(start = 10.dp),
+                        "Türkçe",
+                        tytExam.turkishNet.toString(),
+                        "Fen",
+                        tytExam.scienceNet.toString()
+                    )
+                    TytLessonNetCardColumn(
+                        Modifier
+                            .weight(1f)
+                            .padding(end = 10.dp),
+                        "Matematik",
+                        tytExam.mathNet.toString(),
+                        "Sosyal",
+                        tytExam.socialNet.toString()
+                    )
+                }
+                IconButton(
+                    onClick = {
+                        navController.navigate(Screen.TytExamDetail.route)
+                    }) {
+                    Icon(imageVector = Icons.Default.Search, contentDescription = "Exam Detail", tint = Secondary, modifier = Modifier.fillMaxWidth().padding(bottom = 0.dp))
                 }
 
 
             }
+
         }
     }
 }
+

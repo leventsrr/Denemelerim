@@ -50,7 +50,7 @@ fun AddExamScreen(navController: NavController) {
     var aboutExam by remember {
         mutableStateOf("")
     }
-    val examTitles = arrayListOf("TYT Sınavı Ekle","AYT Sınavı Ekle")
+    val examTitles = arrayListOf("TYT Sınavı Ekle", "AYT Sınavı Ekle")
     var examTypeState by remember { mutableStateOf(0) }
 
     Scaffold(
@@ -59,6 +59,7 @@ fun AddExamScreen(navController: NavController) {
         },
         content = { padding ->
             Column(
+                verticalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(padding)
@@ -70,35 +71,43 @@ fun AddExamScreen(navController: NavController) {
                         Tab(
                             selected = examTypeState == index,
                             onClick = { examTypeState = index },
-                            text = { Text(text = title, maxLines = 2, overflow = TextOverflow.Ellipsis) },
+                            text = {
+                                Text(
+                                    text = title,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            },
                             selectedContentColor = Secondary,
                             unselectedContentColor = Primary
                         )
                     }
                 }
-                OutlinedTextField(
-                    modifier = Modifier
-                        .padding(horizontal = 20.dp)
-                        .fillMaxWidth(),
-                    value = examName,
-                    onValueChange = {
-                        examName = it
-                    },
-                    label = { Text(text = "Deneme Adı") },
-                )
-                OutlinedTextField(
-                    modifier = Modifier
-                        .padding(horizontal = 20.dp)
-                        .fillMaxWidth(),
-                    value = aboutExam,
-                    onValueChange = {
-                        aboutExam = it
-                    },
-                    label = { Text(text = "Deneme Hakkında") },
-                )
-                if (examTypeState == 0){
+                Column() {
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .padding(horizontal = 20.dp)
+                            .fillMaxWidth(),
+                        value = examName,
+                        onValueChange = {
+                            examName = it
+                        },
+                        label = { Text(text = "Deneme Adı") },
+                    )
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .padding(horizontal = 20.dp)
+                            .fillMaxWidth(),
+                        value = aboutExam,
+                        onValueChange = {
+                            aboutExam = it
+                        },
+                        label = { Text(text = "Deneme Hakkında") },
+                    )
+                }
+                if (examTypeState == 0) {
                     ScreenForTyt(examName, aboutExam)
-                }else{
+                } else {
                     ScreenForAyt(examName, aboutExam)
                 }
             }

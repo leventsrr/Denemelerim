@@ -24,6 +24,16 @@ data class NewTytExamModel(
     var scienceNet:Double=0.0,
     var totalNet:Double = 0.0,
     var totalPoint:Double = 0.0,
+    var turkishFalseTopicList: ArrayList<String> = arrayListOf(),
+    var geographyFalseTopicList: ArrayList<String> = arrayListOf(),
+    var historyFalseTopicList: ArrayList<String> = arrayListOf(),
+    var philosophyFalseTopicList: ArrayList<String> = arrayListOf(),
+    var religionFalseTopicList: ArrayList<String> = arrayListOf(),
+    var mathFalseTopicList: ArrayList<String> = arrayListOf(),
+    var physicsFalseTopicList: ArrayList<String> = arrayListOf(),
+    var chemicalFalseTopicList: ArrayList<String> = arrayListOf(),
+    var biologyFalseTopicList: ArrayList<String> = arrayListOf(),
+
     @ServerTimestamp
     val examDate: Timestamp = Timestamp.now()
 )

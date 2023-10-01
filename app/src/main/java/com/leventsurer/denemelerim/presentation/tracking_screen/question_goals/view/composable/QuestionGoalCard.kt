@@ -61,19 +61,14 @@ fun QuestionGoalCard(
 
 
     Card(
-        //elevation = CardDefaults.cardElevation(10.dp),
+        elevation = CardDefaults.cardElevation(10.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         shape = RoundedCornerShape(20.dp),
-        border = BorderStroke(1.dp, Primary),
+        //border = BorderStroke(1.dp, Primary),
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp, vertical = 10.dp)
-            .animateContentSize(
-                animationSpec = tween(
-                    durationMillis = 400,
-                    easing = LinearOutSlowInEasing,
-                )
-            )
+
             .clickable { isExpanded = !isExpanded }
     ) {
         Column(

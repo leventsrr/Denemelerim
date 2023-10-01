@@ -58,7 +58,7 @@ fun TopicCard(topicName: String,isCheckedBefore:Boolean) {
             Checkbox(
                 checked = isChecked,
                 onCheckedChange = {
-                    isChecked = !isChecked
+                   isChecked = !isChecked
                     LessonTopicTrackingEvent.ChangeExamLessonTopicStatus(
                         topicName,
                         isChecked,
