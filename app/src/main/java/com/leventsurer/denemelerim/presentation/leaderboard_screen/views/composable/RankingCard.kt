@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.presentation.leaderboard_screen.composable
+package com.leventsurer.denemelerim.presentation.leaderboard_screen.views.composable
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -56,7 +56,7 @@ fun RankingCard(rank:Int,userModel: UserModel) {
                 Text(text = userModel.userName, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center,fontSize = 20.sp, fontWeight = FontWeight.ExtraBold)
                 Divider(color = Color.White)
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text(text = "Deneme Sayısı", fontWeight = FontWeight.Bold)
+                    Text(text = "Deneme Sayısı (AYT)", fontWeight = FontWeight.Bold)
                     Text(text = userModel.numberOfAytExam.toString())
                 }
                 LeaderBoardCardPointRow("Sayısal Yks Puanı",userModel.numericalYksExamPoint)

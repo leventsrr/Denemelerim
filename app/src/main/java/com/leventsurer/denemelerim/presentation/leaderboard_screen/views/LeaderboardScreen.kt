@@ -30,7 +30,7 @@ import com.leventsurer.denemelerim.presentation.common.composable.MyTopAppBar
 import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
 import com.leventsurer.denemelerim.presentation.leaderboard_screen.LeaderboardEvent
 import com.leventsurer.denemelerim.presentation.leaderboard_screen.LeaderboardViewModel
-import com.leventsurer.denemelerim.presentation.leaderboard_screen.composable.RankingCard
+import com.leventsurer.denemelerim.presentation.leaderboard_screen.views.composable.RankingCard
 import com.leventsurer.denemelerim.presentation.profile_screen.ProfileEvent
 import com.leventsurer.denemelerim.presentation.profile_screen.ProfileViewModel
 import com.leventsurer.denemelerim.presentation.ui.theme.Fourth

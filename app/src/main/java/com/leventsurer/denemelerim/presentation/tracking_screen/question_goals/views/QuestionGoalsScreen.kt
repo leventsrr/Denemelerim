@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.view
+package com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.views
 
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,7 +20,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.leventsurer.denemelerim.R
 import com.leventsurer.denemelerim.data.remote.dto.QuestionGoalModel
 import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
-import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.view.composable.QuestionGoalCard
+import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.views.composable.QuestionGoalCard
 import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.GoalQuestionViewModel
 import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.QuestionGoalEvent
 

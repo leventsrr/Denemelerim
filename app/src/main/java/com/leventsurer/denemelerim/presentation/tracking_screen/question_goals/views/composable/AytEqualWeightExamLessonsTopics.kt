@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.view.composable
+package com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.views.composable
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
@@ -16,8 +16,6 @@ import com.leventsurer.denemelerim.R
 import com.leventsurer.denemelerim.presentation.tracking_screen.lesson_topic_tracking.LessonTopicTrackingEvent
 import com.leventsurer.denemelerim.presentation.tracking_screen.lesson_topic_tracking.LessonTopicTrackingViewModel
 import com.leventsurer.denemelerim.presentation.tracking_screen.lesson_topic_tracking.view.composable.LessonTopicCard
-import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.GoalQuestionViewModel
-import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.QuestionGoalEvent
 
 
 @Composable

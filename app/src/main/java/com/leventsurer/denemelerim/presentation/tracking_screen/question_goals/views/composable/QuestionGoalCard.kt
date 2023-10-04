@@ -1,9 +1,5 @@
-package com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.view.composable
+package com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.views.composable
 
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,7 +33,6 @@ import com.leventsurer.denemelerim.data.remote.dto.QuestionGoalModel
 import com.leventsurer.denemelerim.presentation.common.data_store.DataStoreViewModel
 import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.GoalQuestionViewModel
 import com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.QuestionGoalEvent
-import com.leventsurer.denemelerim.presentation.ui.theme.Primary
 import com.leventsurer.denemelerim.presentation.ui.theme.Secondary
 
 //Show bottom sheet source :https://medium.com/@manojbhadane/mastering-android-jetpack-compose-bottomsheet-with-material-3-e61af75c0cac

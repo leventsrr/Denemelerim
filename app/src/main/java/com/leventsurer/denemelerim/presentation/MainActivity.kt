@@ -6,11 +6,17 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.remember
 
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.google.gson.Gson
+import com.leventsurer.denemelerim.data.remote.dto.NewTytExamModel
+import com.leventsurer.denemelerim.data.remote.dto.NewTytExamModelArgType
 import com.leventsurer.denemelerim.presentation.add_exam_screen.views.AddExamScreen
 import com.leventsurer.denemelerim.presentation.exam_detail_screen.views.ExamDetailScreen
 import com.leventsurer.denemelerim.presentation.home_screen.views.HomeScreen
@@ -22,6 +28,7 @@ import com.leventsurer.denemelerim.presentation.tracking_screen.QuestionGoalScre
 import com.leventsurer.denemelerim.presentation.set_target_screen.views.SetTargetScreen
 import com.leventsurer.denemelerim.presentation.splash_screen.views.SplashScreen
 import com.leventsurer.denemelerim.presentation.statistics_screen.views.StatisticsScreen
+import com.leventsurer.denemelerim.presentation.tracking_screen.study_goals.views.StudyGoalScreen
 import com.leventsurer.denemelerim.presentation.tyt_exam_detail.views.TytExamDetail
 import com.leventsurer.denemelerim.presentation.ui.Screen
 import com.leventsurer.denemelerim.presentation.ui.theme.DenemelerimTheme
@@ -44,7 +51,7 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
-                        startDestination = Screen.SplashScreen.route
+                        startDestination = Screen.GoalsScreen.route
                     ) {
                         composable(route = Screen.LoginScreen.route) {
                             LoginScreen(
@@ -96,16 +103,26 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
-                        composable(Screen.SplashScreen.route){
+                        composable(Screen.SplashScreen.route) {
                             SplashScreen(
                                 navigateToHomeScreen = { navController.navigate(Screen.HomeScreen.route) },
                                 navigateToLoginScreen = { navController.navigate(Screen.LoginScreen.route) }
                             )
                         }
 
-                        composable(Screen.TytExamDetail.route){
-                            TytExamDetail(navController)
+                        composable(
+                            route = "${Screen.TytExamDetail.route}/{tytExamDetail}",
+                            arguments = listOf(navArgument("tytExamDetail"){
+                                type = NewTytExamModelArgType()
+                            }
+                            )
+                        ) {navBackStackEntry->
+                            val tytExamDetail = navBackStackEntry.arguments?.getString("tytExamDetail")?.let { Gson().fromJson(it,NewTytExamModel::class.java) }
+                            TytExamDetail(tytExamDetail!!, navController)
                         }
+
+
+
                     }
                 }
             }

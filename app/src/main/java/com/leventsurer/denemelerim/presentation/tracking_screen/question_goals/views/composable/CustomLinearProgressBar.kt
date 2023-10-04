@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.view.composable
+package com.leventsurer.denemelerim.presentation.tracking_screen.question_goals.views.composable
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

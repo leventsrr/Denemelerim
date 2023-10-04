@@ -12,5 +12,6 @@ sealed class Screen (val route:String){
     object SetTargetScreen:Screen("set_target_screen")
     object GoalsScreen:Screen("goals_screen")
     object SplashScreen:Screen("splash_screen")
-    object TytExamDetail:Screen("tyt_exam_detail")
+    object TytExamDetail:Screen("tyt_exam_detail_screen")
+    object StudyGoalScreen:Screen("study_goal_screen")
 }

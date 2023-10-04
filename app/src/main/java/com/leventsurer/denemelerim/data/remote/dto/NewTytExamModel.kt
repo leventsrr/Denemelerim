@@ -1,11 +1,17 @@
 package com.leventsurer.denemelerim.data.remote.dto
 
+import android.net.Uri
+import android.os.Parcelable
+import androidx.versionedparcelable.ParcelField
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ServerTimestamp
+import com.google.gson.Gson
+import com.leventsurer.denemelerim.util.JsonNavType
+import kotlinx.parcelize.Parcelize
+import java.io.Serializable
 import java.time.LocalDate
 import java.util.Date
-
 
 data class NewTytExamModel(
     val examName:String = "",
@@ -36,4 +42,12 @@ data class NewTytExamModel(
 
     @ServerTimestamp
     val examDate: Timestamp = Timestamp.now()
-)
+) {
+    override fun toString(): String = Uri.encode(Gson().toJson(this))
+}
+
+class NewTytExamModelArgType : JsonNavType<NewTytExamModel>() {
+    override fun fromJsonParse(value: String): NewTytExamModel = Gson().fromJson(value, NewTytExamModel::class.java)
+
+    override fun NewTytExamModel.getJsonParse(): String = Gson().toJson(this)
+}

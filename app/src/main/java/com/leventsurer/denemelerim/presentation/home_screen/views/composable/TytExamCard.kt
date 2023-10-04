@@ -1,5 +1,9 @@
 package com.leventsurer.denemelerim.presentation.home_screen.views.composable
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.EaseInCirc
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -32,6 +37,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+import com.google.gson.Gson
 import com.leventsurer.denemelerim.data.remote.dto.NewTytExamModel
 import com.leventsurer.denemelerim.presentation.ui.Screen
 import com.leventsurer.denemelerim.presentation.ui.theme.Fifth
@@ -46,6 +54,7 @@ fun TytExamCard(
     tytExam: NewTytExamModel,
     navController: NavController
 ) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
     Card(
         colors = CardDefaults.cardColors(Color.White),
 
@@ -57,11 +66,12 @@ fun TytExamCard(
             .fillMaxWidth()
             .padding(horizontal = 10.dp, vertical = 10.dp)
 
-    ) {
+
+        ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding( 5.dp),
+                .padding(5.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
@@ -127,9 +137,22 @@ fun TytExamCard(
                 }
                 IconButton(
                     onClick = {
-                        navController.navigate(Screen.TytExamDetail.route)
+
+
+
+                        val tytExamDetailJson = Gson().toJson(tytExam)
+                        navController.navigate(
+                            "${Screen.TytExamDetail.route}/$tytExamDetailJson"
+                        )
                     }) {
-                    Icon(imageVector = Icons.Default.Search, contentDescription = "Exam Detail", tint = Secondary, modifier = Modifier.fillMaxWidth().padding(bottom = 0.dp))
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = "Exam Detail",
+                        tint = Secondary,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 0.dp)
+                    )
                 }
 
 

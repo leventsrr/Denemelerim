@@ -1,4 +1,4 @@
-package com.leventsurer.denemelerim.presentation.leaderboard_screen.composable
+package com.leventsurer.denemelerim.presentation.leaderboard_screen.views.composable
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
